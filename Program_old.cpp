@@ -5,35 +5,26 @@
 #include<iostream>
 #include<gsl/gsl_rng.h>
 #include<headers.h>
+#include<Constants.h>
 
 using namespace std;
 
-//**********Initializations**********
-const int N0=12; //Initial number of bacteria in each cell
-const int Nc0=6;//Initial number of cooperators in each cell
-const double T=45.; //Time when the simulation stops
-const double interval=0.001; //Time step for which I print my results in fast
-const int M=2000; //Number of cells
-const double b=3.;
-const double c=1;
-const double s=0.05; //Selection's strenght
-const double p=10.; //Cooperators advantage
-const double K=100.; //Carrying capacity
 
 //Note that in this program the w_s is set to 1!!!
 
 //*****************************
 
 int main(){
-    double Nc[M], Nd[M], x[M]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
+    Constants consta;
+    double Nc[consta.M_max], Nd[consta.M_max], x[consta.M_max]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
     double t ,oldt; //t is the time and oldt will be used to check whether or not print
-    int i,l,m,emme=4*M;
+    int i,l,m,emme=4*consta.M_max;
     double Gamma[emme]; //The array with all the partial sums
     double **G; //Matrix with all the gammas for all the cells in form of G[cell][reaction]
     double rand;
-    ofstream file,file_fast;//Output file and a file where I'm not going to print everything
+    int M; //it can go from zero to M_max -1 and it's just to not waste time taking into account empty cells
+    ofstream file,;//Output file 
     const char filename[]="output.txt";
-    const char fname[]="fast.txt";
     unsigned int seed; //Seed of the random number generator
 	gsl_rng *r; //Pointer to the type of rng
 	FILE *pfile; //file to read from /usr/urandom
@@ -41,13 +32,13 @@ int main(){
     //*********Let's initialize all**********
     t=0.;
     oldt=0.;
-    for(i=0; i<M; i++){ //Initialize the matrices
-        Nc[i]=Nc0;
-        Nd[i]=N0-Nc0;
-        x[i]=Nc[i]/(Nc[i]+Nd[i]);
-    }
-    G=new double* [M]; //Create the Mx4 gamma matrix
-    for(i=0; i<M; i++){
+    Nc[0]=consta.N0*consta.x0;
+    x[0]=consta.x0;
+    Nd[0]=consta.N0*(1.-consta.x0);
+
+    
+    G=new double* [consta.M_max]; //Create the Mx4 gamma matrix
+    for(i=0; i<consta.M_max; i++){
         G[i]=new double[4];
     }
     initializeGamma(G,Gamma,M,Nc,Nd,x,p,s,K,b,c);
@@ -63,14 +54,9 @@ int main(){
     
     file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
     file<<"#Results for the simulation reproducing the old results with"<<endl;
-    file<<"# M="<<M<<"  T="<<T<<"  K="<<K<<"  s="<<s<<"  p="<<p<<"  N0="<<N0<<"  Nc0="<<Nc0<<"  seed="<<seed<<endl;
+    file<<"# M_max="<<consta.M_max<<"  T="<<consta.T<<"  K="<<consta.K<<"  s="<<consta.s<<"  p="<<consta.p<<"  N0="<<consta.N0<<"  x0="<<consta.x0<<"  N_max="<<consta.N_max<<"  seed="<<seed<<endl;
     file<<"#Time  N   x"<<endl;
     myprint2(Nc,Nd,t,M,file);
-    file_fast.open(fname,ios::out|ios::trunc); //Open the output's fast_file and print the results for time=0
-    file_fast<<"#Results for the simulation reproducing the old results with"<<endl;
-    file_fast<<"# M="<<M<<"  T="<<T<<"  K="<<K<<"  s="<<s<<"  p="<<p<<"  N0="<<N0<<"  Nc0="<<Nc0<<"  seed="<<seed<<endl;
-    file_fast<<"#Time  N   x"<<endl;
-    myprint2(Nc,Nd,t,M,file_fast);
     
     //*****Start of the evolution***********
      

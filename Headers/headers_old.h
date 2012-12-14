@@ -10,94 +10,56 @@ using namespace std;
     */
     
     
-double fcoop(double x, double b, double c, double s){
+double fcoop(double x, Constants *consta){
 	double y;
 	
-	y=1.+s*((b-c)*x-c*(1-x));
+	y=1.+consta.s*((consta.b-consta.c)*x-consta.c*(1-x));
 	return y;
 }
 
-double fdef(double x, double b, double s){
+double fdef(double x, Constants *consta){
 	double y;
 	
-	y=1.+s*b*x;
+	y=1.+consta.s*consta.b*x;
 	return y;
 }
 
-double g(double x, double p){
+double g(double x, Constants *consta){
 	double y;
 	
-	y=1+p*x;
+	y=1+consta.p*x;
 	return y;
 }
 
-double d(double Nc, double Nd, double K){
+double d(double Nc, double Nd, Constants *consta){
 	double y;
 	
-	y=(Nc+Nd)/K;
+	y=(Nc+Nd)/consta.K;
 	return y;
 }    
 
-double faverage(double x, double b, double c, double s){ //computes the <f> as in the paper in order to use normalized fitness!
+double faverage(double x, Constants *consta){ //computes the <f> as in the paper in order to use normalized fitness!
 	double y;
 	
-	y=x*fcoop(x,b,c,s)+(1-x)*fdef(x,b,s);
+	y=x*fcoop(x,&consta)+(1-x)*fdef(x,&consta);
 	return y;
 }
 
-void initializeGamma(double **G, double *Gamma,int M, double *Nc, double *Nd, double *x, double p, double s, double K,double b, double c){
-    int i=0,j;
+void initializeGamma(double **G, double *Gamma,int M, double *Nc, double *Nd, double *x, Constants *consta){
+    int j;
     
     j=0; //I have to create the first gamma by hand due to Gamma[0]
-    G[0][0]=Nc[i]*g(x[i],p)*fcoop(x[i],b,c,s)/faverage(x[i],b,c,s);
+    G[0][0]=Nc[0]*g(x[0],&consta)*fcoop(x[0],&consta)/faverage(x[0],&consta);
     Gamma[0]=G[0][0];
     j++;
-    G[0][1]=Nc[i]*d(Nc[i],Nd[i],K); 
+    G[0][1]=Nc[0]*d(Nc[0],Nd[0],&consta); 
     Gamma[j]=Gamma[j-1]+G[0][1];
     j++;
-    G[0][2]=g(x[i],p)*Nd[i]*fdef(x[i],b,s)/faverage(x[i],b,c,s);
+    G[0][2]=g(x[0],&consta)*Nd[0]*fdef(x[0],&consta)/faverage(x[0],&consta);
     Gamma[j]=Gamma[j-1]+G[0][2];
     j++;
-    G[0][3]=Nd[i]*d(Nc[i],Nd[i],K); 
+    G[0][3]=Nd[0]*d(Nc[0],Nd[0],&consta); 
     Gamma[j]=Gamma[j-1]+G[0][3];
-    j++;
-    //cout<<"The gammas are: "<<G[0][0]<<"  "<<G[0][1]<<"  "<<G[0][2]<<"  "<<G[0][3]<<"and gamma j is "<<Gamma[j-1]<<endl;
-    for(i=1; i<M;i++){ //Create the Gammas; the order is G_(0->C), G_(c->0), G_(0->D), G_(D->0) and start back for the new cell
-       G[i][0]=Nc[i]*g(x[i],p)*fcoop(x[i],b,c,s)/faverage(x[i],b,c,s);
-       Gamma[j]=Gamma[j-1]+G[i][0];
-       j++;
-       G[i][1]=Nc[i]*d(Nc[i],Nd[i],K); 
-       Gamma[j]=Gamma[j-1]+G[i][1];
-       j++;
-       G[i][2]=g(x[i],p)*Nd[i]*fdef(x[i],b,s)/faverage(x[i],b,c,s);
-       Gamma[j]=Gamma[j-1]+G[i][2];
-       j++;
-       G[i][3]=Nd[i]*d(Nc[i],Nd[i],K);
-       Gamma[j]=Gamma[j-1]+G[i][3];
-       j++; 
-       //cout<<"check to see if the foris doing something!!!!!!!!!";
-    }//Here I also computed the overall Gamma
-    return;
-}
-
-
-void myprint1(double *Nc,double *Nd,double *x,double t,int M, ofstream& file){ //Prints the time, N average and x average (i.e. <x>=Sum(x)/M)
-    double Av;
-    int i; 
-    
-    file<<t<<"   "; //Prints the time
-    Av=0;
-    for(i=0;i<M;i++){ //Computes the the average of N and prints it
-        Av=Av+Nc[i]+Nd[i];
-    }  
-    Av=Av/M;
-    file<<Av<<"   ";
-    Av=0;
-    for(i=0;i<M;i++){ //Computes the the average of x and prints it
-        Av=Av+x[i];
-    }  
-    Av=Av/M;
-    file<<Av<<endl;
     return;
 }
 
