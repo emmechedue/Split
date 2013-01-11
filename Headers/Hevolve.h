@@ -10,7 +10,7 @@ using namespace std;
     */
     
     
-double fcoop(double x, Constants consta){
+/*double fcoop(double x, Constants consta){
 	double y;
 	
 	y=1.+consta.s*((consta.b-consta.c)*x-consta.c*(1-x));
@@ -22,6 +22,20 @@ double fdef(double x, Constants consta){
 	
 	y=1.+consta.s*consta.b*x;
 	return y;
+}*/ //Instead of using those one, I'm using fcoop=1-s, fdef= 1
+
+double fcoop(double x, Constants consta){
+	double y;
+	
+	y=1.-consta.s*;
+	return y;
+}
+
+double fdef(double x, Constants consta){
+	double y;
+	
+	
+	return 1;
 }
 
 double g(double x, Constants consta){
@@ -85,6 +99,22 @@ void myprint2(double *Nc,double *Nd,double t,int M, ofstream& file){ //Prints th
     return;
 }
 
+void myprintensamble2(double *Nc,double *Nd,double t,int M, ofstream& fileN, ofstream& filex){ //Prints all x in a file in the form x[t,m] and N in another file in the form N[t,m]
+	double y;
+	int i;
+
+	//file<<t<<"    "; //Prints the time
+	for(i=0; i<M; i++){ //Prints Nc+Nd and x
+		y=Nc[i]+Nd[i];
+		fileN<<y<<"    ";
+		y=Nc[i]/y;
+		filex<<y<<"    ";
+	}
+	fileN<<endl;
+	filex<<endl;
+	return ;
+}	
+
 int search(double *Gamma, int M, double x){ //Binary search
     int a,b,l,result;
     bool check;
@@ -94,12 +124,19 @@ int search(double *Gamma, int M, double x){ //Binary search
     do{
         l=(a+b)/2;
         if(x<=Gamma[l]){
-            if(x>=Gamma[l-1]){result=l;
-            check=true;}
+            if((x>=Gamma[l-1])&&(l>0)){
+            	result=l;
+		   		check=true;}
             else{
-                b=l;
-                check=false;}
+		         if(l>0){
+		            b=l;
+		            check=false;}
+		         else{
+		         	result=0;
+		         	check=true;
+		         }
             }
+        }
         else{
             if(x<=Gamma[l+1]){
                 result=l+1;

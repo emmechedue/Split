@@ -11,6 +11,6 @@ using namespace std;
     */
     
     
-void createcell(int M, int m, double x, double *Gamma, double **G, Constants consta, gsl_rng *r){ //M is the number of cells in total (it needs to go to M+1), m is the cell that is splitting, x is the fraction of cooperators in the cell m. 
+void createcell(int M, int m, double x, double *Gamma, double **G, Constants consta, gsl_rng *r){ //M is the number of cells in total (it needs to go to M+1), m is the cell that is splitting, x is the fraction of cooperators in the cell m. This functions splits the cell
 	double x1,x2;
 	
