@@ -96,7 +96,7 @@ int main(){
         //myprint2(Nc,Nd,t,M,file); //Prints N average and x average at time t
         //cout<<"check 6"<<endl;
         if(oldt>=interval){ //Checks whether I have to print or not
-        	myprint2(Nc,Nd,t,M,file_fast); //Printing the results on file fast. To create a picture
+        	myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
         	oldt=oldt -interval; //Subract by oldt the value of interval to start counting again
         	cout<<"The time is "<<t<<endl; //Just to check
         }

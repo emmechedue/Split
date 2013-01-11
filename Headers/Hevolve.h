@@ -63,7 +63,7 @@ void initializeGamma(double **G, double *Gamma,double *Nc, double *Nd, double *x
     int j;
     double average;
     
-    average=faverage(x[0],&cons);
+    average=faverage(x[0],cons);
     j=0; //I have to create the first gamma by hand due to Gamma[0]
     G[0][0]=Nc[0]*g(x[0],cons)*fcoop(x[0],cons)/average;
     Gamma[0]=G[0][0];
@@ -196,16 +196,52 @@ void updateG(double **G,double *Gamma, int m, double *Nc, double *Nd, double *x,
     for( i=0; i<4;i++){ //Save the changes of G[][]
         old[i]=G[m][i];
     }
-    G[m][0]=Nc[m]*g(x[m],p)*fcoop(x[m],b,c,s)/faverage(x[m],b,c,s); //Updates the G[][]
-    G[m][1]=Nc[m]*d(Nc[m],Nd[m],K); 
-    G[m][2]=g(x[m],p)*Nd[m]*fdef(x[m],b,s)/faverage(x[m],b,c,s);
-    G[m][3]=Nd[m]*d(Nc[m],Nd[m],K);
+    average=faverage(x[0],cons);
+    G[m][0]=Nc[m]*g(x[m],cons)*fcoop(x[m],cons)/average; //Updates the G[][]
+    G[m][1]=Nc[m]*d(Nc[m],Nd[m],cons); 
+    G[m][2]=g(x[m],cons)*Nd[m]*fdef(x[m],cons)/average;
+    G[m][3]=Nd[m]*d(Nc[m],Nd[m],cons);
     sum=0;
     for(i=0;i<4;i++){ //Compute the change
         sum=sum+G[m][i]-old[i];
     }
     a=4*m;
     if(m==0){ //Update Gamma[4*m]; I need to do in this way due to m=0
+        Gamma[0]=G[0][0];
+    }
+    else{
+        Gamma[a]=Gamma[a-1]+G[m][0];
+    }
+    for(i=1;i<4;i++) //Update the part of the Gamma[i] due to m
+    {
+        Gamma[i+a]=Gamma[i+a-1]+G[m][i];
+    }
+    for(i=a+4;i<emme;i++){ //I think this way is better because I have to make less calls (instead of Nd, Nc, x I just call sum)
+        Gamma[i]=Gamma[i]+sum;
+    }
+    //cout<<"The gammas are: "<<G[0][0]<<"  "<<G[0][1]<<"  "<<G[0][2]<<"  "<<G[0][3]<<"and gamma j is "<<Gamma[emme-1]<<endl;
+    return;
+}
+
+void updatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *Nd, double *x, Constants cons, int emme){ //Update the arrays G[m][] and G[n][] with the new Nc, Nd and x and the array Gamma. Note that it requires that n<m!!!
+    double old[4];
+    double sum;//Sum saves the difference of the old G[m][] with the new one;
+    int i,a;
+    
+    for( i=0; i<4;i++){ //Save the changes of G[][]
+        old[i]=G[n][i];
+    }
+    average=faverage(x[0],cons);
+    G[n][0]=Nc[n]*g(x[n],cons)*fcoop(x[n],cons)/average; //Updates the G[][]
+    G[n][1]=Nc[n]*d(Nc[n],Nd[n],cons); 
+    G[n][2]=g(x[n],cons)*Nd[n]*fdef(x[n],cons)/average;
+    G[n][3]=Nd[n]*d(Nc[n],Nd[n],cons);
+    sum=0;
+    for(i=0;i<4;i++){ //Compute the change
+        sum=sum+G[n][i]-old[i];
+    }
+    a=4*n;
+    if(n==0){ //Update Gamma[4*n]; I need to do in this way due to m=0
         Gamma[0]=G[0][0];
     }
     else{
