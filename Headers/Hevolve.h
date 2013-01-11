@@ -10,71 +10,71 @@ using namespace std;
     */
     
     
-/*double fcoop(double x, Constants consta){
+/*double fcoop(double x, Constants cons){
 	double y;
 	
-	y=1.+consta.s*((consta.b-consta.c)*x-consta.c*(1-x));
+	y=1.+cons.s*((cons.b-cons.c)*x-cons.c*(1-x));
 	return y;
 }
 
-double fdef(double x, Constants consta){
+double fdef(double x, Constants cons){
 	double y;
 	
-	y=1.+consta.s*consta.b*x;
+	y=1.+cons.s*cons.b*x;
 	return y;
 }*/ //Instead of using those one, I'm using fcoop=1-s, fdef= 1
 
-double fcoop(double x, Constants consta){
+double fcoop(double x, Constants cons){
 	double y;
 	
-	y=1.-consta.s*;
+	y=1.-cons.s*;
 	return y;
 }
 
-double fdef(double x, Constants consta){
+double fdef(double x, Constants cons){
 	double y;
 	
 	
 	return 1;
 }
 
-double g(double x, Constants consta){
+double g(double x, Constants cons){
 	double y;
 	
-	y=1.+consta.p*x;
+	y=1.+cons.p*x;
 	return y;
 }
 
-double d(double Nc, double Nd, Constants consta){
+double d(double Nc, double Nd, Constants cons){
 	double y;
 	
-	y=(Nc+Nd)/consta.K;
+	y=(Nc+Nd)/cons.K;
 	return y;
 }    
 
-double faverage(double x, Constants consta){ //computes the <f> as in the paper in order to use normalized fitness!
+double faverage(double x, Constants cons){ //computes the <f> as in the paper in order to use normalized fitness!
 	double y;
 	
-	y=x*fcoop(x,consta)+(1.-x)*fdef(x,consta);
+	y=x*fcoop(x,cons)+(1.-x)*fdef(x,cons);
 	return y;
 }
 
-void initializeGamma(double **G, double *Gamma,double *Nc, double *Nd, double *x, Constants *consta){
+void initializeGamma(double **G, double *Gamma,double *Nc, double *Nd, double *x, Constants *cons){
     int j;
     double average;
     
-    average=faverage(x[0],&consta);
+    average=faverage(x[0],&cons);
     j=0; //I have to create the first gamma by hand due to Gamma[0]
-    G[0][0]=Nc[0]*g(x[0],consta)*fcoop(x[0],consta)/average;
+    G[0][0]=Nc[0]*g(x[0],cons)*fcoop(x[0],cons)/average;
     Gamma[0]=G[0][0];
     j++;
-    G[0][1]=Nc[0]*d(Nc[0],Nd[0],consta); 
+    G[0][1]=Nc[0]*d(Nc[0],Nd[0],cons); 
     Gamma[j]=Gamma[j-1]+G[0][1];
     j++;
-    G[0][2]=g(x[0],consta)*Nd[0]*fdef(x[0],consta)/average;
+    G[0][2]=g(x[0],cons)*Nd[0]*fdef(x[0],cons)/average;
     Gamma[j]=Gamma[j-1]+G[0][2];
     j++;
-    G[0][3]=Nd[0]*d(Nc[0],Nd[0],consta); 
+    G[0][3]=Nd[0]*d(Nc[0],Nd[0],cons); 
     Gamma[j]=Gamma[j-1]+G[0][3];
     return;
 }
@@ -177,18 +177,18 @@ int updateN(double *Nc, double *Nd,double *x, int l){  //Updates the N; l is the
     return m;
 }
 
-bool check(double *Nc, double *Nd, Constants consta, int m){ //Check if the cell m (where the reaction occurred) has to split or not
+bool check(double *Nc, double *Nd, Constants cons, int m){ //Check if the cell m (where the reaction occurred) has to split or not
 	double N;
 	bool asd=false;
 	
 	N=Nc[m]+Nd[m];
-	if(N>consta.N_max){ //Checks if N>N_max
+	if(N>cons.N_max){ //Checks if N>N_max
 		asd=true;
 	}
 	return asd;
 }
 
-void updateG(double **G,double *Gamma, int m, double *Nc, double *Nd, double *x, Constants consta, int emme){ //Update the array G[m][] with the new Nc, Nd and x and the array Gamma
+void updateG(double **G,double *Gamma, int m, double *Nc, double *Nd, double *x, Constants cons, int emme){ //Update the array G[m][] with the new Nc, Nd and x and the array Gamma
     double old[4];
     double sum;//Sum saves the difference of the old G[m][] with the new one;
     int i,a;

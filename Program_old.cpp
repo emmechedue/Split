@@ -90,7 +90,7 @@ int main(){
         //cout<<"check 4"<<endl;
         if(check(Nc, Nd, cons, m)==true){//Here I have to do the splitting } 
         else{ //Of course if no cell splits, I just update the G and the Gamma, print and then sample for another reaction
-        updateG(G,Gamma,m,cons,4*M); //Updates the G and the Gamma
+        updateG(G,Gamma,m,Nc,Nd,x,cons,4*M); //Updates the G and the Gamma
         }
         //cout<<"check 5"<<endl;
         //myprint2(Nc,Nd,t,M,file); //Prints N average and x average at time t
