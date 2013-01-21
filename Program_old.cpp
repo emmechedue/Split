@@ -88,7 +88,9 @@ int main(){
         //cout<<"check 3"<<endl;
         m=updateN(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
         //cout<<"check 4"<<endl;
-        if(check(Nc, Nd, cons, m)==true){//Here I have to do the splitting } 
+        if(check(Nc, Nd, cons, m)==true){ //Of course I need to check if I have to split the cell or not
+        	M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); //Here I do everything, I create the cell, I update the cells and then update the Gamma and G
+        }
         else{ //Of course if no cell splits, I just update the G and the Gamma, print and then sample for another reaction
         updateG(G,Gamma,m,Nc,Nd,x,cons,4*M); //Updates the G and the Gamma
         }
