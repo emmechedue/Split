@@ -6,9 +6,9 @@
 using namespace std;
 
 Constants::Constants(){
-	N0=12; //Initial number of bacteria in the cell
+	N0=4; //Initial number of bacteria in the cell
 	x0=0.5;//Initial fraction of cooperators in the cell
-	T=45.; //Time when the simulation stops
+	T=15.; //Time when the simulation stops
 	interval=0.001; //Time step for which I print my results in fast
 	intervalens=0.001; //Time step for which I print my results in ensamble.txt
 	b=3.; //Parameter b as in the paper
