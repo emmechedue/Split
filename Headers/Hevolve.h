@@ -4,6 +4,7 @@
 #include<fstream>
 #include<math.h>
 #include<Constants.h>
+#include<iomanip>
 
 using namespace std;
 
@@ -79,23 +80,23 @@ void initializeGamma(double **G, double *Gamma,double *Nc, double *Nd, double *x
     return;
 }
 
-void myprint2(double *Nc,double *Nd,double t,int M, ofstream& file){ //Prints the time, N average and x average as defined in the very first paper (i.e. <x>=Sum(Nc)/Sum(N))
+void myprint2(double *Nc,double *Nd,double t,int M, ofstream& file){ //Prints the time, N average and x average as defined in the very first paper (i.e. <x>=Sum(Nc)/Sum(N)) and also the number of cells M
     double Av,Ntot;
     int i; 
     
-    file<<t<<"   "; //Prints the time
+    file<<left<<setw(12)<<t; //Prints the time
     Ntot=0;
     for(i=0;i<M;i++){ //Computes the the average of N and prints it
         Ntot=Ntot+Nc[i]+Nd[i];
     }  
     Av=Ntot/M;
-    file<<Av<<"   ";
+    file<<left<<setw(12)<<Av;
     Av=0;
     for(i=0;i<M;i++){ //Computes the the average of x as defined on the very first paper and prints it
         Av=Av+Nc[i];
         }
     Av=Av/Ntot;
-    file<<Av<<endl;
+    file<<left<<setw(15)<<Av<<M<<endl;
     return;
 }
 
@@ -106,9 +107,9 @@ void myprintensamble2(double *Nc,double *Nd,double t,int M, ofstream& fileN, ofs
 	//file<<t<<"    "; //Prints the time
 	for(i=0; i<M; i++){ //Prints Nc+Nd and x
 		y=Nc[i]+Nd[i];
-		fileN<<y<<"    ";
+		fileN<<left<<setw(7)<<y;
 		y=Nc[i]/y;
-		filex<<y<<"    ";
+		filex<<left<<setw(10)<<y;
 	}
 	fileN<<endl;
 	filex<<endl;

@@ -68,7 +68,7 @@ int createcell(int M, int m,double *Nc, double *Nd, double *x, double *Gamma, do
 		} 
 	}
 	else{
-		n=M+1;
+		n=M; //not M+1 because of the index problem (it would be M+1-1)
 		M=M+1;
 	}
 	
@@ -76,8 +76,8 @@ int createcell(int M, int m,double *Nc, double *Nd, double *x, double *Gamma, do
 	fillcell(n,m,Nc,Nd,x,cons,r,1); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
 	fillcell(m,m,Nc,Nd,x,cons,r,1);
 	
+	//cout<<"First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[1]+Nd[1]<<" bacteria"<<endl;
 	updatebothG(G,Gamma,n,m,Nc,Nd,x,cons,4*M);
-	
 	return M;
 }
 	

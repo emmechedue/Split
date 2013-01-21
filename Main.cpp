@@ -59,7 +59,7 @@ int main(){
     file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
     file<<"#Results for the simulation reproducing the splitting with"<<endl;
     file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-    file<<"#Time  N   x"<<endl;
+    file<<"#Time  N   x    M"<<endl;
     myprint2(Nc,Nd,t,M,file);
     fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
     fileN<<"#Results for the simulation reproducing the splitting with"<<endl;
@@ -85,7 +85,9 @@ int main(){
         m=updateN(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
         
         if(check(Nc, Nd, cons, m)==true){ //Of course I need to check if I have to split the cell or not
-        	M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); //Here I do everything, I create the cell, I update the cells and then update the Gamma and G
+        	M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); 
+        	//cout<<endl<<endl<<"Now in the main: First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[1]+Nd[1]<<" bacteria"<<endl<<endl;
+        	 //Here I do everything, I create the cell, I update the cells and then update the Gamma and G
         }
         else{ //Of course if no cell splits, I just update the G and the Gamma, print and then sample for another reaction
         updateG(G,Gamma,m,Nc,Nd,x,cons,4*M); //Updates the G and the Gamma
@@ -97,7 +99,7 @@ int main(){
         	oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again
         	cout<<"The time is "<<t<<endl; //Just to check
         }
-        if(oldtensamble>=cons.intervalens){ //Checks whether I have to print or not on ensamble.txt
+       if(oldtensamble>=cons.intervalens){ //Checks whether I have to print or not on ensamble.txt
         	myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
         	oldtensamble=oldtensamble -cons.intervalens; //Subract by oldtensamble the value of intervalens to start counting again
         	//cout<<"The time is "<<t<<endl; //Just to check
