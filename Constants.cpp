@@ -8,11 +8,9 @@ using namespace std;
 Constants::Constants(){
 	N0=4; //Initial number of bacteria in the cell
 	x0=0.5;//Initial fraction of cooperators in the cell
-	T=15.; //Time when the simulation stops
+	T=1.; //Time when the simulation stops
 	interval=0.001; //Time step for which I print my results in fast
 	intervalens=0.001; //Time step for which I print my results in ensamble.txt
-	b=3.; //Parameter b as in the paper
-	c=1.; //Parameter c as in the paper
 	s=0.05; //Selection's strenght
 	p=10.; //Cooperators advantage
 	K=100.; //Carrying capacity

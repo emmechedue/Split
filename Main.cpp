@@ -57,17 +57,17 @@ int main(){
 	//**********************************
     
     file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
-    file<<"#Results for the simulation reproducing the old results with"<<endl;
+    file<<"#Results for the simulation reproducing the splitting with"<<endl;
     file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
     file<<"#Time  N   x"<<endl;
     myprint2(Nc,Nd,t,M,file);
     fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
-    fileN<<"#Results for the simulation reproducing the old results with"<<endl;
-    fileN<<"# M="<<M<<"  T="<<T<<"  K="<<K<<"  s="<<s<<"  p="<<p<<"  N0="<<N0<<"  Nc0="<<Nc0<<"  seed="<<seed<<endl;
+    fileN<<"#Results for the simulation reproducing the splitting with"<<endl;
+    fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
     fileN<<"#In the form of N[t][m]"<<endl;
     filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
-    filex<<"#Results for the simulation reproducing the old results with"<<endl;
-    filex<<"# M="<<M<<"  T="<<T<<"  K="<<K<<"  s="<<s<<"  p="<<p<<"  N0="<<N0<<"  Nc0="<<Nc0<<"  seed="<<seed<<endl;
+    filex<<"##Results for the simulation reproducing the splitting with"<<endl;
+    filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
     filex<<"#In the form of x[t][m]"<<endl;
     myprintensamble2(Nc,Nd,t,M,fileN,filex);
     
@@ -92,18 +92,18 @@ int main(){
         }
         
         
-        if(oldt>=interval){ //Checks whether I have to print or not
+        if(oldt>=cons.interval){ //Checks whether I have to print or not
         	myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
-        	oldt=oldt -interval; //Subract by oldt the value of interval to start counting again
+        	oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again
         	cout<<"The time is "<<t<<endl; //Just to check
         }
-        if(oldtensamble>=intervalens){ //Checks whether I have to print or not on ensamble.txt
+        if(oldtensamble>=cons.intervalens){ //Checks whether I have to print or not on ensamble.txt
         	myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
-        	oldtensamble=oldtensamble -intervalens; //Subract by oldtensamble the value of intervalens to start counting again
+        	oldtensamble=oldtensamble -cons.intervalens; //Subract by oldtensamble the value of intervalens to start counting again
         	//cout<<"The time is "<<t<<endl; //Just to check
         }
         
-    }while(t<=T);
+    }while(t<=cons.T);
     
     file.close(); //Closing the files of output!
     filex.close();

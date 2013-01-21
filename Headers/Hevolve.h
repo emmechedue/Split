@@ -1,7 +1,9 @@
+#pragma once
 #include<cstdio>
 #include<cstdlib>
 #include<fstream>
 #include<math.h>
+#include<Constants.h>
 
 using namespace std;
 
@@ -27,13 +29,11 @@ double fdef(double x, Constants cons){
 double fcoop(double x, Constants cons){
 	double y;
 	
-	y=1.-cons.s*;
+	y=1.-cons.s;
 	return y;
 }
 
 double fdef(double x, Constants cons){
-	double y;
-	
 	
 	return 1;
 }
@@ -59,7 +59,7 @@ double faverage(double x, Constants cons){ //computes the <f> as in the paper in
 	return y;
 }
 
-void initializeGamma(double **G, double *Gamma,double *Nc, double *Nd, double *x, Constants *cons){
+void initializeGamma(double **G, double *Gamma,double *Nc, double *Nd, double *x, Constants cons){
     int j;
     double average;
     
@@ -190,13 +190,13 @@ bool check(double *Nc, double *Nd, Constants cons, int m){ //Check if the cell m
 
 void updateG(double **G,double *Gamma, int m, double *Nc, double *Nd, double *x, Constants cons, int emme){ //Update the array G[m][] with the new Nc, Nd and x and the array Gamma
     double old[4];
-    double sum;//Sum saves the difference of the old G[m][] with the new one;
+    double average,sum;//Sum saves the difference of the old G[m][] with the new one;
     int i,a;
     
     for( i=0; i<4;i++){ //Save the changes of G[][]
         old[i]=G[m][i];
     }
-    average=faverage(x[0],cons);
+    average=faverage(x[m],cons);
     G[m][0]=Nc[m]*g(x[m],cons)*fcoop(x[m],cons)/average; //Updates the G[][]
     G[m][1]=Nc[m]*d(Nc[m],Nd[m],cons); 
     G[m][2]=g(x[m],cons)*Nd[m]*fdef(x[m],cons)/average;
@@ -225,7 +225,7 @@ void updateG(double **G,double *Gamma, int m, double *Nc, double *Nd, double *x,
 
 void updatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *Nd, double *x, Constants cons, int emme){ //Update the arrays G[m][] and G[n][] with the new Nc, Nd and x and the array Gamma. Note that it requires that n<m!!!
     double old[4];
-    double sum;//Sum saves the difference of the old G[m][] with the new one;
+    double average, sum;//Sum saves the difference of the old G[m][] with the new one;
     int i,a;
     
     for( i=0; i<4;i++){ //Save the changes of G[][]

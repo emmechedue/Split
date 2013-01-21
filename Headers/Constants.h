@@ -1,3 +1,4 @@
+#pragma once
 #include<cstdio>
 #include<cstdlib>
 
@@ -11,8 +12,6 @@ public:
 	double T; //Time when the simulation stops
 	double interval; //Time step for which I print my results in fast
 	double intervalens; //Time step for which I print my results in ensamble.txt
-	double b; //Parameter b as in the paper
-	double c; //Parameter c as in the paper
 	double s; //Selection's strenght
 	double p; //Cooperators advantage
 	double K; //Carrying capacity

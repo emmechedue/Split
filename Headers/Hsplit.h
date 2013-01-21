@@ -1,8 +1,12 @@
+#pragma once
 #include<cstdio>
 #include<cstdlib>
 #include<fstream>
 #include<math.h>
 #include<Hevolve.h>
+#include<gsl/gsl_rng.h>
+#include<Constants.h>
+#include<gsl_randist.h>
 
 using namespace std;
 
@@ -31,7 +35,7 @@ void fill2(int *C, int *D, double Nc, double Nd, gsl_rng *r){//This one gives C 
 }
 
 
-void fillcell(int n, int m, double *Nc, double *Nd double *x, Constants cons, gsl_rng *r, int choice){ //n is the cell that I want to fill, m is the cell from which I take the parameters, choice can take values 1 (for the first method) and 2 for the second method
+void fillcell(int n, int m, double *Nc, double *Nd, double *x, Constants cons, gsl_rng *r, int choice){ //n is the cell that I want to fill, m is the cell from which I take the parameters, choice can take values 1 (for the first method) and 2 for the second method
 	int C,D;
 	
 	//Here I choose which splitting I want to do
@@ -51,7 +55,7 @@ void fillcell(int n, int m, double *Nc, double *Nd double *x, Constants cons, gs
 }
 	
 
-int createcell(int M, int m,double *Nc, double *Nd double *x, double *Gamma, double **G, Constants cons, gsl_rng *r){ //M is the number of cells in total (it needs to go to M+1 or to stay M if M==M_max), m is the cell that is splitting, Nc,Nd and x are in the cell m. This functions splits the cell and checks wether I have to kill a cell or not. It accepts Nc, Nd and x because in this way I can use the same function to split in both ways. the function returns the new value of M
+int createcell(int M, int m,double *Nc, double *Nd, double *x, double *Gamma, double **G, Constants cons, gsl_rng *r){ //M is the number of cells in total (it needs to go to M+1 or to stay M if M==M_max), m is the cell that is splitting, Nc,Nd and x are in the cell m. This functions splits the cell and checks wether I have to kill a cell or not. It accepts Nc, Nd and x because in this way I can use the same function to split in both ways. the function returns the new value of M
 	int n; //This is the index of one of the two new cells
 	double rand;
 	
@@ -69,8 +73,8 @@ int createcell(int M, int m,double *Nc, double *Nd double *x, double *Gamma, dou
 	}
 	
 	//********creates the new cells and updates the Gamma and the G*****************
-	fillcell(n,m,Nc,Nd,x,cons,r,1) // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
-	fillcell(m,m,Nc,Nd,x,cons,r,1)
+	fillcell(n,m,Nc,Nd,x,cons,r,1); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
+	fillcell(m,m,Nc,Nd,x,cons,r,1);
 	
 	updatebothG(G,Gamma,n,m,Nc,Nd,x,cons,4*M);
 	
