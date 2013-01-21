@@ -231,7 +231,7 @@ void updatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *Nd, 
     for( i=0; i<4;i++){ //Save the changes of G[][]
         old[i]=G[n][i];
     }
-    average=faverage(x[0],cons);
+    average=faverage(x[n],cons);
     G[n][0]=Nc[n]*g(x[n],cons)*fcoop(x[n],cons)/average; //Updates the G[][]
     G[n][1]=Nc[n]*d(Nc[n],Nd[n],cons); 
     G[n][2]=g(x[n],cons)*Nd[n]*fdef(x[n],cons)/average;
@@ -241,17 +241,39 @@ void updatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *Nd, 
         sum=sum+G[n][i]-old[i];
     }
     a=4*n;
-    if(n==0){ //Update Gamma[4*n]; I need to do in this way due to m=0
+    if(n==0){ //Update Gamma[4*n]; I need to do in this way due to n=0
         Gamma[0]=G[0][0];
     }
     else{
-        Gamma[a]=Gamma[a-1]+G[m][0];
+        Gamma[a]=Gamma[a-1]+G[n][0];
     }
+    for(i=1;i<4;i++) //Update the part of the Gamma[i] due to n
+    {
+        Gamma[i+a]=Gamma[i+a-1]+G[n][i];
+    }
+    for(i=a+4;i<4*m;i++){ //Here I basically update all the Gamma from 4*n to 4*m (the one that is basically unchanged)
+        Gamma[i]=Gamma[i]+sum;
+    }
+    //Now i do the same for m
+    for( i=0; i<4;i++){ //Save the changes of G[][]
+        old[i]=G[m][i];
+    }
+    average=faverage(x[m],cons);
+    G[m][0]=Nc[m]*g(x[m],cons)*fcoop(x[m],cons)/average; //Updates the G[][]
+    G[m][1]=Nc[m]*d(Nc[m],Nd[m],cons); 
+    G[m][2]=g(x[m],cons)*Nd[m]*fdef(x[m],cons)/average;
+    G[m][3]=Nd[m]*d(Nc[m],Nd[m],cons);
+    sum=0;
+    for(i=0;i<4;i++){ //Compute the change
+        sum=sum+G[m][i]-old[i];
+    }
+    a=4*m;
+    Gamma[a]=Gamma[a-1]+G[m][0]; //Here I don't do the check for m==0 because I'm sure that m!=0
     for(i=1;i<4;i++) //Update the part of the Gamma[i] due to m
     {
         Gamma[i+a]=Gamma[i+a-1]+G[m][i];
     }
-    for(i=a+4;i<emme;i++){ //I think this way is better because I have to make less calls (instead of Nd, Nc, x I just call sum)
+    for(i=a+4;i<emme;i++){ //Here I update the rest, from 4*m to emme
         Gamma[i]=Gamma[i]+sum;
     }
     //cout<<"The gammas are: "<<G[0][0]<<"  "<<G[0][1]<<"  "<<G[0][2]<<"  "<<G[0][3]<<"and gamma j is "<<Gamma[emme-1]<<endl;
