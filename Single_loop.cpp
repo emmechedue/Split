@@ -10,6 +10,7 @@
 
 using namespace std;
 
+//In this program I perform only a single loop but I save everything (meaning the behavior of any single cell)
 //Note that in this program the w_s is set to 1!!!
 
 //*****************************

@@ -17,6 +17,7 @@ public:
 	double K; //Carrying capacity
 	int N_max; //The number of bacteria in the cell s.t. the cell splits
 	int M_max; //The maximum number of cells
+	int N_loop; //The number of times I iterate
 };
 
 

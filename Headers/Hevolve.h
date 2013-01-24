@@ -116,6 +116,25 @@ void myprintensamble2(double *Nc,double *Nd,double t,int M, ofstream& fileN, ofs
 	return ;
 }	
 
+void printiterens(double *Nc,double *Nd,int M, ofstream& fileN, ofstream& filex){ //Prints  <N> and <x> average as defined in the very first paper (i.e. <x>=Sum(Nc)/Sum(N)) and also the number of cells M and saves it in the arrays 
+    double Av,Ntot;
+    int i; 
+    
+    Ntot=0;
+    for(i=0;i<M;i++){ //Computes the the average of N and prints it
+        Ntot=Ntot+Nc[i]+Nd[i];
+    }  
+    Av=Ntot/M;
+    fileN<<left<<setw(12)<<Av;
+    Av=0;
+    for(i=0;i<M;i++){ //Computes the the average of x as defined on the very first paper and prints it
+        Av=Av+Nc[i];
+        }
+    Av=Av/Ntot;
+    filex<<left<<setw(15)<<Av<<M<<endl;
+    return;
+}
+
 int search(double *Gamma, int M, double x){ //Binary search
     int a,b,l,result;
     bool check;
