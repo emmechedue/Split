@@ -12,7 +12,7 @@ using namespace std;
 
 //In this program I print the averages over the ensambles and the values of <N> and <x> for every single iteration
 //Please note that in this program I will only use oldt and interval, so in this code: interval==intervalens
-//Convention: average inside the iteration: < > ; ensamble average E_a[ ]
+//Convention: average inside the iteration: < > ; ensamble average E_{ }
 //Note that in this program the w_s is set to 1!!!
 
 //*****************************
@@ -35,8 +35,8 @@ int main(){
     double xav[cons.N_loop];
 	gsl_rng *r; //Pointer to the type of rng
 	FILE *pfile; //file to read from /usr/urandom
-    
-   
+	int timeindex, TI; //timeindex will mark the time steps for all my data , TI will be the maximum of time index, i.e. T/interval +2
+      
 
    //******let's take the seed for the rng and initialize the rng******
 	pfile = fopen ("/dev/urandom", "r");
@@ -54,14 +54,17 @@ int main(){
 	fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
 	fileN<<"#Results for the simulation reproducing the splitting with"<<endl;
 	file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
-	fileN<<"#In the form of N[t][m]"<<endl;
+	fileN<<"#In the form of E_{N[t][m]}"<<endl;
 	filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
 	filex<<"##Results for the simulation reproducing the splitting with"<<endl;
 	file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
-	filex<<"#In the form of x[t][m]"<<endl;
+	filex<<"#In the form of E_{x[t][m]}"<<endl;
 	myprintensamble2(Nc,Nd,t,M,fileN,filex);
-   
-   
+    
+    //*****************************
+    TI=(int) floor(cons.T/cons.interval); //Here I compute the max of the time steps
+    
+    
     
     //*************Let's start the cycle********************
     for(iloop=0;i<cons.N_loop;iloop++){
@@ -74,6 +77,7 @@ int main(){
 		x[0]=cons.x0;
 		Nd[0]=cons.N0*(1.-cons.x0);
 		M=1; //I start with one cell
+		timeindex=0;
 
 		
 		G=new double* [cons.M_max]; //Create the Mx4 gamma matrix
