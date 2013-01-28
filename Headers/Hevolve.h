@@ -80,7 +80,7 @@ void initializeGamma(double **G, double *Gamma,double *Nc, double *Nd, double *x
     return;
 }
 
-void actualprint(double x, ofstream& file, int iloop){ //This function prints
+
 	
 
 void myprint2(double *Nc,double *Nd,double t,int M, ofstream& file){ //Prints the time, N average and x average as defined in the very first paper (i.e. <x>=Sum(Nc)/Sum(N)) and also the number of cells M
@@ -119,7 +119,7 @@ void myprintensamble2(double *Nc,double *Nd,double t,int M, ofstream& fileN, ofs
 	return ;
 }	
 
-void printiterens(double *Nc,double *Nd,int M,int iloop, ofstream& fileN, ofstream& filex){ //Prints  <N> and <x> average as defined in the very first paper (i.e. <x>=Sum(Nc)/Sum(N)) and also the number of cells M and saves it in the arrays 
+void printiterens(double *Nc,double *Nd,int M, ofstream& fileN, ofstream& filex){ //Prints  <N> and <x> average as defined in the very first paper (i.e. <x>=Sum(Nc)/Sum(N)) 
     double Av,Ntot;
     int i; 
     
@@ -134,7 +134,7 @@ void printiterens(double *Nc,double *Nd,int M,int iloop, ofstream& fileN, ofstre
         Av=Av+Nc[i];
         }
     Av=Av/Ntot;
-    filex<<left<<setw(15)<<Av<<M<<endl;
+    filex<<left<<setw(15)<<Av;
     return;
 }
 

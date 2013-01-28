@@ -7,7 +7,7 @@ single_loop: Single_loop.cpp Prova.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./
 
 		
 clean: 
+	rm *.txt
 	rm *~
 	rm ./Headers/*~
-	rm output.txt
 	

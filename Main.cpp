@@ -26,16 +26,17 @@ int main(){
     double **G; //Matrix with all the gammas for all the cells in form of G[cell][reaction]
     double rand; 
     int M; //it can go from 1 to M_max and it's just to not waste time taking into account empty cells
-    ofstream file, fileN,filex;//Output files
-    const char filename[]="output.txt"; //Here output.txt will output for each time step the ensamble average of <N> and <x>  and also the ensamble average of M
+    ofstream /*file, */filet, fileN,filex;//Output files
+    //const char filename[]="output.txt"; //Here output.txt will output for each time step the ensamble average of <N> and <x>  and also the ensamble average of M
     const char filenameN[]="ensambleN.txt"; //While ensambleN and x  will print out each of the <N> and <x>
     const char filenamex[]="ensamblex.txt";
+    const char filenamet[]="time.txt";
     unsigned int seed; //Seed of the random number generator
-    double Nav[cons.N_loop]; //The arrays where I will store the values of <N> and <x>
-    double xav[cons.N_loop];
+    /*double Nav[cons.N_loop]; //The arrays where I will store the values of <N> and <x>
+    double xav[cons.N_loop];*/
 	gsl_rng *r; //Pointer to the type of rng
 	FILE *pfile; //file to read from /usr/urandom
-	int timeindex, TI; //timeindex will mark the time steps for all my data , TI will be the maximum of time index, i.e. T/interval +2
+	double TI; //i need it to print the time!
       
 
    //******let's take the seed for the rng and initialize the rng******
@@ -46,28 +47,26 @@ int main(){
 	gsl_rng_set(r,seed); // Starting the generator
 	//**********************************
 	
-	file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
+	/*file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
 	file<<"#Results for the simulation reproducing the splitting with"<<endl;
 	file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
 	file<<"#Time  N   x    M"<<endl;
-	myprint2(Nc,Nd,t,M,file);
+	myprint2(Nc,Nd,t,M,file);*/
 	fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
 	fileN<<"#Results for the simulation reproducing the splitting with"<<endl;
-	file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
-	fileN<<"#In the form of E_{N[t][m]}"<<endl;
+	fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
+	fileN<<"#In the form of E_{N[m][t]}"<<endl;
 	filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
 	filex<<"##Results for the simulation reproducing the splitting with"<<endl;
-	file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
-	filex<<"#In the form of E_{x[t][m]}"<<endl;
-	myprintensamble2(Nc,Nd,t,M,fileN,filex);
+	filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
+	filex<<"#In the form of E_{x[m][t]}"<<endl;
     
     //*****************************
-    TI=(int) floor(cons.T/cons.interval); //Here I compute the max of the time steps
     
-    
+    TI=(int)floor(cons.T/cons.interval);
     
     //*************Let's start the cycle********************
-    for(iloop=0;i<cons.N_loop;iloop++){
+    for(iloop=0;iloop<cons.N_loop;iloop++){
     	
     
 		//*********Let's initialize all**********
@@ -77,7 +76,6 @@ int main(){
 		x[0]=cons.x0;
 		Nd[0]=cons.N0*(1.-cons.x0);
 		M=1; //I start with one cell
-		timeindex=0;
 
 		
 		G=new double* [cons.M_max]; //Create the Mx4 gamma matrix
@@ -87,48 +85,56 @@ int main(){
 		initializeGamma(G,Gamma,Nc,Nd,x,cons);
 		//*******end of initialization*********
 		
-		
+		printiterens(Nc,Nd,1,fileN,filex); //Here I print for time==0
 		
 		//*****Start of the evolution***********
 		 
 	   do{ 
-		    rand=randlog(Gamma[4*M-1],r);//Samples the time at wich the next reaction happens;
-		    t=t+rand; //Update the time
-		    oldt=oldt+rand; //Update oldt
-		    oldtensamble=oldtensamble+rand; //Update oldtensamble
-		    
-		    rand=gsl_rng_uniform(r)*Gamma[4*M-1]; //Generates the random number to choose the reaction!
-		    l=search(Gamma,4*M,rand); //Finds the reaction
-		    
-		    m=updateN(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
-		    
-		    if(check(Nc, Nd, cons, m)==true){ //Of course I need to check if I have to split the cell or not
-		    	M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); 
-		    	//cout<<endl<<endl<<"Now in the main: First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[1]+Nd[1]<<" bacteria"<<endl<<endl;
-		    	 //Here I do everything, I create the cell, I update the cells and then update the Gamma and G
-		    }
-		    else{ //Of course if no cell splits, I just update the G and the Gamma, print and then sample for another reaction
-		    updateG(G,Gamma,m,Nc,Nd,x,cons,4*M); //Updates the G and the Gamma
-		    }
-		    
-		    
-		    if(oldt>=cons.interval){ //Checks whether I have to print or not
-		    	myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
-		    	oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again
-		    	cout<<"The time is "<<t<<endl; //Just to check
-		    }
-		/*   if(oldt>=cons.interval){ //Checks whether I have to print or not on ensamble.txt
-		    	myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
-		    	oldt=oldt -cons.intervalens; //Subract by oldtensamble the value of intervalens to start counting again
-		    	//cout<<"The time is "<<t<<endl; //Just to check
-		    }*/
-		    
-		}while(t<=cons.T);
+		   rand=randlog(Gamma[4*M-1],r);//Samples the time at wich the next reaction happens;
+		   t=t+rand; //Update the time
+		   oldt=oldt+rand; //Update oldt
+		   //oldtensamble=oldtensamble+rand; //Update oldtensamble
+		   rand=gsl_rng_uniform(r)*Gamma[4*M-1]; //Generates the random number to choose the reaction!
+		   l=search(Gamma,4*M,rand); //Finds the reaction
+		   m=updateN(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
+		   if(check(Nc, Nd, cons, m)==true){ //Of course I need to check if I have to split the cell or not
+		   		M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); 
+				//cout<<endl<<endl<<"Now in the main: First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[1]+Nd[1]<<" bacteria"<<endl<<endl;
+				//Here I do everything, I create the cell, I update the cells and then update the Gamma and G
+				}
+		   else{ //Of course if no cell splits, I just update the G and the Gamma, print and then sample for another reaction
+				updateG(G,Gamma,m,Nc,Nd,x,cons,4*M); //Updates the G and the Gamma
+				}
+				
+				
+		  if(oldt>=cons.interval){ //Checks whether I have to print or not
+					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
+					oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again
+					cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
+				}
+			/*   if(oldt>=cons.interval){ //Checks whether I have to print or not on ensamble.txt
+					myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
+					oldt=oldt -cons.intervalens; //Subract by oldtensamble the value of intervalens to start counting again
+					//cout<<"The time is "<<t<<endl; //Just to check
+				}*/
+				
+	  }while(t<=cons.T);
+		
+	  filex<<endl; //I print the \n in the 2 files!
+	  fileN<<endl;
+
     }
     
     
     //********************Here ends the loop
-    file.close(); //Closing the files of output!
+   
+    filet.open(filenamet,ios::out|ios::trunc); 
+    for(iloop=0;iloop<=TI;iloop++){
+    	filet<<iloop*cons.interval<<endl;
+    	}
+    
+    
+    filet.close(); //Closing the files of output!
     filex.close();
     fileN.close();
     

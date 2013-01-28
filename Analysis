@@ -1,0 +1,22 @@
+a=numpy.loadtxt("./ensambleN.txt")
+ensN=a.transpose()
+a=numpy.loadtxt("./ensamblex.txt")
+ensx=a.transpose()
+time=numpy.loadtxt("./time.txt")
+
+TMAX=len(time)
+
+N=range(TMAX)
+x=range(TMAX)
+
+
+for i in range(TMAX):
+	 N[i]=numpy.mean(ensN[i])
+	 x[i]=numpy.mean(ensx[i])
+	 break
+	 
+	 
+	 
+	 
+pylab.plot(time,x)
+
