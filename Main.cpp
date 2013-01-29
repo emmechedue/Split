@@ -37,6 +37,7 @@ int main(){
 	gsl_rng *r; //Pointer to the type of rng
 	FILE *pfile; //file to read from /usr/urandom
 	double TI; //i need it to print the time!
+	int count[cons.N_loop];
       
 
    //******let's take the seed for the rng and initialize the rng******
@@ -83,9 +84,10 @@ int main(){
 		    G[i]=new double[4];
 		}
 		initializeGamma(G,Gamma,Nc,Nd,x,cons);
+		count[iloop]=0;
 		//*******end of initialization*********
 		
-		printiterens(Nc,Nd,1,fileN,filex); //Here I print for time==0
+		printiterens(Nc,Nd,1,fileN,filex,&count[iloop]); //Here I print for time==0
 		
 		//*****Start of the evolution***********
 		 
@@ -108,9 +110,10 @@ int main(){
 				
 				
 		  if(oldt>=cons.interval){ //Checks whether I have to print or not
-					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
-					oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again
-					cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
+					printiterens(Nc,Nd,M,fileN,filex,&count[iloop]); //printing of the values in the row
+					oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again 
+					//count++;
+					cout<<"The time is "<<t<<" and iloop is "<<iloop<<" and I'm doing it for "<<count<<" times"<<endl; //Just to check
 				}
 			/*   if(oldt>=cons.interval){ //Checks whether I have to print or not on ensamble.txt
 					myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
@@ -137,6 +140,10 @@ int main(){
     filet.close(); //Closing the files of output!
     filex.close();
     fileN.close();
+    
+    cout<<endl<<endl;
+    for(i=0;i<cons.N_loop;i++){
+    	cout<<count[i]<<endl;}
     
     return 0;
 }
