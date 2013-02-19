@@ -1,0 +1,21 @@
+#plot for <x>
+
+a=numpy.loadtxt("./output.txt")
+data=a.transpose()
+pylab.plot(data[0],data[2])
+pylab.title("<x> vs. t")
+pylab.xlabel("t")
+pylab.ylabel("<x>")
+
+
+
+#plot for <N>
+
+
+a=numpy.loadtxt("./output.txt")
+data=a.transpose()
+pylab.plot(data[0],data[1])
+pylab.title("<N> vs. t")
+pylab.xlabel("t")
+pylab.ylabel("<N>")
+
