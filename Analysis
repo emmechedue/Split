@@ -13,7 +13,7 @@ x=range(TMAX)
 for i in range(TMAX):
 	 N[i]=numpy.mean(ensN[i])
 	 x[i]=numpy.mean(ensx[i])
-	 break
+	 
 	 
 	 
 	 
