@@ -31,6 +31,7 @@ int main(){
     unsigned int seed; //Seed of the random number generator
 	gsl_rng *r; //Pointer to the type of rng
 	FILE *pfile; //file to read from /usr/urandom
+	bool checkti=false;
     
     //*********Let's initialize all**********
     t=0.;
@@ -100,6 +101,7 @@ int main(){
         	oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again
         	cout<<"The time is "<<t<<endl; //Just to check
         }
+        else{checkti=true;}
        if(oldtensamble>=cons.intervalens){ //Checks whether I have to print or not on ensamble.txt
         	myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
         	oldtensamble=oldtensamble -cons.intervalens; //Subract by oldtensamble the value of intervalens to start counting again
@@ -111,6 +113,8 @@ int main(){
     file.close(); //Closing the files of output!
     filex.close();
     fileN.close();
+    
+    if(checkti==false){cout<<"ERROR!!!!!!!"<<endl;}
     
     return 0;
 }

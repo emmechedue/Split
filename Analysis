@@ -1,3 +1,9 @@
+p=10
+s=0.05
+K=100
+M=100
+
+
 a=numpy.loadtxt("./ensambleN.txt")
 ensN=a.transpose()
 a=numpy.loadtxt("./ensamblex.txt")
@@ -35,4 +41,3 @@ pylab.xlabel("t")
 
 
 
-pylab.title('Minimal Energy Configuration of %s Charges on Disc W = %s'%(N, W))

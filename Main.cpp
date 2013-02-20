@@ -39,6 +39,7 @@ int main(){
 	double TI; //i need it to print the time!
 	int count[cons.N_loop];
 	bool checkt[cons.N_loop];
+	bool checktime=false;
       
       
     for(i=0;i<cons.N_loop;i++){
@@ -149,6 +150,17 @@ int main(){
     cout<<endl<<endl;
     for(i=0;i<cons.N_loop;i++){
     	cout<<count[i]<<"   "<<checkt[i]<<endl;}
+    for(i=0;i<cons.N_loop;i++){
+    	if(checkt[i]==false){
+    		checktime=true;
+    		break;}
+    	}
+    cout<<endl<<endl;
+    if(checktime==false){
+    	cout<<"No problems!!!"<<endl;}
+    else{
+    	cout<<"ERROR!!!!!"<<endl;}
+    	
     
     return 0;
 }
