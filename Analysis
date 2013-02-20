@@ -19,4 +19,20 @@ for i in range(TMAX):
 	 
 	 
 pylab.plot(time,x)
+pylab.title("<x> vs. t for p= %s and s= %s for an ensamble of M= %s and K= %s"%(p,s,M,K))
+pylab.ylabel("<x>")
+pylab.xlabel("t")
 
+
+pylab.plot(time,N)
+pylab.title("<N> vs. t for p= %s and s= %s for an ensamble of M= %s and K= %s"%(p,s,M,K))
+pylab.ylabel("<N>")
+pylab.xlabel("t")
+
+
+
+#Note that M is the number of loops I'm making!
+
+
+
+pylab.title('Minimal Energy Configuration of %s Charges on Disc W = %s'%(N, W))
