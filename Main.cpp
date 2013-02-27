@@ -38,12 +38,10 @@ int main(){
 	FILE *pfile; //file to read from /usr/urandom
 	double TI; //i need it to print the time!
 	int count[cons.N_loop];
-	bool checkt[cons.N_loop];
-	bool checktime=false;
+	bool checkt=false;
       
       
-    for(i=0;i<cons.N_loop;i++){
-    	checkt[i]=false;}  
+     
 
    //******let's take the seed for the rng and initialize the rng******
 	pfile = fopen ("/dev/urandom", "r");
@@ -120,7 +118,7 @@ int main(){
 					//count++;
 					cout<<"The time is "<<t<<" and iloop is "<<iloop<<" and I'm doing it for "<<count[iloop]<<" times"<<endl; //Just to check
 				}
-		 else{ checkt[iloop]=true;}
+		
 			/*   if(oldt>=cons.interval){ //Checks whether I have to print or not on ensamble.txt
 					myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
 					oldt=oldt -cons.intervalens; //Subract by oldtensamble the value of intervalens to start counting again
@@ -128,6 +126,7 @@ int main(){
 				}*/
 				
 	  }while(t<=cons.T);
+	  //cout<<endl<<endl<<"gamma= "<<Gamma[4*M-1]<<endl<<endl;
 		
 	  filex<<endl; //I print the \n in the 2 files!
 	  fileN<<endl;
@@ -149,18 +148,17 @@ int main(){
     
     cout<<endl<<endl;
     for(i=0;i<cons.N_loop;i++){
-    	cout<<count[i]<<"   "<<checkt[i]<<endl;}
+    	cout<<count[i]<<endl;}
     for(i=0;i<cons.N_loop;i++){
-    	if(checkt[i]==false){
-    		checktime=true;
+    	if(count[i]!=TI+1){
+    		checkt=true;
     		break;}
     	}
     cout<<endl<<endl;
-    if(checktime==false){
+    if(checkt==false){
     	cout<<"No problems!!!"<<endl;}
     else{
     	cout<<"ERROR!!!!!"<<endl;}
-    	
     
     return 0;
 }
