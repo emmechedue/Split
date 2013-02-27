@@ -37,7 +37,7 @@ pylab.xlabel("t")
 
 
 
-#Note that M is the number of loops I'm making!
+#Note that M is the number of loops I'm making! So it would be N_loop
 
 
 
