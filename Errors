@@ -1,0 +1,68 @@
+from numpy import array
+
+# Here I just define the constants!
+p=10
+s=0.05
+K=100
+M=300
+
+
+# Here I load everything
+a=numpy.loadtxt("./ensambleN.txt")
+ensN=a.transpose()
+a=numpy.loadtxt("./ensamblex.txt")
+ensx=a.transpose()
+time=numpy.loadtxt("./time.txt")
+
+TMAX=len(time)
+
+
+#Here I define all the arrays i will need
+N=range(TMAX)
+x=range(TMAX)
+Nstd=range(TMAX)
+xstd=range(TMAX)
+Nerrorstdplus=range(TMAX)
+xerrorstdplus=range(TMAX)
+Nerrorstdminus=range(TMAX)
+xerrorstdminus=range(TMAX)
+
+
+
+Root=math.sqrt(M)
+
+
+# Computing all the arrays
+for i in range(TMAX):
+	 N[i]=ensN[i].mean()
+	 x[i]=ensx[i].mean()
+	 Nstd[i]=ensN[i].std()
+	 xstd[i]=ensx[i].std()
+	 Nerrorstdplus[i]=N[i]+1.96*Nstd[i]/Root
+	 Nerrorstdminus[i]=N[i]-1.96*Nstd[i]/Root
+	 xerrorstdplus[i]=x[i]+1.96*xstd[i]/Root
+	 xerrorstdminus[i]=x[i]-1.96*xstd[i]/Root
+	 
+
+#Plotting x
+
+pylab.plot(time,x,label="data")
+pylab.plot(time,xerrorstdplus, label="errorplus")
+pylab.plot(time,xerrorstdminus, label="errorminus")
+pylab.title("<x> vs. t for p= %s and s= %s for an ensamble of M= %s and K= %s with errors"%(p,s,M,K))
+pylab.ylabel("<x>")
+pylab.xlabel("t")
+legend(("data","errorplus","errorminus"))
+
+#Plotting N
+
+pylab.plot(time,N,label="data")
+pylab.plot(time,Nerrorstdplus, label="errorplus")
+pylab.plot(time,Nerrorstdminus, label="errorminus")
+pylab.title("<N> vs. t for p= %s and s= %s for an ensamble of M= %s and K= %s with errors"%(p,s,M,K))
+pylab.ylabel("<N>")
+pylab.xlabel("t")
+legend(("data","errorplus","errorminus"))
+
+
+
