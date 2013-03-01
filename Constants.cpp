@@ -16,7 +16,7 @@ Constants::Constants(){
 	K=100.; //Carrying capacity
 	N_max=80; //The number of bacteria in the cell s.t. the cell splits
 	M_max=1000; //The maximum number of cells
-	N_loop=300; //The number of times I iterate
+	N_loop=10000; //The number of times I iterate
 }
 
 Constants::~Constants(){}

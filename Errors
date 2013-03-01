@@ -26,43 +26,87 @@ Nerrorstdplus=range(TMAX)
 xerrorstdplus=range(TMAX)
 Nerrorstdminus=range(TMAX)
 xerrorstdminus=range(TMAX)
+Nerrorabsplus=range(TMAX)
+xerrorabsplus=range(TMAX)
+Nerrorabsminus=range(TMAX)
+xerrorabsminus=range(TMAX)
+
+# Support arrays
+S=range(M)
+P=range(M)
 
 
 
 Root=math.sqrt(M)
+A=floor(M*0.05) # A is how many data I have to trhow away!
 
 
 # Computing all the arrays
 for i in range(TMAX):
-	 N[i]=ensN[i].mean()
-	 x[i]=ensx[i].mean()
-	 Nstd[i]=ensN[i].std()
-	 xstd[i]=ensx[i].std()
-	 Nerrorstdplus[i]=N[i]+1.96*Nstd[i]/Root
-	 Nerrorstdminus[i]=N[i]-1.96*Nstd[i]/Root
-	 xerrorstdplus[i]=x[i]+1.96*xstd[i]/Root
-	 xerrorstdminus[i]=x[i]-1.96*xstd[i]/Root
+	N[i]=ensN[i].mean()
+	x[i]=ensx[i].mean()
+	Nstd[i]=ensN[i].std()
+	xstd[i]=ensx[i].std()
+	Nerrorstdplus[i]=N[i]+1.96*Nstd[i]/Root
+	Nerrorstdminus[i]=N[i]-1.96*Nstd[i]/Root
+	xerrorstdplus[i]=x[i]+1.96*xstd[i]/Root
+	xerrorstdminus[i]=x[i]-1.96*xstd[i]/Root
+	for j in range(M):
+		S[j]=ensN[i][j]-N[i]
+		P[j]=ensx[i][j]-x[i]
+	for dummy in range(A):
+		l1=0
+		Boh1=0
+		l2=0
+		Boh2=0
+		for j in range(M):
+			if math.fabs(S[j]) > Boh1:
+				Boh1=math.fabs(S[j])
+				l1=j
+			if math.fabs(P[j]) > Boh2:
+				Boh2=math.fabs(S[j])
+				l2=j
+		S[l1]=0
+		P[l2]=0
+	S.sort()
+	P.sort()
+	Nerrorabsplus[i]=S[M-1]+N[i]
+	Nerrorabsminus[i]=S[0]+N[i]
+	xerrorabsplus[i]=P[M-1]+x[i]
+	xerrorabsminus[i]=P[0]+x[i]
+	
+
+	
 	 
 
 #Plotting x
 
 pylab.plot(time,x,label="data")
-pylab.plot(time,xerrorstdplus, label="errorplus")
-pylab.plot(time,xerrorstdminus, label="errorminus")
+pylab.plot(time,xerrorstdplus,'r--', label="std error +")
+pylab.plot(time,xerrorstdminus,'r--', label="std error -")
+pylab.plot(time,xerrorabsplus,'k--', label="abs error +")
+pylab.plot(time,xerrorabsminus,'k--', label="abs error -")
 pylab.title("<x> vs. t for p= %s and s= %s for an ensamble of M= %s and K= %s with errors"%(p,s,M,K))
 pylab.ylabel("<x>")
 pylab.xlabel("t")
-legend(("data","errorplus","errorminus"))
+legend(("data","std error +","std error -","abs error +","abs error -"))
 
 #Plotting N
 
 pylab.plot(time,N,label="data")
-pylab.plot(time,Nerrorstdplus, label="errorplus")
-pylab.plot(time,Nerrorstdminus, label="errorminus")
+pylab.plot(time,Nerrorstdplus, 'r--',label="std error +")
+pylab.plot(time,Nerrorstdminus, 'r--',label="std error -")
+pylab.plot(time,Nerrorabsplus,'k--', label="abs error +")
+pylab.plot(time,Nerrorabsminus,'k--', label="abs error -")
 pylab.title("<N> vs. t for p= %s and s= %s for an ensamble of M= %s and K= %s with errors"%(p,s,M,K))
 pylab.ylabel("<N>")
 pylab.xlabel("t")
-legend(("data","errorplus","errorminus"))
+legend(("data","std error +","std error -","abs error +","abs error -"))
 
 
+
+
+#  math.fabs(x)
+# .index(3)
+# .list.sort
 
