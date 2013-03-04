@@ -119,12 +119,11 @@ void myprintensamble2(double *Nc,double *Nd,double t,int M, ofstream& fileN, ofs
 	return ;
 }	
 
-void printiterens(double *Nc,double *Nd,int M, ofstream& fileN, ofstream& filex, int *c){ //Prints  <N> and <x> average as defined in the very first paper (i.e. <x>=Sum(Nc)/Sum(N)) 
+void printiterens(double *Nc,double *Nd,int M, ofstream& fileN, ofstream& filex){ //Prints  <N> and <x> average as defined in the very first paper (i.e. <x>=Sum(Nc)/Sum(N)) 
     double Av,Ntot;
     int i; 
     
     Ntot=0;
-    *c=*c+1;
     for(i=0;i<M;i++){ //Computes the the average of N and prints it
         Ntot=Ntot+Nc[i]+Nd[i];
     }  

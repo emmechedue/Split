@@ -37,8 +37,7 @@ int main(){
 	gsl_rng *r; //Pointer to the type of rng
 	FILE *pfile; //file to read from /usr/urandom
 	double TI; //i need it to print the time!
-	int count[cons.N_loop];
-	bool checkt=false;
+	int dummy, enne; //Dummy is a dummy index needed for small loops, enne is taking care (in case) of  how many times is rand bigger than interval
       
       
      
@@ -87,16 +86,22 @@ int main(){
 		    G[i]=new double[4];
 		}
 		initializeGamma(G,Gamma,Nc,Nd,x,cons);
-		count[iloop]=0;
 		//*******end of initialization*********
 		
-		printiterens(Nc,Nd,1,fileN,filex,&count[iloop]); //Here I print for time==0
+		printiterens(Nc,Nd,1,fileN,filex); //Here I print for time==0
 		
 		//*****Start of the evolution***********
 		 
 	   do{ 
 		   rand=randlog(Gamma[4*M-1],r);//Samples the time at wich the next reaction happens;
 		   t=t+rand; //Update the time
+		   if(rand>cons.interval){ //Here is to check if I have to reprint the old situation before update the system!
+		   		enne=floor(rand/cons.interval);
+		   		for(dummy=0;dummy<enne;dummy ++){
+		   			printiterens(Nc,Nd,M,fileN,filex);
+		   			}
+		   		rand=rand-cons.interval*enne;
+		   }
 		   oldt=oldt+rand; //Update oldt
 		   //oldtensamble=oldtensamble+rand; //Update oldtensamble
 		   rand=gsl_rng_uniform(r)*Gamma[4*M-1]; //Generates the random number to choose the reaction!
@@ -113,10 +118,10 @@ int main(){
 				
 				
 		  if(oldt>=cons.interval){ //Checks whether I have to print or not
-					printiterens(Nc,Nd,M,fileN,filex,&count[iloop]); //printing of the values in the row
+					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
 					oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again 
 					//count++;
-					cout<<"The time is "<<t<<" and iloop is "<<iloop<<" and I'm doing it for "<<count[iloop]<<" times"<<endl; //Just to check
+					cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
 				}
 		
 			/*   if(oldt>=cons.interval){ //Checks whether I have to print or not on ensamble.txt
@@ -146,19 +151,7 @@ int main(){
     filex.close();
     fileN.close();
     
-    cout<<endl<<endl;
-    for(i=0;i<cons.N_loop;i++){
-    	cout<<count[i]<<endl;}
-    for(i=0;i<cons.N_loop;i++){
-    	if(count[i]!=TI+1){
-    		checkt=true;
-    		break;}
-    	}
-    cout<<endl<<endl;
-    if(checkt==false){
-    	cout<<"No problems!!!"<<endl;}
-    else{
-    	cout<<"ERROR!!!!!"<<endl;}
+    
     
     return 0;
 }

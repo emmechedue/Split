@@ -31,7 +31,7 @@ int main(){
     unsigned int seed; //Seed of the random number generator
 	gsl_rng *r; //Pointer to the type of rng
 	FILE *pfile; //file to read from /usr/urandom
-	bool checkti=false;
+	int dummy, enne; //Dummy is a dummy index needed for small loops, enne is taking care (in case) of  how many times is rand bigger than interval
     
     //*********Let's initialize all**********
     t=0.;
@@ -78,43 +78,48 @@ int main(){
    do{ 
         rand=randlog(Gamma[4*M-1],r);//Samples the time at wich the next reaction happens;
         t=t+rand; //Update the time
-        oldt=oldt+rand; //Update oldt
-        oldtensamble=oldtensamble+rand; //Update oldtensamble
+        if(rand>cons.interval){ //Here is to check if I have to reprint the old situation before update the system!
+		  		enne=floor(rand/cons.interval);
+		  		for(dummy=0;dummy<enne;dummy ++){
+		  			pmyprintensamble2(Nc,Nd,t,M,fileN,filex);
+		  			}
+		  		rand=rand-cons.interval*enne;
+		}
+		oldt=oldt+rand; //Update oldt
+		oldtensamble=oldtensamble+rand; //Update oldtensamble
         
-        rand=gsl_rng_uniform(r)*Gamma[4*M-1]; //Generates the random number to choose the reaction!
-        l=search(Gamma,4*M,rand); //Finds the reaction
+		rand=gsl_rng_uniform(r)*Gamma[4*M-1]; //Generates the random number to choose the reaction!
+		l=search(Gamma,4*M,rand); //Finds the reaction
         
-        m=updateN(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
+		m=updateN(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
         
-        if(check(Nc, Nd, cons, m)==true){ //Of course I need to check if I have to split the cell or not
-        	M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); 
-        	//cout<<endl<<endl<<"Now in the main: First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[1]+Nd[1]<<" bacteria"<<endl<<endl;
-        	 //Here I do everything, I create the cell, I update the cells and then update the Gamma and G
-        }
-        else{ //Of course if no cell splits, I just update the G and the Gamma, print and then sample for another reaction
-        updateG(G,Gamma,m,Nc,Nd,x,cons,4*M); //Updates the G and the Gamma
-        }
+		if(check(Nc, Nd, cons, m)==true){ //Of course I need to check if I have to split the cell or not
+			M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); 
+			//cout<<endl<<endl<<"Now in the main: First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[1]+Nd[1]<<" bacteria"<<endl<<endl;
+			//Here I do everything, I create the cell, I update the cells and then update the Gamma and G
+		}
+		else{ //Of course if no cell splits, I just update the G and the Gamma, print and then sample for another reaction
+		updateG(G,Gamma,m,Nc,Nd,x,cons,4*M); //Updates the G and the Gamma
+		}
         
         
-        if(oldt>=cons.interval){ //Checks whether I have to print or not
-        	myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
+		if(oldt>=cons.interval){ //Checks whether I have to print or not
+			myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
         	oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again
         	cout<<"The time is "<<t<<endl; //Just to check
-        }
-        else{checkti=true;}
-       if(oldtensamble>=cons.intervalens){ //Checks whether I have to print or not on ensamble.txt
-        	myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
+		}
+		if(oldtensamble>=cons.intervalens){ //Checks whether I have to print or not on ensamble.txt
+			myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
         	oldtensamble=oldtensamble -cons.intervalens; //Subract by oldtensamble the value of intervalens to start counting again
         	//cout<<"The time is "<<t<<endl; //Just to check
         }
         
-    }while(t<=cons.T);
+	}while(t<=cons.T);
     
     file.close(); //Closing the files of output!
     filex.close();
     fileN.close();
     
-    if(checkti==false){cout<<"ERROR!!!!!!!"<<endl;}
     
     return 0;
 }
