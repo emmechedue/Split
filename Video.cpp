@@ -71,7 +71,7 @@ int main(){
     file<<"#Results for the simulation reproducing the splitting with"<<endl;
     file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
     file<<"#Time  N   x    M"<<endl;
-    myprint2(Nc,Nd,t,cons.M_max,file);
+    myprint2(Nc,Nd,t,M,file);
     fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
     fileN<<"#Results for the simulation reproducing the splitting with"<<endl;
     fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
@@ -112,7 +112,7 @@ int main(){
         
         
 		if(oldt>=cons.interval){ //Checks whether I have to print or not
-			myprint2(Nc,Nd,t,cons.M_max,file); //Printing the results on file fast. To create a picture
+			myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
         	oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again
         	cout<<"The time is "<<t<<endl; //Just to check
 		}
