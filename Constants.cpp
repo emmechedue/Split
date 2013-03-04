@@ -15,7 +15,7 @@ Constants::Constants(){
 	p=10.; //Cooperators advantage
 	K=100.; //Carrying capacity
 	N_max=80; //The number of bacteria in the cell s.t. the cell splits
-	M_max=1000; //The maximum number of cells
+	M_max=4; //The maximum number of cells
 	N_loop=10; //The number of times I iterate
 }
 
