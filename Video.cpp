@@ -21,7 +21,7 @@ using namespace std;
 int main(){
     Constants cons;
     double Nc[cons.M_max], Nd[cons.M_max], x[cons.M_max]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
-    double t ,oldt, oldtensamble; //t is the time and oldt will be used to check whether or not print
+    double t ,oldt; //t is the time and oldt will be used to check whether or not print
     int i,l,m,emme=4*cons.M_max;
     double Gamma[emme]; //The array with all the partial sums
     double **G; //Matrix with all the gammas for all the cells in form of G[cell][reaction]
@@ -39,7 +39,6 @@ int main(){
     //*********Let's initialize all**********
     t=0.;
     oldt=0.;
-    oldtensamble=0.;
     Nc[0]=cons.N0*cons.x0;
     x[0]=cons.x0;
     Nd[0]=cons.N0*(1.-cons.x0);
@@ -91,11 +90,11 @@ int main(){
 		  		enne=floor(rand/cons.interval);
 		  		for(dummy=0;dummy<enne;dummy ++){
 		  			myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex);
+		  			myprint2(Nc,Nd,t,M,file);
 		  			}
 		  		rand=rand-cons.interval*enne;
 		}
 		oldt=oldt+rand; //Update oldt
-		oldtensamble=oldtensamble+rand; //Update oldtensamble
         
 		rand=gsl_rng_uniform(r)*Gamma[4*M-1]; //Generates the random number to choose the reaction!
 		l=search(Gamma,4*M,rand); //Finds the reaction
@@ -113,14 +112,11 @@ int main(){
         
 		if(oldt>=cons.interval){ //Checks whether I have to print or not
 			myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
+			myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
         	oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again
         	cout<<"The time is "<<t<<endl; //Just to check
 		}
-		if(oldtensamble>=cons.intervalens){ //Checks whether I have to print or not on ensamble.txt
-			myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
-        	oldtensamble=oldtensamble -cons.intervalens; //Subract by oldtensamble the value of intervalens to start counting again
-        	//cout<<"The time is "<<t<<endl; //Just to check
-        }
+		
         
 	}while(t<=cons.T);
     
