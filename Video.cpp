@@ -1,3 +1,6 @@
+//The only difference between this program and Single_loop is that here I'm printing even if the group is empty
+//Then in the python analysis I should do something like: if (M!=0) {print!}
+
 #include<cstdio>
 #include<cstdlib>
 #include<fstream>
@@ -41,7 +44,13 @@ int main(){
     x[0]=cons.x0;
     Nd[0]=cons.N0*(1.-cons.x0);
     M=1; //I start with one cell
-
+    
+    //Here I fill all the rest of the array with 0s
+    for(i=1;i<cons.M_max;i++){
+    	Nc[i]=0;
+		x[i]=0;
+		Nd[i]=0;
+	}
     
     G=new double* [cons.M_max]; //Create the Mx4 gamma matrix
     for(i=0; i<cons.M_max; i++){
@@ -62,7 +71,7 @@ int main(){
     file<<"#Results for the simulation reproducing the splitting with"<<endl;
     file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
     file<<"#Time  N   x    M"<<endl;
-    myprint2(Nc,Nd,t,M,file);
+    myprint2(Nc,Nd,t,cons.M_max,file);
     fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
     fileN<<"#Results for the simulation reproducing the splitting with"<<endl;
     fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
@@ -71,7 +80,7 @@ int main(){
     filex<<"##Results for the simulation reproducing the splitting with"<<endl;
     filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
     filex<<"#In the form of x[t][m]"<<endl;
-    myprintensamble2(Nc,Nd,t,M,fileN,filex);
+    myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex);
     
     //*****Start of the evolution***********
      
@@ -81,7 +90,7 @@ int main(){
         if(rand>cons.interval){ //Here is to check if I have to reprint the old situation before update the system!
 		  		enne=floor(rand/cons.interval);
 		  		for(dummy=0;dummy<enne;dummy ++){
-		  			myprintensamble2(Nc,Nd,t,M,fileN,filex);
+		  			myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex);
 		  			}
 		  		rand=rand-cons.interval*enne;
 		}
@@ -94,9 +103,8 @@ int main(){
 		m=updateN(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
         
 		if(check(Nc, Nd, cons, m)==true){ //Of course I need to check if I have to split the cell or not
-			M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); 
+			M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); //Here I do everything, I create the cell, I update the cells and then update the Gamma and G
 			//cout<<endl<<endl<<"Now in the main: First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[1]+Nd[1]<<" bacteria"<<endl<<endl;
-			//Here I do everything, I create the cell, I update the cells and then update the Gamma and G
 		}
 		else{ //Of course if no cell splits, I just update the G and the Gamma, print and then sample for another reaction
 		updateG(G,Gamma,m,Nc,Nd,x,cons,4*M); //Updates the G and the Gamma
@@ -104,12 +112,12 @@ int main(){
         
         
 		if(oldt>=cons.interval){ //Checks whether I have to print or not
-			myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
+			myprint2(Nc,Nd,t,cons.M_max,file); //Printing the results on file fast. To create a picture
         	oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again
         	cout<<"The time is "<<t<<endl; //Just to check
 		}
 		if(oldtensamble>=cons.intervalens){ //Checks whether I have to print or not on ensamble.txt
-			myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
+			myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
         	oldtensamble=oldtensamble -cons.intervalens; //Subract by oldtensamble the value of intervalens to start counting again
         	//cout<<"The time is "<<t<<endl; //Just to check
         }
