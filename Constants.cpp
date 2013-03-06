@@ -15,7 +15,8 @@ Constants::Constants(){
 	K=100.; //Carrying capacity
 	N_max=80; //The number of bacteria in the cell s.t. the cell splits
 	M_max=1000; //The maximum number of cells
-	N_loop=10; //The number of times I iterate
+	N_loop=300; //The number of times I iterate
+	choice=2; //Is 1 if I want the propagule model and it is 2 if I want the random splitting model
 }
 
 Constants::~Constants(){}
@@ -28,7 +29,7 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 	
 	char line[256];
 	int linenum=0;
-	int count=0, M=11; //M is the amount of parameters I have to give, count will range from 0 to M-1
+	int count=0, M=12; //M is the amount of parameters I have to give, count will range from 0 to M-1
 	double vector[M]; //will store the M parameters
 	FILE *pfile;
 	
@@ -56,6 +57,7 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 	N_max=vector[8]; //The number of bacteria in the cell s.t. the cell splits
 	M_max=vector[9]; //The maximum number of cells
 	N_loop=vector[10]; //The number of times I iterate
+	choice=vector[11]; //Is 1 if I want the propagule model and it is 2 if I want the random splitting model
 }
 
 Constants::~Constants(){}

@@ -73,8 +73,8 @@ int createcell(int M, int m,double *Nc, double *Nd, double *x, double *Gamma, do
 	}
 	
 	//********creates the new cells and updates the Gamma and the G*****************
-	fillcell(n,m,Nc,Nd,x,cons,r,1); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
-	fillcell(m,m,Nc,Nd,x,cons,r,1);
+	fillcell(n,m,Nc,Nd,x,cons,r,cons.choice); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
+	fillcell(m,m,Nc,Nd,x,cons,r,cons.choice);
 	
 	//cout<<"First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[1]+Nd[1]<<" bacteria"<<endl;
 	updatebothG(G,Gamma,n,m,Nc,Nd,x,cons,4*M);

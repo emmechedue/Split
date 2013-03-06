@@ -57,20 +57,38 @@ int main(){
 	gsl_rng_set(r,seed); // Starting the generator
 	//**********************************
     
-    file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
-    file<<"#Results for the simulation reproducing the splitting with"<<endl;
-    file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-    file<<"#Time  N   x    M"<<endl;
-    myprint2(Nc,Nd,t,M,file);
-    fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
-    fileN<<"#Results for the simulation reproducing the splitting with"<<endl;
-    fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-    fileN<<"#In the form of N[t][m]"<<endl;
-    filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
-    filex<<"##Results for the simulation reproducing the splitting with"<<endl;
-    filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-    filex<<"#In the form of x[t][m]"<<endl;
-    myprintensamble2(Nc,Nd,t,M,fileN,filex);
+    if(cons.choice==1){
+		file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
+		file<<"#Results for the simulation reproducing the propagule with"<<endl;
+		file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
+		file<<"#Time  N   x    M"<<endl;
+		myprint2(Nc,Nd,t,M,file);
+		fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
+		fileN<<"#Results for the simulation reproducing the propagule with"<<endl;
+		fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
+		fileN<<"#In the form of N[t][m]"<<endl;
+		filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
+		filex<<"##Results for the simulation reproducing the propagule with"<<endl;
+		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
+		filex<<"#In the form of x[t][m]"<<endl;
+		myprintensamble2(Nc,Nd,t,M,fileN,filex);
+	}
+	else{
+		file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
+		file<<"#Results for the simulation reproducing the random splitting with"<<endl;
+		file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
+		file<<"#Time  N   x    M"<<endl;
+		myprint2(Nc,Nd,t,M,file);
+		fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
+		fileN<<"#Results for the simulation reproducing the random splitting with"<<endl;
+		fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
+		fileN<<"#In the form of N[t][m]"<<endl;
+		filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
+		filex<<"##Results for the simulation reproducing the random splitting with"<<endl;
+		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
+		filex<<"#In the form of x[t][m]"<<endl;
+		myprintensamble2(Nc,Nd,t,M,fileN,filex);
+	}
     
     //*****Start of the evolution***********
      

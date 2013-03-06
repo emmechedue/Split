@@ -19,3 +19,6 @@ pylab.title("<N> vs. t")
 pylab.xlabel("t")
 pylab.ylabel("<N>")
 
+
+
+#Note that those are the commands for prinitng the plots of single_loop for the average!

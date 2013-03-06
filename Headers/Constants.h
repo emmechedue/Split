@@ -18,6 +18,7 @@ public:
 	int N_max; //The number of bacteria in the cell s.t. the cell splits
 	int M_max; //The maximum number of cells
 	int N_loop; //The number of times I iterate
+	int choice; //Is 1 if I want the propagule model and it is 2 if I want the random splitting model
 };
 
 

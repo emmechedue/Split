@@ -104,6 +104,24 @@ pylab.xlabel("t")
 legend(("data","std error +","std error -","abs error +","abs error -"))
 
 
+#To count how many all cooperators and all defectors I have
+
+fullc=0
+fulld=0
+others=0
+
+for i in range(M):
+	if ensx[TMAX-1,i]==1:
+		fullc=fullc+1
+	else:
+		if ensx[TMAX-1,i]<=0:
+			fulld=fulld+1
+		else:
+			others=others+1
+
+print "fullc is", fullc
+print "fulld is", fulld
+print "others is", others
 
 
 #  math.fabs(x)
