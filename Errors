@@ -91,6 +91,7 @@ pylab.ylabel("<x>")
 pylab.xlabel("t")
 legend(("data","std error +","std error -","abs error +","abs error -"))
 
+
 #Plotting N
 
 pylab.plot(time,N,label="data")
