@@ -4,7 +4,8 @@ from numpy import array
 p=10
 s=0.05
 K=100
-M=300
+M=5000
+N_max=300
 
 
 # Here I load everything
@@ -32,13 +33,13 @@ Nerrorabsminus=range(TMAX)
 xerrorabsminus=range(TMAX)
 
 # Support arrays
-S=range(M)
-P=range(M)
+S=range(N_max)
+P=range(N_max)
 
 
 
-Root=math.sqrt(M)
-A=floor(M*0.05) # A is how many data I have to trhow away!
+Root=math.sqrt(N_max)
+A=floor(N_max*0.05) # A is how many data I have to trhow away!
 
 
 # Computing all the arrays
@@ -51,7 +52,7 @@ for i in range(TMAX):
 	Nerrorstdminus[i]=N[i]-1.96*Nstd[i]/Root
 	xerrorstdplus[i]=x[i]+1.96*xstd[i]/Root
 	xerrorstdminus[i]=x[i]-1.96*xstd[i]/Root
-	for j in range(M):
+	for j in range(N_max):
 		S[j]=ensN[i][j]-N[i]
 		P[j]=ensx[i][j]-x[i]
 	for dummy in range(A):
@@ -59,7 +60,7 @@ for i in range(TMAX):
 		Boh1=0
 		l2=0
 		Boh2=0
-		for j in range(M):
+		for j in range(N_max):
 			if math.fabs(S[j]) > Boh1:
 				Boh1=math.fabs(S[j])
 				l1=j
@@ -70,9 +71,9 @@ for i in range(TMAX):
 		P[l2]=0
 	S.sort()
 	P.sort()
-	Nerrorabsplus[i]=S[M-1]+N[i]
+	Nerrorabsplus[i]=S[N_max-1]+N[i]
 	Nerrorabsminus[i]=S[0]+N[i]
-	xerrorabsplus[i]=P[M-1]+x[i]
+	xerrorabsplus[i]=P[N_max-1]+x[i]
 	xerrorabsminus[i]=P[0]+x[i]
 	
 
@@ -86,7 +87,7 @@ pylab.plot(time,xerrorstdplus,'r--', label="std error +")
 pylab.plot(time,xerrorstdminus,'r--', label="std error -")
 pylab.plot(time,xerrorabsplus,'k--', label="abs error +")
 pylab.plot(time,xerrorabsminus,'k--', label="abs error -")
-pylab.title("<x> vs. t for p= %s and s= %s for an ensamble of M= %s and K= %s with errors"%(p,s,M,K))
+pylab.title("<x> vs. t for p= %s and s= %s for an ensamble of N= %s, K= %s and M= %s with errors"%(p,s,N_max,K,M))
 pylab.ylabel("<x>")
 pylab.xlabel("t")
 legend(("data","std error +","std error -","abs error +","abs error -"))
@@ -99,7 +100,7 @@ pylab.plot(time,Nerrorstdplus, 'r--',label="std error +")
 pylab.plot(time,Nerrorstdminus, 'r--',label="std error -")
 pylab.plot(time,Nerrorabsplus,'k--', label="abs error +")
 pylab.plot(time,Nerrorabsminus,'k--', label="abs error -")
-pylab.title("<N> vs. t for p= %s and s= %s for an ensamble of M= %s and K= %s with errors"%(p,s,M,K))
+pylab.title("<N> vs. t for p= %s and s= %s for an ensamble of N= %s, K= %s and M= %s with errors"%(p,s,N_max,K,M))
 pylab.ylabel("<N>")
 pylab.xlabel("t")
 legend(("data","std error +","std error -","abs error +","abs error -"))
@@ -111,7 +112,7 @@ fullc=0
 fulld=0
 others=0
 
-for i in range(M):
+for i in range(N_max):
 	if ensx[TMAX-1,i]==1:
 		fullc=fullc+1
 	else:

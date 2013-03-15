@@ -157,7 +157,7 @@ int main(){
     filet.close(); //Closing the files of output!
     filex.close();
     fileN.close();
-    
+    cout<<cons.N_loop<<endl;
     
     
     return 0;
