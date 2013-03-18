@@ -100,12 +100,19 @@ int main(){
 		 
 	   do{ 
 		   rand=randlog(Gamma[4*M-1],r);//Samples the time at wich the next reaction happens;
-		   t=t+rand; //Update the time
+		   if(t+rand>cons.T){ //If the new time would be bigger than T, I simply print out everything I have to print and then break the loop
+		   		oldt=cons.T-t; //Note that here oldt has a different use, I'm simply using this variable since I don't need it anymore
+		   		enne=floor(oldt/cons.interval);
+		   		for(dummy=0;dummy<=enne;dummy ++){ //Note that here I have <= of enne and not <, since again I don't need the time explicitely and thus I'm simply printing out the same data
+		   			printiterens(Nc,Nd,M,fileN,filex);
+		   			}
+		   		break; //Exit from the do loop
+		   }
+		   t=t+rand; //Update the time. Here I can update it before because I am never using the time explicitely in the if later!
 		   if(rand>cons.interval){ //Here is to check if I have to reprint the old situation before update the system!
 		   		enne=floor(rand/cons.interval);
 		   		for(dummy=0;dummy<enne;dummy ++){
 		   			printiterens(Nc,Nd,M,fileN,filex);
-		   			cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
 		   			}
 		   		rand=rand-cons.interval*enne;
 		   }

@@ -94,16 +94,28 @@ int main(){
      
    do{ 
         rand=randlog(Gamma[4*M-1],r);//Samples the time at wich the next reaction happens;
-        t=t+rand; //Update the time
+        if(t+rand>cons.T){ //If the new time would be bigger than T, I simply print out everything I have to print and then break the loop
+		   		oldt=cons.T-t; //Note that here oldt has a different use, I'm simply using this variable since I don't need it anymore
+		   		enne=floor(oldt/cons.interval);
+		   		for(dummy=0;dummy<=enne;dummy ++){ //Note that here I have < of enne and not <=, since here I need the time explicitely!
+		   			myprint2(Nc,Nd,t+dummy*cons.interval,M,file); 
+		  			myprintensamble2(Nc,Nd,t+dummy*cons.interval,M,fileN,filex);
+		   			}
+		   		myprint2(Nc,Nd,cons.T,M,file); //Printing the last time at T!!
+		  		myprintensamble2(Nc,Nd,cons.T,M,fileN,filex);
+		   		break; //Exit from the do loop
+		   }
         if(rand>cons.interval){ //Here is to check if I have to reprint the old situation before update the system!
 		  		enne=floor(rand/cons.interval);
 		  		for(dummy=0;dummy<enne;dummy ++){
-		  			myprint2(Nc,Nd,t,M,file); 
-		  			myprintensamble2(Nc,Nd,t,M,fileN,filex);
-		  			cout<<"The time is "<<t<<endl; //Just to check
+		  			myprint2(Nc,Nd,t+dummy*cons.interval,M,file); 
+		  			myprintensamble2(Nc,Nd,t+dummy*cons.interval,M,fileN,filex);
+		  			cout<<"The time is "<<t+dummy*cons.interval<<endl; //Just to check
 		  			}
 		  		rand=rand-cons.interval*enne;
+		  		t=t+enne*cons.interval
 		}
+		t=t+rand; //Update the time. I have to do it after I do the check for the time
 		oldt=oldt+rand; //Update oldt
         
 		rand=gsl_rng_uniform(r)*Gamma[4*M-1]; //Generates the random number to choose the reaction!

@@ -4,8 +4,8 @@ from numpy import array
 p=10
 s=0.05
 K=100
-M=1000
-N_max=10
+M=100
+N_max=100
 
 
 # Here I load everything
