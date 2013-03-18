@@ -25,11 +25,12 @@ int main(){
     double **G; //Matrix with all the gammas for all the cells in form of G[cell][reaction]
     double rand; 
     int M; //it can go from 1 to M_max and it's just to not waste time taking into account empty cells
-    ofstream /*file, */filet, fileN,filex;//Output files
+    ofstream filec, filet, fileN,filex;//Output files
     //const char filename[]="output.txt"; //Here output.txt will output for each time step the ensamble average of <N> and <x>  and also the ensamble average of M
     const char filenameN[]="ensambleN.txt"; //While ensambleN and x  will print out each of the <N> and <x>
     const char filenamex[]="ensamblex.txt";
     const char filenamet[]="time.txt";
+    const char filenamec[]="parameters.txt"; //Just to print out all the parameters in the same folder at the end
     unsigned int seed; //Seed of the random number generator
     /*double Nav[cons.N_loop]; //The arrays where I will store the values of <N> and <x>
     double xav[cons.N_loop];*/
@@ -158,7 +159,9 @@ int main(){
     filet.close(); //Closing the files of output!
     filex.close();
     fileN.close();
-    
+    filec.open(filenamec,ios::out|ios::trunc); //Now I just print all the parameters to a file!
+    printparam(filec,cons);
+    filec.close();
     
     return 0;
 }

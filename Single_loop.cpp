@@ -24,10 +24,11 @@ int main(){
     double **G; //Matrix with all the gammas for all the cells in form of G[cell][reaction]
     double rand;
     int M; //it can go from 1 to M_max and it's just to not waste time taking into account empty cells
-    ofstream file, fileN,filex;//Output files
+    ofstream filec, file, fileN,filex;//Output files
     const char filename[]="output.txt";
     const char filenameN[]="ensambleN.txt";
     const char filenamex[]="ensamblex.txt";
+    const char filenamec[]="parameters.txt"; //Just to print out all the parameters in the same folder at the end
     unsigned int seed; //Seed of the random number generator
 	gsl_rng *r; //Pointer to the type of rng
 	FILE *pfile; //file to read from /usr/urandom
@@ -144,7 +145,9 @@ int main(){
     file.close(); //Closing the files of output!
     filex.close();
     fileN.close();
-    
+    filec.open(filenamec,ios::out|ios::trunc); //Now I just print all the parameters to a file!
+    printparam(filec,cons);
+    filec.close();
     
     return 0;
 }
