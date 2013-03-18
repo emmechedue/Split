@@ -113,7 +113,7 @@ int main(){
 		  			cout<<"The time is "<<t+dummy*cons.interval<<endl; //Just to check
 		  			}
 		  		rand=rand-cons.interval*enne;
-		  		t=t+enne*cons.interval
+		  		t=t+enne*cons.interval;
 		}
 		t=t+rand; //Update the time. I have to do it after I do the check for the time
 		oldt=oldt+rand; //Update oldt
