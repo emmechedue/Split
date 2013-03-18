@@ -8,22 +8,22 @@ using namespace std;
 Constants::Constants(){
 	N0=4; //Initial number of bacteria in the cell
 	x0=0.5;//Initial fraction of cooperators in the cell
-	T=2; //Time when the simulation stops
-	interval=0.001; //Time step for which I print my results in fast
-	s=0.05; //Selection's strenght
+	T=1; //Time when the simulation stops
+	interval=0.0001; //Time step for which I print my results in fast
+	s=0.5; //Selection's strenght
 	p=10.; //Cooperators advantage
 	K=100.; //Carrying capacity
 	N_max=80; //The number of bacteria in the cell s.t. the cell splits
-	M_max=1000; //The maximum number of cells
-	N_loop=200; //The number of times I iterate
+	M_max=10; //The maximum number of cells
+	N_loop=10; //The number of times I iterate
 	choice=1; //Is 1 if I want the propagule model and it is 2 if I want the random splitting model
 }
 
 Constants::~Constants(){}
 
 
-
 /*
+
 //This reads from a file:
 Constants::Constants(){ //Note that name must be the entire path; i.e. "./config.conf"
 	

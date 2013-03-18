@@ -100,6 +100,7 @@ int main(){
 		  		for(dummy=0;dummy<enne;dummy ++){
 		  			myprint2(Nc,Nd,t,M,file); 
 		  			myprintensamble2(Nc,Nd,t,M,fileN,filex);
+		  			cout<<"The time is "<<t<<endl; //Just to check
 		  			}
 		  		rand=rand-cons.interval*enne;
 		}

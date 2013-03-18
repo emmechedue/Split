@@ -11,7 +11,6 @@
 using namespace std;
 
 //In this program I print the averages over the ensambles and the values of <N> and <x> for every single iteration
-//Please note that in this program I will only use oldt and interval, so in this code: interval==intervalens
 //Convention: average inside the iteration: < > ; ensamble average E_{ }
 //Note that in this program the w_s is set to 1!!!
 
@@ -106,6 +105,7 @@ int main(){
 		   		enne=floor(rand/cons.interval);
 		   		for(dummy=0;dummy<enne;dummy ++){
 		   			printiterens(Nc,Nd,M,fileN,filex);
+		   			cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
 		   			}
 		   		rand=rand-cons.interval*enne;
 		   }
@@ -130,12 +130,6 @@ int main(){
 					//count++;
 					cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
 				}
-		
-			/*   if(oldt>=cons.interval){ //Checks whether I have to print or not on ensamble.txt
-					myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
-					oldt=oldt -cons.intervalens; //Subract by oldtensamble the value of intervalens to start counting again
-					//cout<<"The time is "<<t<<endl; //Just to check
-				}*/
 				
 	  }while(t<=cons.T);
 	  //cout<<endl<<endl<<"gamma= "<<Gamma[4*M-1]<<endl<<endl;
@@ -157,7 +151,6 @@ int main(){
     filet.close(); //Closing the files of output!
     filex.close();
     fileN.close();
-    cout<<cons.N_loop<<endl;
     
     
     return 0;

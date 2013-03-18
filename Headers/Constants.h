@@ -11,7 +11,6 @@ public:
 	double x0;//Initial fraction of cooperators in the cell
 	double T; //Time when the simulation stops
 	double interval; //Time step for which I print my results in fast
-	double intervalens; //Time step for which I print my results in ensamble.txt
 	double s; //Selection's strenght
 	double p; //Cooperators advantage
 	double K; //Carrying capacity
