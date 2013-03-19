@@ -65,10 +65,42 @@ TMAX=len(t)
 
 #*****************************Now I will search for all the first times*****
 #Searching for Tm
-Tm=0
+Tm=-1
 
-for i in range
+for i in range(TMAX):
+	if M[i]==M_max:
+		Tm=t[i]
+		break
 
+#Searching for Tg and Tg_one
+Tg=-1
+Tg_one=-1
+boolcheck= False
+dummy=0
+
+for i in range(TMAX): #Here I search for Tg_one
+	for j in range(M_max):
+		if x_table[i][j] in (0,1):
+			Tg_one=t[i]
+			boolcheck=True
+			dummy=i
+			break
+	if boolcheck==True :
+		break
+
+
+
+for i in range(dummy,TMAX): #Here I start from dummy to search for Tg
+	boolcheck=True
+	for j in range(M_max):
+		if x_table[i][j] not in (0,1):
+			boolcheck=False
+			break
+	if boolcheck==True:
+		Tg=t[i]
+		break
+	
+#Searching for Tp
 
 
 #*******************Times legend********************************************
