@@ -58,36 +58,21 @@ t, N_mean, x_mean , M= np.loadtxt("./output.txt", usecols=(0,1,2,3), unpack=True
 N_table=np.loadtxt("./ensambleN.txt")
 x_table=np.loadtxt("./ensamblex.txt")
 
+TMAX=len(t)
+
+
+#***************************************************************************
+
+#*****************************Now I will search for all the first times*****
+#Searching for Tm
+Tm=0
+
+for i in range
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#*******************Times legend********************************************
+# Tm is when for the first time my colony reaches M_max
+# Tg is when all groups reach fixation (i.e. every group has or x=0 or x=1)
+# Tg_one is when the first group fixates
+# Tp is when the entire population fixates

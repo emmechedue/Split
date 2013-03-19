@@ -105,7 +105,7 @@ int main(){
         if(t+rand>cons.T){ //If the new time would be bigger than T, I simply print out everything I have to print and then break the loop
 		   		oldt=cons.T-t; //Note that here oldt has a different use, I'm simply using this variable since I don't need it anymore
 		   		enne=floor(oldt/cons.interval);
-		   		for(dummy=0;dummy<=enne;dummy ++){ //Note that here I have < of enne and not <=, since here I need the time explicitely!
+		   		for(dummy=1;dummy<(enne+1);dummy ++){ //Note that here I have < of enne + 1 and not <=, since here I need the time explicitely! The enne+1 is because I need it to multply
 		   			myprint2(Nc,Nd,t+dummy*cons.interval,M,file); 
 		  			myprintensamble2(Nc,Nd,t+dummy*cons.interval,cons.M_max,fileN,filex);
 		   			}
@@ -115,7 +115,7 @@ int main(){
 		   }
         if(rand>cons.interval){ //Here is to check if I have to reprint the old situation before update the system!
 		  		enne=floor(rand/cons.interval);
-		  		for(dummy=0;dummy<enne;dummy ++){
+		  		for(dummy=1;dummy<=enne;dummy ++){  //<=because I start from 1
 		  			myprint2(Nc,Nd,t+dummy*cons.interval,M,file); 
 		  			myprintensamble2(Nc,Nd,t+dummy*cons.interval,cons.M_max,fileN,filex);
 		  			cout<<"The time is "<<t+dummy*cons.interval<<endl; //Just to check

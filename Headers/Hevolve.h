@@ -111,7 +111,12 @@ void myprintensamble2(double *Nc,double *Nd,double t,int M, ofstream& fileN, ofs
 	for(i=0; i<M; i++){ //Prints Nc+Nd and x
 		y=Nc[i]+Nd[i];
 		fileN<<left<<setw(7)<<y;
-		y=Nc[i]/y;
+		if(y!=0){
+			y=Nc[i]/y;
+		}
+		else {
+			y=-1;
+		}
 		filex<<left<<setw(10)<<y;
 	}
 	fileN<<endl;
@@ -134,7 +139,7 @@ void printiterens(double *Nc,double *Nd,int M, ofstream& fileN, ofstream& filex)
         Av=Av+Nc[i];
         }
     Av=Av/Ntot;
-    filex<<left<<setw(15)<<Av;
+    filex<<left<<setw(17)<<Av;
     return;
 }
 

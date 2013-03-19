@@ -104,7 +104,7 @@ int main(){
 		   if(t+rand>cons.T){ //If the new time would be bigger than T, I simply print out everything I have to print and then break the loop
 		   		oldt=cons.T-t; //Note that here oldt has a different use, I'm simply using this variable since I don't need it anymore
 		   		enne=floor(oldt/cons.interval);
-		   		for(dummy=0;dummy<=enne;dummy ++){ //Note that here I have <= of enne and not <, since again I don't need the time explicitely and thus I'm simply printing out the same data
+		   		for(dummy=1;dummy<=(enne+1);dummy ++){ //Note that here I have <= of enne and not <, since again I don't need the time explicitely and thus I'm simply printing out the same data. The enne + 1 is because I need to start from 1
 		   			printiterens(Nc,Nd,M,fileN,filex);
 		   			}
 		   		break; //Exit from the do loop
@@ -112,7 +112,7 @@ int main(){
 		   t=t+rand; //Update the time. Here I can update it before because I am never using the time explicitely in the if later!
 		   if(rand>cons.interval){ //Here is to check if I have to reprint the old situation before update the system!
 		   		enne=floor(rand/cons.interval);
-		   		for(dummy=0;dummy<enne;dummy ++){
+		   		for(dummy=1;dummy<=enne;dummy ++){ //Here there is from 1 to <= enne because I need to multiply, hence I start from 1
 		   			printiterens(Nc,Nd,M,fileN,filex);
 		   			}
 		   		rand=rand-cons.interval*enne;
