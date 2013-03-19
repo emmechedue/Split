@@ -88,7 +88,7 @@ P=range(N_loop)
 
 Root=math.sqrt(N_loop)
 A=floor(N_loop*0.05) # A is how many data I have to throw away!
-
+A=int(A)
 
 # Computing all the arrays
 for i in range(TMAX):
