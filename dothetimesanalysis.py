@@ -54,3 +54,40 @@ else:
 
 #*****************************Loading everything and computing all the quantities I need
 # Here I load everything
+t, N_mean, x_mean , M= np.loadtxt("./output.txt", usecols=(0,1,2,3), unpack=True)
+N_table=np.loadtxt("./ensambleN.txt")
+x_table=np.loadtxt("./ensamblex.txt")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

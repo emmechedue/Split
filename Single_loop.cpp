@@ -41,6 +41,13 @@ int main(){
     x[0]=cons.x0;
     Nd[0]=cons.N0*(1.-cons.x0);
     M=1; //I start with one cell
+    
+    //Here I fill all the rest of the array with 0s
+    for(i=1;i<cons.M_max;i++){
+    	Nc[i]=0;
+		x[i]=0;
+		Nd[i]=0;
+	}
 
     
     G=new double* [cons.M_max]; //Create the Mx4 gamma matrix
@@ -72,7 +79,7 @@ int main(){
 		filex<<"##Results for the simulation reproducing the propagule with"<<endl;
 		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
 		filex<<"#In the form of x[t][m]"<<endl;
-		myprintensamble2(Nc,Nd,t,M,fileN,filex);
+		myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex);
 	}
 	else{
 		file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
@@ -88,7 +95,7 @@ int main(){
 		filex<<"##Results for the simulation reproducing the random splitting with"<<endl;
 		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
 		filex<<"#In the form of x[t][m]"<<endl;
-		myprintensamble2(Nc,Nd,t,M,fileN,filex);
+		myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex);
 	}
     
     //*****Start of the evolution***********
@@ -100,17 +107,17 @@ int main(){
 		   		enne=floor(oldt/cons.interval);
 		   		for(dummy=0;dummy<=enne;dummy ++){ //Note that here I have < of enne and not <=, since here I need the time explicitely!
 		   			myprint2(Nc,Nd,t+dummy*cons.interval,M,file); 
-		  			myprintensamble2(Nc,Nd,t+dummy*cons.interval,M,fileN,filex);
+		  			myprintensamble2(Nc,Nd,t+dummy*cons.interval,cons.M_max,fileN,filex);
 		   			}
 		   		myprint2(Nc,Nd,cons.T,M,file); //Printing the last time at T!!
-		  		myprintensamble2(Nc,Nd,cons.T,M,fileN,filex);
+		  		myprintensamble2(Nc,Nd,cons.T,cons.M_max,fileN,filex);
 		   		break; //Exit from the do loop
 		   }
         if(rand>cons.interval){ //Here is to check if I have to reprint the old situation before update the system!
 		  		enne=floor(rand/cons.interval);
 		  		for(dummy=0;dummy<enne;dummy ++){
 		  			myprint2(Nc,Nd,t+dummy*cons.interval,M,file); 
-		  			myprintensamble2(Nc,Nd,t+dummy*cons.interval,M,fileN,filex);
+		  			myprintensamble2(Nc,Nd,t+dummy*cons.interval,cons.M_max,fileN,filex);
 		  			cout<<"The time is "<<t+dummy*cons.interval<<endl; //Just to check
 		  			}
 		  		rand=rand-cons.interval*enne;
@@ -135,7 +142,7 @@ int main(){
         
 		if(oldt>=cons.interval){ //Checks whether I have to print or not
 			myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
-			myprintensamble2(Nc,Nd,t,M,fileN,filex); //Printing the results on file ensamble; to create the movie
+			myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
         	oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again
         	cout<<"The time is "<<t<<endl; //Just to check
 		}
