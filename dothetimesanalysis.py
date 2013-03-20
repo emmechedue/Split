@@ -127,7 +127,7 @@ for i in range(TMAX):
 stringa="K= "+str(K)+"\ns= "+str(s)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM_max= "+str(M_max)
 
 #Plot for N
-figure(num=None, figsize=(16, 12), dpi=160, facecolor='w', edgecolor='k')
+figure(num=None, figsize=(12, 9), dpi=160, facecolor='w', edgecolor='k')
 a=numpy.loadtxt("./output.txt")
 data=a.transpose()
 plt.plot(data[0],data[1])
@@ -139,14 +139,14 @@ plt.savefig("N.png",dpi=100)
 plt.close()
 
 #Plot for x
-figure(num=None, figsize=(16, 12), dpi=160, facecolor='w', edgecolor='k')
+figure(num=None, figsize=(12, 9), dpi=160, facecolor='w', edgecolor='k')
 a=numpy.loadtxt("./output.txt")
 data=a.transpose()
 plot(data[0],data[2])
 title("<x> vs. t for the "+choice+" model")
 xlabel("t")
 ylabel("<x>")
-text(0, 0.8, stringa, bbox=dict(facecolor='orange', alpha=0.8))
+text(0, 1.05, stringa, bbox=dict(facecolor='orange', alpha=0.8))
 plt.plot([Tm, Tm], [-0.2, 1.2], 'r-', lw=1.2) #Adding the line for Tm
 plt.annotate("Tm= "+str(Tm), xy=(Tm, 0), xytext=(Tm-3, -0.05),arrowprops=dict(facecolor="red", shrink=0.05, width=2.5),)
 plt.plot([Tg, Tg], [-0.2, 1.2], 'g-', lw=1.2) #Adding the line for Tg
@@ -219,10 +219,12 @@ for i in range(Nu[Number-1]):
 	
 #Plotting
 maximus=max(Nu)
+figure(num=None, figsize=(12, 9), dpi=160, facecolor='w', edgecolor='k')
 stringa="Tm= "+str(Tm)+"\nTg= "+str(Tg)+"\nTg_one= "+str(Tg_one)+"\nTp= "+str(Tp)
 plt.hist(Tau, Number, normed=0, facecolor='yellow', alpha=0.75)
 text(Tg_one, maximus-maximus/7, stringa, bbox=dict(facecolor='orange', alpha=0.8))
-
+plt.savefig("Tp_histogram.png",dpi=100)
+plt.close()
 
 
 #*******************Times legend********************************************
