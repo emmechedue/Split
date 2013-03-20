@@ -124,7 +124,7 @@ for i in range(TMAX):
 
 #***********************Plotting**************************************
 
-stringa="K= "+str(K)+"\ns= "+str(s)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM_max= "+str(M_max)
+stringa = "K= "+str(K)+"\ns= "+str(s)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM_max= "+str(M_max)
 
 #Plot for N
 figure(num=None, figsize=(12, 9), dpi=160, facecolor='w', edgecolor='k')

@@ -34,7 +34,7 @@ steps = int(math.floor(T/step_size)) + 1
 
 N_max = np.max(N_table)
 
-#Now I start creating the pictures:
+#Now I start creating the pictures: #Look that is wrong!!
 
 for i in range(steps):
 	nullfmt   = NullFormatter()         # no labels
@@ -50,8 +50,8 @@ for i in range(steps):
 	scatter(x_table[i], N_table[i], s = 30,marker='o',  vmin=0, vmax=1)
 	plt.xlabel('$x$, Percentage of cooperators', fontsize = 16)
 	plt.ylabel('$N$, Number of individuals', fontsize = 16)
-	plt.axis([0, 1, 0, N_max*1.1])#np.max(t)
-	plt.title("Evolution of groups for the propagule model")
+	plt.axis([0, 1, 0, N_max*1.1])
+	plt.title("Evolution of groups for the "+choice+" model")
 	
 	# create time diagram
 	# definitions for the axes, determines position of scatter plot and histograms, general
