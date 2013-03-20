@@ -158,6 +158,71 @@ plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(fac
 plt.savefig("x.png",dpi=100)
 plt.close()
 
+#*******************************************************************************
+
+#**********************Making the histogram*****************************
+#Counting everything
+Number=400 #This is the numbers of BINS in my histogram, unless TMAX is perfectly divisible by Number-1, then i simply shift Number by 1, to get one less bin and it's done
+if TMAX%(Number-1)==0:
+	Number=Number+1
+
+I=floor(TMAX/(Number-1)) #I'm computing the time steps for my histogram.
+I=int(I)
+middle=floor(I/2)#Middle is the time point that I take to represnt the interval
+middle=int(middle)
+Nu=range(Number) #This array will count how many cells get fully cooperative or fully defective in that time interval, the time intervals are 0,I,2I,.....,(Number-1)I,TMAX
+
+for i in range(Number):
+	Nu[i]=0
+
+for j in range(M_max): #computing Nu[0] at time t[middle]
+	if x_table[middle][j] in (0,1):
+		Nu[0]=Nu[0]+1
+
+Cumulative=Nu[0]
+
+for i in range(1,Number-1): #computing from Nu[1] to Nu[Number-2]
+	for j in range(M_max):
+		if x_table[I*i+middle][j] in (0,1):
+			Nu[i]=Nu[i]+1
+	Nu[i]=Nu[i]-Cumulative
+	if Nu[i]<0:
+		Nu[i]=0
+	Cumulative=Cumulative+Nu[i]
+	
+
+middle2=floor((TMAX-I*Number+I)/2) #TMAX - (Number-1)*I, here I am computing the last middle point (the last interval is shorter)
+middle2=int(middle2)
+i=(Number-1)*I+middle2
+for j in range(M_max): #computing Nu[0] at time t[middle]
+	if x_table[i][j] in (0,1):
+		Nu[Number-1]=Nu[Number-1]+1
+
+Nu[Number-1]=Nu[Number-1]-Cumulative
+
+#Preparing the array for the histogram
+k=0
+Tau=range(M_max)
+for i in range(M_max):
+	Tau[i]=0
+
+for i in range(Number-1): #filling the array for all the middle points except for the last one
+	timeindex=I*i+middle
+	for j in range(Nu[i]):
+		Tau[k]=t[timeindex]
+		k=k+1
+
+timeindex=I*(Number-1)+middle2
+for i in range(Nu[Number-1]):
+	Tau[k]=t[timeindex]
+	k=k+1
+	
+#Plotting
+maximus=max(Nu)
+stringa="Tm= "+str(Tm)+"\nTg= "+str(Tg)+"\nTg_one= "+str(Tg_one)+"\nTp= "+str(Tp)
+plt.hist(Tau, Number, normed=0, facecolor='yellow', alpha=0.75)
+text(Tg_one, maximus-maximus/7, stringa, bbox=dict(facecolor='orange', alpha=0.8))
+
 
 
 #*******************Times legend********************************************
