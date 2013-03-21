@@ -16,6 +16,11 @@ from configobj import ConfigObj
 from subprocess import call
 import os
 
+#**************************AT FIRST: RUN THE PROGRAM***************************
+
+call("./a.out",shell=True)
+
+
 #****************************************Let's first of all get all the parameters:
 config = ConfigObj("./parameters.txt")
 
@@ -152,14 +157,18 @@ title("<x> vs. t for the "+choice+" model")
 xlabel("t")
 ylabel("<x>")
 text(0, 1.05, stringa, bbox=dict(facecolor='orange', alpha=0.8))
-plt.plot([Tm, Tm], [-0.2, 1.2], 'r-', lw=1.2) #Adding the line for Tm
-plt.annotate("Tm= "+str(Tm), xy=(Tm, 0), xytext=(Tm-3, -0.05),arrowprops=dict(facecolor="red", shrink=0.05, width=2.5),)
-plt.plot([Tg, Tg], [-0.2, 1.2], 'g-', lw=1.2) #Adding the line for Tg
-plt.annotate("Tg= "+str(Tg), xy=(Tg, 0), xytext=(Tg-3, -0.15),arrowprops=dict(facecolor="green", shrink=0.05, width=2.5),)
-plt.plot([Tg_one, Tg_one], [-0.2, 1.2], 'y-', lw=1.2) #Adding the line for Tg_one
-plt.annotate("Tg_one= "+str(Tg_one), xy=(Tg_one, 0), xytext=(Tg_one-3, -0.15),arrowprops=dict(facecolor="yellow", shrink=0.05, width=2.5),)
-plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
-plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
+if Tm!=-1:
+	plt.plot([Tm, Tm], [-0.2, 1.2], 'r-', lw=1.2) #Adding the line for Tm
+	plt.annotate("Tm= "+str(Tm), xy=(Tm, 0), xytext=(Tm-3, -0.05),arrowprops=dict(facecolor="red", shrink=0.05, width=2.5),)
+if Tg!=-1:
+	plt.plot([Tg, Tg], [-0.2, 1.2], 'g-', lw=1.2) #Adding the line for Tg
+	plt.annotate("Tg= "+str(Tg), xy=(Tg, 0), xytext=(Tg-3, -0.15),arrowprops=dict(facecolor="green", shrink=0.05, width=2.5),)
+if Tg_one!=-1:
+	plt.plot([Tg_one, Tg_one], [-0.2, 1.2], 'y-', lw=1.2) #Adding the line for Tg_one
+	plt.annotate("Tg_one= "+str(Tg_one), xy=(Tg_one, 0), xytext=(Tg_one-3, -0.15),arrowprops=dict(facecolor="yellow", shrink=0.05, width=2.5),)
+if Tp!=-1:
+	plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
+	plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
 plt.savefig("x.png",dpi=100)
 plt.close()
 
@@ -229,6 +238,7 @@ stringa="Tm= "+str(Tm)+"\nTg= "+str(Tg)+"\nTg_one= "+str(Tg_one)+"\nTp= "+str(Tp
 plt.hist(Tau, Number, normed=0, facecolor='yellow', alpha=0.75)
 text(Tg_one, maximus-maximus/7, stringa, bbox=dict(facecolor='orange', alpha=0.8))
 plt.xlabel("t")
+plt.title("Histogram of group fixation times")
 plt.savefig("Tp_histogram.png",dpi=100)
 plt.close()
 
@@ -297,7 +307,7 @@ for i in range(steps): #I do all the pictures but the last (the one at T=18)
 	if Tp!=-1:
 		plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
 		plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
-	plt.plot(t[j],0, 'ko',ms=16,mew=3)
+	plt.plot(t[j],-0.2, 'ko',ms=12,mew=3)
 	
 	
 	# create time diagram
@@ -369,7 +379,7 @@ if Tg_one!=-1:
 if Tp!=-1:
 	plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
 	plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
-plt.plot(t[j],0, 'ko',ms=16,mew=3)
+plt.plot(t[j],-0.2, 'ko',ms=12,mew=3)
 
 	
 # create time diagram

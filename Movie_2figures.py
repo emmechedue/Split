@@ -175,7 +175,7 @@ for i in range(steps): #I do all the pictures but the last (the one at T=18)
 	plt.annotate("Tg_one= "+str(Tg_one), xy=(Tg_one, 0), xytext=(Tg_one-3, -0.15),arrowprops=dict(facecolor="yellow", shrink=0.05, width=2.5),)
 	plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
 	plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
-	plt.plot(t[j],0, 'ko',ms=16,mew=3)
+	plt.plot(t[j],-0.2, 'ko',ms=12,mew=3)
 	
 	# create time diagram
 	# definitions for the axes, determines position of scatter plot and histograms, general
@@ -242,7 +242,7 @@ plt.plot([Tg_one, Tg_one], [-0.2, 1.2], 'y-', lw=1.2) #Adding the line for Tg_on
 plt.annotate("Tg_one= "+str(Tg_one), xy=(Tg_one, 0), xytext=(Tg_one-3, -0.15),arrowprops=dict(facecolor="yellow", shrink=0.05, width=2.5),)
 plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
 plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
-plt.plot(t[j],0, 'ko',ms=16,mew=3)
+plt.plot(t[j],-0.2, 'ko',ms=12,mew=3)
 	
 	
 # create time diagram

@@ -26,8 +26,18 @@ void fill1(int *C, int *D, double x, int N0, gsl_rng *r){ //This one gives C (th
 void fill2(int *C, int *D, double Nc, double Nd, gsl_rng *r){//This one gives C (the numbers of the cooperators in the cell) according to Bin(0.5,Nc) and D according to Bin(0.5,Nd), where Nc and Nd are the # of cooperators and defectors in the cell that just splitted
 	int nd,nc;
 	
-	nc=gsl_ran_binomial(r,0.5,Nc);
-	nd=gsl_ran_binomial(r,0.5,Nd);
+	if(Nc<=0){
+		nc=0;
+	}
+	else{
+		nc=gsl_ran_binomial(r,0.5,Nc);
+	}
+	if (Nd<=0){
+		nd=0;
+	}
+	else{
+		nd=gsl_ran_binomial(r,0.5,Nd);
+	}
 	*C=nc;
 	*D=nd;
 	
@@ -45,7 +55,6 @@ void fillcell(int n, int m, double *Nc, double *Nd, double *x, Constants cons, g
 	else{
 		fill2(&C,&D,Nc[m],Nd[m],r);
 	}
-	
 	//Now I update the values of n
 	Nc[n]=C;
 	Nd[n]=D;
