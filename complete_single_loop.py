@@ -297,6 +297,7 @@ for i in range(steps): #I do all the pictures but the last (the one at T=18)
 	if Tp!=-1:
 		plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
 		plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
+	plt.plot(t[j],0, 'ko',ms=16,mew=3)
 	
 	
 	# create time diagram
@@ -368,7 +369,8 @@ if Tg_one!=-1:
 if Tp!=-1:
 	plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
 	plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
-	
+plt.plot(t[j],0, 'ko',ms=16,mew=3)
+
 	
 # create time diagram
 # definitions for the axes, determines position of scatter plot and histograms, general
