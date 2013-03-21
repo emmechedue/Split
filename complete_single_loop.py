@@ -1,6 +1,4 @@
 #*************JUST THE JOINT Movie_2figures and dothetimesanalysis
-
-
 import numpy
 import matplotlib
 import matplotlib.cm as cm
@@ -238,11 +236,11 @@ plt.close()
 # Tp is when the entire population fixates
 
 #***************************NOW I START WITH THE VIDEO!!!!!******************
-
+call(["mkdir", "video"]) #I am creating a new directory to not create confusion
 
 #***************************Preparing for making the video****************************
 #parts of the output filename
-name = "scattering_"+choice2+"_"
+name = "./video/scattering_"+choice2+"_"
 filetype = '.png'
 
 PicN=20 #How many pictures do I want per second
@@ -382,3 +380,8 @@ filename = name + ending + filetype
 plt.savefig(filename)
 plt.close()
 print i
+
+#*********************NOW I ALSO MAKE THE MOVIE*******************************
+call(["mencoder", "-really-quiet -mc 0 -noskip -skiplimit 0 -ovc lavc -lavcopts vcodec=mpeg4:vhq:trell:mbd=2:v4mv:vb_strategy=0:vlelim=0:vcelim=0:cmp=6:subcmp=6:precmp=6:predia=3:dia=3:vme=4:vqscale=1 "mf://*.png" -mf type=png:fps=20 -o movie.avi"]) #I am making the movie
+
+
