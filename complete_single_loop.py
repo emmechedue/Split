@@ -382,6 +382,6 @@ plt.close()
 print i
 
 #*********************NOW I ALSO MAKE THE MOVIE*******************************
-call(["mencoder", "-really-quiet -mc 0 -noskip -skiplimit 0 -ovc lavc -lavcopts vcodec=mpeg4:vhq:trell:mbd=2:v4mv:vb_strategy=0:vlelim=0:vcelim=0:cmp=6:subcmp=6:precmp=6:predia=3:dia=3:vme=4:vqscale=1 "mf://*.png" -mf type=png:fps=20 -o movie.avi"]) #I am making the movie
+call(["mencoder", "-really-quiet -mc 0 -noskip -skiplimit 0 -ovc lavc -lavcopts vcodec=mpeg4:vhq:trell:mbd=2:v4mv:vb_strategy=0:vlelim=0:vcelim=0:cmp=6:subcmp=6:precmp=6:predia=3:dia=3:vme=4:vqscale=1 \"mf://./video/*.png\" -mf type=png:fps=20 -o movie.avi"]) #I am making the movie
 
 
