@@ -48,8 +48,10 @@ dummy = config["choice"]
 cho=int(dummy)
 if cho==1:
 	choice="propagule"
+	choice2="propagule"
 else:
 	choice="random splitting"
+	choice2="random_splitting"
 	
 #***************************************************************************************
 
@@ -124,7 +126,7 @@ for i in range(TMAX):
 
 #***************************Preparing for making the video****************************
 #parts of the output filename
-name = "scattering_propagule_"+choice+"_"
+name = "scattering_"+choice2+"_"
 filetype = '.png'
 
 PicN=20 #How many pictures do I want per second
@@ -181,7 +183,7 @@ for i in range(steps): #I do all the pictures but the last (the one at T=18)
 	bottom, height = 0.1, 0.05
 	rect_time = [left, bottom,width, height]
 	timebox =  plt.axes(rect_time)
-	timebox.bar(0, 1, t[i], 0, color = '0.7', orientation = 'horizontal')
+	timebox.bar(0, 1, t[j], 0, color = '0.7', orientation = 'horizontal')
 	timebox.set_xlim( 0, T )
 	timebox.yaxis.set_ticks_position("none")
 	timebox.yaxis.set_ticklabels("")
@@ -248,7 +250,7 @@ left, width = 0.1, 0.65 #left = position left in % of figsize, dito width
 bottom, height = 0.1, 0.05
 rect_time = [left, bottom,width, height]
 timebox =  plt.axes(rect_time)
-timebox.bar(0, 1, t[i], 0, color = '0.7', orientation = 'horizontal')
+timebox.bar(0, 1, t[j], 0, color = '0.7', orientation = 'horizontal')
 timebox.set_xlim( 0, T )
 timebox.yaxis.set_ticks_position("none")
 timebox.yaxis.set_ticklabels("")

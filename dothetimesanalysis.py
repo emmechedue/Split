@@ -223,6 +223,7 @@ figure(num=None, figsize=(12, 9), dpi=160, facecolor='w', edgecolor='k')
 stringa="Tm= "+str(Tm)+"\nTg= "+str(Tg)+"\nTg_one= "+str(Tg_one)+"\nTp= "+str(Tp)
 plt.hist(Tau, Number, normed=0, facecolor='yellow', alpha=0.75)
 text(Tg_one, maximus-maximus/7, stringa, bbox=dict(facecolor='orange', alpha=0.8))
+plt.xlabel("t")
 plt.savefig("Tp_histogram.png",dpi=100)
 plt.close()
 
