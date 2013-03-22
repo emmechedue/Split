@@ -86,10 +86,10 @@ int createcell(int M, int m,double *Nc, double *Nd, double *x, double *Gamma, do
 	Nc[n]=0;
 	//cout<<"First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[n]+Nd[n]<<" bacteria"<<endl;
 	if (n<m){ //  in the function I always have to have n<m
-		updatebothG(G,Gamma,n,m,Nc,Nd,x,cons,4*M);
+		newupdatebothG(G,Gamma,n,m,Nc,Nd,x,cons,4*M);
 	}
 	else{
-		updatebothG(G,Gamma,m,n,Nc,Nd,x,cons,4*M);
+		newupdatebothG(G,Gamma,m,n,Nc,Nd,x,cons,4*M);
 	}
 	return M;
 }

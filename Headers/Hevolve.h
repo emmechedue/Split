@@ -247,12 +247,7 @@ int search(double *Gamma, int M, double x){ //Binary search
                 check=false;}
 		}
 	}while(check==false);
-	//After that I have the result, I have to take care of the cases when the rates are 0!
-	while((Gamma[result-1]==Gamma[result])&&(result>2)){
-		cout<<"Bubbola:   "<<Gamma[result-3]<<"  "<<Gamma[result-2]<<"  "<<Gamma[result-1]<<"  "<<Gamma[result]<<"  "<<Gamma[result+1]<<"  "<<Gamma[result+2]<<"  "<<Gamma[result+3]<<endl;
-		result=result+1;
-		//cout<<"puppappero!!!!! con gamma i e i+1  "<<Gamma[result]<<"  "<<Gamma[result+1]<<endl;
-	}
+	
 	return result; 
 }
 
@@ -284,6 +279,7 @@ int updateN(double *Nc, double *Nd,double *x, int l,double *Gamma, double **G){ 
     	if((l>1)&&(l<(4*1000-1))){
     		cout<<"Le corrispondenti Gamma sono -2,-1,l,1,2:  "<<Gamma[l-2]<<"  "<<Gamma[l-1]<<"  "<<Gamma[l]<<"  "<<Gamma[l+1]<<"  "<<Gamma[l+2]<<endl;
     		cout<<"E le G sono: "<<G[m][0]<<"  "<<G[m][1]<<"  "<<G[m][2]<<"  "<<G[m][3]<<endl;
+    		cout<<"E le G di quella di prima sono: "<<G[m-1][0]<<"  "<<G[m-1][1]<<"  "<<G[m-1][2]<<"  "<<G[m-1][3]<<endl;
     	}
     	exit(28);
     }
@@ -405,4 +401,38 @@ double randlog(double Gamma, gsl_rng *r){ //Generate the random number according
     return x;
 }
 
-
+void newupdatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *Nd, double *x, Constants cons, int emme){ //Update the arrays G[m][] and G[n][] with the new Nc, Nd and x and the array Gamma.
+	double average;
+	int kappa=0,i,j;
+	
+	average=faverage(x[n],cons);
+    G[n][0]=Nc[n]*g(x[n],cons)*fcoop(x[n],cons)/average; //Updates the G[][]
+    G[n][1]=0;//Nc[n]*d(Nc[n],Nd[n],cons); 
+    G[n][2]=g(x[n],cons)*Nd[n]*fdef(x[n],cons)/average;
+    G[n][3]=Nd[n]*d(Nc[n],Nd[n],cons);
+    
+    average=faverage(x[m],cons);
+    G[m][0]=Nc[m]*g(x[m],cons)*fcoop(x[m],cons)/average; //Updates the G[][]
+    G[m][1]=0;//Nc[m]*d(Nc[m],Nd[m],cons); 
+    G[m][2]=g(x[m],cons)*Nd[m]*fdef(x[m],cons)/average;
+    G[m][3]=Nd[m]*d(Nc[m],Nd[m],cons);
+    
+    
+    for(i=0;i<emme;i++){
+    	Gamma[i]=0;
+    }
+    Gamma[0]=G[0][0];
+    for(j=1;j<4;j++){
+    	Gamma[j]=Gamma[j-1]+G[0][j];
+    }
+    kappa=4;
+    for(i=1;i<cons.M_max;i++){
+    	for(j=0;j<4;j++){ 
+    		Gamma[kappa]=Gamma[kappa-1]+G[i][j];
+    		kappa++;
+    	}
+    }
+	return;
+}
+     		
+    
