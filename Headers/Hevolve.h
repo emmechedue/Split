@@ -10,7 +10,6 @@ using namespace std;
 
 /****************List of errors: ****************
     Error 1 is an error in the function upadateN
-    Error 2 is a negative rate
     */
     
     
@@ -274,15 +273,6 @@ int updateN(double *Nc, double *Nd,double *x, int l,double *Gamma, double **G){ 
             exit(1);
             break;
     }
-    if(Nc[m]!=0){
-    	cout<<"AAAAAAAHHHHHHHHHHHHHHHHH nell'update N con m  e Nc[m] e con l "<<m<<", "<<Nc[m]<<", "<<l<<endl;
-    	if((l>1)&&(l<(4*1000-1))){
-    		cout<<"Le corrispondenti Gamma sono -2,-1,l,1,2:  "<<Gamma[l-2]<<"  "<<Gamma[l-1]<<"  "<<Gamma[l]<<"  "<<Gamma[l+1]<<"  "<<Gamma[l+2]<<endl;
-    		cout<<"E le G sono: "<<G[m][0]<<"  "<<G[m][1]<<"  "<<G[m][2]<<"  "<<G[m][3]<<endl;
-    		cout<<"E le G di quella di prima sono: "<<G[m-1][0]<<"  "<<G[m-1][1]<<"  "<<G[m-1][2]<<"  "<<G[m-1][3]<<endl;
-    	}
-    	exit(28);
-    }
     x[m]=Nc[m]/(Nc[m]+Nd[m]); //Update the x array
     return m;
 }
@@ -344,7 +334,7 @@ void updatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *Nd, 
     }
     average=faverage(x[n],cons);
     G[n][0]=Nc[n]*g(x[n],cons)*fcoop(x[n],cons)/average; //Updates the G[][]
-    G[n][1]=0;//Nc[n]*d(Nc[n],Nd[n],cons); 
+    G[n][1]=Nc[n]*d(Nc[n],Nd[n],cons); 
     G[n][2]=g(x[n],cons)*Nd[n]*fdef(x[n],cons)/average;
     G[n][3]=Nd[n]*d(Nc[n],Nd[n],cons);
     sum=0;
@@ -371,7 +361,7 @@ void updatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *Nd, 
     }
     average=faverage(x[m],cons);
     G[m][0]=Nc[m]*g(x[m],cons)*fcoop(x[m],cons)/average; //Updates the G[][]
-    G[m][1]=0;//Nc[m]*d(Nc[m],Nd[m],cons); 
+    G[m][1]=Nc[m]*d(Nc[m],Nd[m],cons); 
     G[m][2]=g(x[m],cons)*Nd[m]*fdef(x[m],cons)/average;
     G[m][3]=Nd[m]*d(Nc[m],Nd[m],cons);
     sum=0;
@@ -407,13 +397,13 @@ void newupdatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *N
 	
 	average=faverage(x[n],cons);
     G[n][0]=Nc[n]*g(x[n],cons)*fcoop(x[n],cons)/average; //Updates the G[][]
-    G[n][1]=0;//Nc[n]*d(Nc[n],Nd[n],cons); 
+    G[n][1]=Nc[n]*d(Nc[n],Nd[n],cons); 
     G[n][2]=g(x[n],cons)*Nd[n]*fdef(x[n],cons)/average;
     G[n][3]=Nd[n]*d(Nc[n],Nd[n],cons);
     
     average=faverage(x[m],cons);
     G[m][0]=Nc[m]*g(x[m],cons)*fcoop(x[m],cons)/average; //Updates the G[][]
-    G[m][1]=0;//Nc[m]*d(Nc[m],Nd[m],cons); 
+    G[m][1]=Nc[m]*d(Nc[m],Nd[m],cons); 
     G[m][2]=g(x[m],cons)*Nd[m]*fdef(x[m],cons)/average;
     G[m][3]=Nd[m]*d(Nc[m],Nd[m],cons);
     
