@@ -326,7 +326,6 @@ void updatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *Nd, 
     double old; 
     double average, sum1,sum2;//Sum1 saves the difference of the old G[n][] with the new one, sum2 does the same with G[m][]
     int i,a;
-    double dummy[emme];
     
     old=0;
 	for( i=0; i<4;i++){ //Save the changes of G[][]
