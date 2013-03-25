@@ -129,7 +129,7 @@ int main(){
 		rand=gsl_rng_uniform(r)*Gamma[4*M-1]; //Generates the random number to choose the reaction!
 		l=search(Gamma,4*M,rand); //Finds the reaction
         
-		m=updateN(Nc, Nd,x,l,Gamma,G); //Updates the variables at time i and returns the cell where the reaction happened
+		m=updateN(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
         
 		if(check(Nc, Nd, cons, m)==true){ //Of course I need to check if I have to split the cell or not
 			M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); 	//Here I do everything, I create the cell, I update the cells and then update the Gamma and G
