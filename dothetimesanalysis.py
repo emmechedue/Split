@@ -229,7 +229,7 @@ plt.hist(Tau, Number, normed=0, facecolor='yellow', alpha=0.75)
 text(Tg_one, maximus-maximus/7, stringa, bbox=dict(facecolor='orange', alpha=0.8))
 plt.xlabel("t")
 plt.title("Histogram of group fixation times")
-plt.savefig("Tp_histogram.png",dpi=100)
+plt.savefig("T_histogram.png",dpi=100)
 plt.close()
 
 
