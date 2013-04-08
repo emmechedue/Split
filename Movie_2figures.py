@@ -13,6 +13,7 @@ from pylab import *
 from numpy import array
 from configobj import ConfigObj
 from subprocess import call
+import os
 
 
 #****************************************Let's first of all get all the parameters:
@@ -177,3 +178,8 @@ filename = name + ending + filetype
 plt.savefig(filename)
 plt.close()
 print i
+
+#*********************NOW I ALSO MAKE THE MOVIE*******************************
+os.system("mencoder -really-quiet -mc 0 -noskip -skiplimit 0 -ovc lavc -lavcopts vcodec=mpeg4:vhq:trell:mbd=2:v4mv:vb_strategy=0:vlelim=0:vcelim=0:cmp=6:subcmp=6:precmp=6:predia=3:dia=3:vme=4:vqscale=1 \"mf://./video/*.png\" -mf type=png:fps=10 -o movie.avi")
+
+
