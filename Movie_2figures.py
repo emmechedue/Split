@@ -12,6 +12,7 @@ import matplotlib.lines as mlines
 from pylab import *
 from numpy import array
 from configobj import ConfigObj
+from subprocess import call
 
 
 #****************************************Let's first of all get all the parameters:
@@ -65,83 +66,27 @@ TMAX=len(t)
 
 #**************************************************************************************
 
-#*****************************Now I will search for all the first times******************
-#Searching for Tm
-Tm=-1
-
-for i in range(TMAX):
-	if M[i]==M_max:
-		Tm=t[i]
-		break
-
-#Searching for Tg and Tg_one
-Tg=-1
-Tg_one=-1
-boolcheck= False
-dummy=0
-
-for i in range(TMAX): #Here I search for Tg_one
-	for j in range(M_max):
-		if x_table[i][j] in (0,1):
-			Tg_one=t[i]
-			boolcheck=True
-			dummy=i
-			break
-	if boolcheck==True :
-		break
-
-
-
-for i in range(dummy,TMAX): #Here I start from dummy to search for Tg
-	boolcheck=True
-	for j in range(M_max):
-		if x_table[i][j] not in (0,1):
-			boolcheck=False
-			break
-	if boolcheck==True:
-		Tg=t[i]
-		break
-	
-#Searching for Tp
-Tp=-1
-check1=False
-check0=False
-
-for i in range(TMAX):
-	check1=True
-	check0=True
-	for j in range(M_max):
-		if x_table[i][j]!=0 :
-			check0=False
-		if x_table[i][j]!=1 :
-			check1=False
-		if check1==False and check0==False :
-			break
-	if check1==True or check0==True :
-		Tp=t[i]
-		break
-
-
-#*************************************************************************************
 
 #***************************Preparing for making the video****************************
 #parts of the output filename
-name = "scattering_"+choice2+"_"
+name = name = "./video/scattering_"+choice2+"_"
 filetype = '.png'
 
 PicN=20 #How many pictures do I want per second
 delta=int(floor(1/(PicN*interval))) #Here I am computing the delta for each step and the number of steps
 steps = int(floor((TMAX-1)/delta))
 
+
+call(["mkdir", "video"]) #I am creating a new directory to not create confusion
 #************************************Now I start creating the pictures:**************
 
 for i in range(steps): #I do all the pictures but the last (the one at T=18)
 	nullfmt   = NullFormatter()         # no labels
 	# start with a rectangular Figure, i.e. the whole figure
-	plt.figure(1, figsize=(10,16))
+	plt.figure(1, figsize=(10,14))
 
 	subplot(211)
-	subplots_adjust(left=0.1, bottom=0.25)
+	subplots_adjust(left=0.1, bottom=0.25,top=0.93)
 
 	j=i*delta
 	# the scatter plot
@@ -159,7 +104,7 @@ for i in range(steps): #I do all the pictures but the last (the one at T=18)
 	
 	stringa = "K= "+str(K)+"\ns= "+str(s)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM_max= "+str(M_max)
 	subplot(212)
-	subplots_adjust(left=0.1, bottom=0.25)
+	subplots_adjust(left=0.1, bottom=0.07)
 	a=numpy.loadtxt("./output.txt")
 	data=a.transpose()
 	plot(data[0],data[2])
@@ -167,27 +112,10 @@ for i in range(steps): #I do all the pictures but the last (the one at T=18)
 	xlabel("t")
 	ylabel("<x>")
 	text(0, 0.9, stringa, bbox=dict(facecolor='orange', alpha=0.8))
-	plt.plot([Tm, Tm], [-0.2, 1.2], 'r-', lw=1.2) #Adding the line for Tm
-	plt.annotate("Tm= "+str(Tm), xy=(Tm, 0), xytext=(Tm-3, -0.05),arrowprops=dict(facecolor="red", shrink=0.05, width=2.5),)
-	plt.plot([Tg, Tg], [-0.2, 1.2], 'g-', lw=1.2) #Adding the line for Tg
-	plt.annotate("Tg= "+str(Tg), xy=(Tg, 0), xytext=(Tg-3, -0.15),arrowprops=dict(facecolor="green", shrink=0.05, width=2.5),)
-	plt.plot([Tg_one, Tg_one], [-0.2, 1.2], 'y-', lw=1.2) #Adding the line for Tg_one
-	plt.annotate("Tg_one= "+str(Tg_one), xy=(Tg_one, 0), xytext=(Tg_one-3, -0.15),arrowprops=dict(facecolor="yellow", shrink=0.05, width=2.5),)
-	plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
-	plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
-	plt.plot(t[j],-0.2, 'ko',ms=12,mew=3)
+	plt.plot([t[j], t[j]], [-0.2, 1.2], 'k-', lw=2.0) #Adding the line for the time
 	
-	# create time diagram
-	# definitions for the axes, determines position of scatter plot and histograms, general
-	left, width = 0.1, 0.65 #left = position left in % of figsize, dito width
-	bottom, height = 0.1, 0.05
-	rect_time = [left, bottom,width, height]
-	timebox =  plt.axes(rect_time)
-	timebox.bar(0, 1, t[j], 0, color = '0.7', orientation = 'horizontal')
-	timebox.set_xlim( 0, T )
-	timebox.yaxis.set_ticks_position("none")
-	timebox.yaxis.set_ticklabels("")
-	plt.title('Time')
+	
+	
 	
 	# save plot as png file
 	#stringlist.append(str(i))
@@ -209,7 +137,7 @@ nullfmt   = NullFormatter()         # no labels
 plt.figure(1, figsize=(10,16))
 
 subplot(211)
-subplots_adjust(left=0.1, bottom=0.25)
+subplots_adjust(left=0.1, bottom=0.25,top=0.93)
 
 # the scatter plot
 stringa2="M= "+str(int(M[j]))
@@ -226,7 +154,7 @@ text(0, N_max, stringa2, bbox=dict(facecolor='red', alpha=0.8))
 	
 stringa = "K= "+str(K)+"\ns= "+str(s)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM_max= "+str(M_max)
 subplot(212)
-subplots_adjust(left=0.1, bottom=0.25)
+subplots_adjust(left=0.1, bottom=0.07)
 a=numpy.loadtxt("./output.txt")
 data=a.transpose()
 plot(data[0],data[2])
@@ -234,28 +162,10 @@ title("<x> vs. t for the "+choice+" model")
 xlabel("t")
 ylabel("<x>")
 text(0, 0.9, stringa, bbox=dict(facecolor='orange', alpha=0.8))
-plt.plot([Tm, Tm], [-0.2, 1.2], 'r-', lw=1.2) #Adding the line for Tm
-plt.annotate("Tm= "+str(Tm), xy=(Tm, 0), xytext=(Tm-3, -0.05),arrowprops=dict(facecolor="red", shrink=0.05, width=2.5),)
-plt.plot([Tg, Tg], [-0.2, 1.2], 'g-', lw=1.2) #Adding the line for Tg
-plt.annotate("Tg= "+str(Tg), xy=(Tg, 0), xytext=(Tg-3, -0.15),arrowprops=dict(facecolor="green", shrink=0.05, width=2.5),)
-plt.plot([Tg_one, Tg_one], [-0.2, 1.2], 'y-', lw=1.2) #Adding the line for Tg_one
-plt.annotate("Tg_one= "+str(Tg_one), xy=(Tg_one, 0), xytext=(Tg_one-3, -0.15),arrowprops=dict(facecolor="yellow", shrink=0.05, width=2.5),)
-plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
-plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
-plt.plot(t[j],-0.2, 'ko',ms=12,mew=3)
+plt.plot([t[j], t[j]], [-0.2, 1.2], 'k-', lw=2.0) #Adding the line for the time
+
 	
-	
-# create time diagram
-# definitions for the axes, determines position of scatter plot and histograms, general
-left, width = 0.1, 0.65 #left = position left in % of figsize, dito width
-bottom, height = 0.1, 0.05
-rect_time = [left, bottom,width, height]
-timebox =  plt.axes(rect_time)
-timebox.bar(0, 1, t[j], 0, color = '0.7', orientation = 'horizontal')
-timebox.set_xlim( 0, T )
-timebox.yaxis.set_ticks_position("none")
-timebox.yaxis.set_ticklabels("")
-plt.title('Time')
+
 	
 # save plot as png file
 #stringlist.append(str(i))
