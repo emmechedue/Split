@@ -259,7 +259,9 @@ filetype = '.png'
 
 PicN=20 #How many pictures do I want per second
 delta=int(floor(1/(PicN*interval))) #Here I am computing the delta for each step and the number of steps
-steps = int(floor((TMAX-1)/delta))
+steps = int(floor((TMAX-1)/delta)) # Steps is to create a video from 0 to T
+indexTp=t.index(Tp) #Here I am taking the index of Tp in the t array
+#intermediatesteps= 
 
 #************************************Now I start creating the pictures:**************
 

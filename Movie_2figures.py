@@ -77,7 +77,6 @@ PicN=20 #How many pictures do I want per second
 delta=int(floor(1/(PicN*interval))) #Here I am computing the delta for each step and the number of steps
 steps = int(floor((TMAX-1)/delta))
 
-
 call(["mkdir", "video"]) #I am creating a new directory to not create confusion
 #************************************Now I start creating the pictures:**************
 
@@ -151,7 +150,7 @@ plt.axis([0, 1, 0, N_max*1.1])
 plt.title("Evolution of groups for the "+choice+" model")
 text(0, N_max, stringa2, bbox=dict(facecolor='red', alpha=0.8))
 	
-#The x_avereage plot
+#The x_average plot
 	
 stringa = "K= "+str(K)+"\ns= "+str(s)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM_max= "+str(M_max)
 subplot(212)
@@ -167,7 +166,6 @@ plt.plot([t[j], t[j]], [-0.2, 1.2], 'k-', lw=2.0) #Adding the line for the time
 
 	
 
-	
 # save plot as png file
 #stringlist.append(str(i))
 if i<10: ending = '000' + str(i)
