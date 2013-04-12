@@ -260,12 +260,21 @@ filetype = '.png'
 PicN=20 #How many pictures do I want per second
 delta=int(floor(1/(PicN*interval))) #Here I am computing the delta for each step and the number of steps
 steps = int(floor((TMAX-1)/delta)) # Steps is to create a video from 0 to T
-indexTp=t.index(Tp) #Here I am taking the index of Tp in the t array
-#intermediatesteps= 
+if (Tp<17) and (Tp!=-1):
+	Gnappolo=Tp+1
+	indexTp=np.min(np.nonzero(t == Gnappolo)[0]) #Here I am taking the index of Tp in the t array
+else:
+	indexTp=np.min(np.nonzero(t == Tp)[0]) #Here I am taking the index of Tp in the t array
+if Tp!=-1:
+	intermediatesteps= int(floor((indexTp)/delta))+1# Steps is to create a video from 0 to Tp (actually it may be a bit more)
+else:
+	intermediatesteps=steps
+
 
 #************************************Now I start creating the pictures:**************
+#*************This is for the movie from 0 to Tp************************
 
-for i in range(steps): #I do all the pictures but the last (the one at T=18)
+for i in range(intermediatesteps): #I do all the pictures but the last (the one at T=18)
 	nullfmt   = NullFormatter()         # no labels
 	# start with a rectangular Figure, i.e. the whole figure
 	plt.figure(1, figsize=(10,14))
@@ -312,6 +321,66 @@ for i in range(steps): #I do all the pictures but the last (the one at T=18)
 	plt.savefig(filename)
 	plt.close()
 	print i
+
+
+#Making the short movie
+os.system("mencoder -really-quiet -mc 0 -noskip -skiplimit 0 -ovc lavc -lavcopts vcodec=mpeg4:vhq:trell:mbd=2:v4mv:vb_strategy=0:vlelim=0:vcelim=0:cmp=6:subcmp=6:precmp=6:predia=3:dia=3:vme=4:vqscale=1 \"mf://./video/*.png\" -mf type=png:fps=10 -o short.avi")
+
+#***************************************************************************
+
+#***********************Now from Tp to T*************************************
+
+for i in range(intermediatesteps,steps): #I do all the pictures but the last (the one at T=18)
+	nullfmt   = NullFormatter()         # no labels
+	# start with a rectangular Figure, i.e. the whole figure
+	plt.figure(1, figsize=(10,14))
+
+	subplot(211)
+	subplots_adjust(left=0.1, bottom=0.25,top=0.93)
+
+	j=i*delta
+	# the scatter plot
+	testo1="M= "+str(int(M[j]))
+	plt.plot(x_mean[j],N_mean[j], 'k_',ms=16,mew=3)
+	plt.plot(x_mean[j],N_mean[j], 'k|',ms=16,mew=3)
+	scatter(x_table[j], N_table[j], s = 30,marker='o',  vmin=0, vmax=1)
+	plt.xlabel('$x$, Percentage of cooperators', fontsize = 10)
+	plt.ylabel('$N$, Number of individuals', fontsize = 10)
+	plt.axis([0, 1, 0, N_max*1.1])
+	plt.title("Evolution of groups for the "+choice+" model")
+	text(0, N_max, testo1, bbox=dict(facecolor='red', alpha=0.8))
+	
+	#The x_avereage plot
+	
+	stringa = "K= "+str(K)+"\ns= "+str(s)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM_max= "+str(M_max)
+	subplot(212)
+	subplots_adjust(left=0.1, bottom=0.07)
+	a=numpy.loadtxt("./output.txt")
+	data=a.transpose()
+	plot(data[0],data[2])
+	title("<x> vs. t for the "+choice+" model")
+	xlabel("t")
+	ylabel("<x>")
+	text(0, 0.9, stringa, bbox=dict(facecolor='orange', alpha=0.8))
+	plt.plot([t[j], t[j]], [-0.2, 1.2], 'k-', lw=2.0) #Adding the line for the time
+	
+	
+	
+	
+	# save plot as png file
+	#stringlist.append(str(i))
+	if i<10: ending = '000' + str(i)
+	if 10 <= i and i<100: ending = '00' + str(i)
+	if 100<= i and i<1000: ending = '0' + str(i)
+	if 1000<= i and i<10000: ending = str(i)
+	filename = name + ending + filetype
+	plt.savefig(filename)
+	plt.close()
+	print i
+
+
+
+#************************************************************************
 
 #*******************************************The last plot***************
 i=steps #steps +1 -1
