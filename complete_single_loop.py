@@ -138,9 +138,7 @@ stringa = "K= "+str(K)+"\ns= "+str(s)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM
 
 #Plot for N
 figure(num=None, figsize=(12, 9), dpi=160, facecolor='w', edgecolor='k')
-a=numpy.loadtxt("./output.txt")
-data=a.transpose()
-plt.plot(data[0],data[1])
+plt.plot(t,N_mean)
 plt.title("<N> vs. t for the "+choice+" model")
 xlabel("t")
 ylabel("<N>")
@@ -150,9 +148,7 @@ plt.close()
 
 #Plot for x
 figure(num=None, figsize=(12, 9), dpi=160, facecolor='w', edgecolor='k')
-a=numpy.loadtxt("./output.txt")
-data=a.transpose()
-plot(data[0],data[2])
+plot(t,x_mean)
 title("<x> vs. t for the "+choice+" model")
 xlabel("t")
 ylabel("<x>")
@@ -169,19 +165,19 @@ if Tg_one!=-1:
 if Tp!=-1:
 	plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
 	plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
+if Tp==-1:
+	stringa2="Final M= "+str(int(M[TMAX-1]))
+	text(0, N_max, stringa2, bbox=dict(facecolor='red', alpha=0.8))
 plt.savefig("x.png",dpi=100)
 plt.close()
 
 #Plot for shorter times!!!! Only if Tp is reached in the time frame of the simulation!!
 if Tp!=-1:
 	figure(num=None, figsize=(12, 9), dpi=160, facecolor='w', edgecolor='k')
-	a=numpy.loadtxt("./output.txt")
-	data=a.transpose()
-	plot(data[0],data[2])
+	plot(t,x_mean)
 	title("<x> vs. t for the "+choice+" model")
 	xlabel("t")
 	ylabel("<x>")
-	xlim([0,Tp+1])
 	text(0, 1.05, stringa, bbox=dict(facecolor='orange', alpha=0.8))
 	if Tm!=-1:
 		plt.plot([Tm, Tm], [-0.2, 1.2], 'r-', lw=1.2) #Adding the line for Tm
@@ -192,11 +188,13 @@ if Tp!=-1:
 	if Tg_one!=-1:
 		plt.plot([Tg_one, Tg_one], [-0.2, 1.2], 'y-', lw=1.2) #Adding the line for Tg_one
 		plt.annotate("Tg_one= "+str(Tg_one), xy=(Tg_one, 0), xytext=(Tg_one-3, -0.15),arrowprops=dict(facecolor="yellow", shrink=0.05, width=2.5),)
-	if Tp!=-1:
-		plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
-		plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
+	plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp (Here there would be a useless if!!!)
+	plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+1, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
+	xlim([0,Tp+1])
 	plt.savefig("x_short.png",dpi=100)
 	plt.close()
+
+
 
 #*******************************************************************************
 
@@ -286,12 +284,12 @@ filetype = '.png'
 PicN=20 #How many pictures do I want per second
 delta=int(floor(1/(PicN*interval))) #Here I am computing the delta for each step and the number of steps
 steps = int(floor((TMAX-1)/delta)) # Steps is to create a video from 0 to T
-if (Tp<17) and (Tp!=-1):
-	Gnappolo=Tp+1
-	indexTp=np.min(np.nonzero(t == Gnappolo)[0]) #Here I am taking the index of Tp in the t array
-else:
-	indexTp=np.min(np.nonzero(t == Tp)[0]) #Here I am taking the index of Tp in the t array
 if Tp!=-1:
+	if (Tp<17):
+		Gnappolo=Tp+1
+		indexTp=np.min(np.nonzero(t == Gnappolo)[0]) #Here I am taking the index of Tp in the t array
+	else:
+		indexTp=np.min(np.nonzero(t == Tp)[0]) #Here I am taking the index of Tp in the t array
 	intermediatesteps= int(floor((indexTp)/delta))+1# Steps is to create a video from 0 to Tp (actually it may be a bit more)
 else:
 	intermediatesteps=steps

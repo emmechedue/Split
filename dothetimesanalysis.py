@@ -128,9 +128,7 @@ stringa = "K= "+str(K)+"\ns= "+str(s)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM
 
 #Plot for N
 figure(num=None, figsize=(12, 9), dpi=160, facecolor='w', edgecolor='k')
-a=numpy.loadtxt("./output.txt")
-data=a.transpose()
-plt.plot(data[0],data[1])
+plt.plot(t,N_mean)
 plt.title("<N> vs. t for the "+choice+" model")
 xlabel("t")
 ylabel("<N>")
@@ -140,9 +138,7 @@ plt.close()
 
 #Plot for x
 figure(num=None, figsize=(12, 9), dpi=160, facecolor='w', edgecolor='k')
-a=numpy.loadtxt("./output.txt")
-data=a.transpose()
-plot(data[0],data[2])
+plot(t,x_mean)
 title("<x> vs. t for the "+choice+" model")
 xlabel("t")
 ylabel("<x>")
