@@ -167,7 +167,7 @@ if Tp!=-1:
 	plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
 if Tp==-1:
 	stringa2="Final M= "+str(int(M[TMAX-1]))
-	text(0, N_max, stringa2, bbox=dict(facecolor='red', alpha=0.8))
+	text(0, 0.9, stringa2, bbox=dict(facecolor='red', alpha=0.8))
 plt.savefig("x.png",dpi=100)
 plt.close()
 
