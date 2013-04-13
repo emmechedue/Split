@@ -187,7 +187,7 @@ if Tp!=-1:
 		plt.annotate("Tg= "+str(Tg), xy=(Tg, 0), xytext=(Tg-3, -0.15),arrowprops=dict(facecolor="green", shrink=0.05, width=2.5),)
 	if Tg_one!=-1:
 		plt.plot([Tg_one, Tg_one], [-0.2, 1.2], 'y-', lw=1.2) #Adding the line for Tg_one
-		plt.annotate("Tg_one= "+str(Tg_one), xy=(Tg_one, 0), xytext=(Tg_one-3, -0.15),arrowprops=dict(facecolor="yellow", shrink=0.05, width=2.5),)
+		plt.annotate("Tg_one= "+str(Tg_one), xy=(Tg_one, 0), xytext=(Tg_one-1.5, -0.15),arrowprops=dict(facecolor="yellow", shrink=0.05, width=2.5),)
 	plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp (Here there would be a useless if!!!)
 	plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+1, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
 	xlim([0,Tp+1])
@@ -287,9 +287,9 @@ steps = int(floor((TMAX-1)/delta)) # Steps is to create a video from 0 to T
 if Tp!=-1:
 	if (Tp<17):
 		Gnappolo=Tp+1
-		indexTp=np.min(np.nonzero(t == Gnappolo)[0]) #Here I am taking the index of Tp in the t array
+		indexTp=np.max(np.nonzero(t <= Gnappolo)[0]) #Here I am taking the index of Tp in the t array
 	else:
-		indexTp=np.min(np.nonzero(t == Tp)[0]) #Here I am taking the index of Tp in the t array
+		indexTp=np.max(np.nonzero(t <= Tp)[0]) #Here I am taking the index of Tp in the t array
 	intermediatesteps= int(floor((indexTp)/delta))+1# Steps is to create a video from 0 to Tp (actually it may be a bit more)
 else:
 	intermediatesteps=steps
