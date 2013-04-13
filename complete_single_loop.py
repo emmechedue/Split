@@ -172,6 +172,32 @@ if Tp!=-1:
 plt.savefig("x.png",dpi=100)
 plt.close()
 
+#Plot for shorter times!!!! Only if Tp is reached in the time frame of the simulation!!
+if Tp!=-1:
+	figure(num=None, figsize=(12, 9), dpi=160, facecolor='w', edgecolor='k')
+	a=numpy.loadtxt("./output.txt")
+	data=a.transpose()
+	plot(data[0],data[2])
+	title("<x> vs. t for the "+choice+" model")
+	xlabel("t")
+	ylabel("<x>")
+	xlim([0,Tp+1])
+	text(0, 1.05, stringa, bbox=dict(facecolor='orange', alpha=0.8))
+	if Tm!=-1:
+		plt.plot([Tm, Tm], [-0.2, 1.2], 'r-', lw=1.2) #Adding the line for Tm
+		plt.annotate("Tm= "+str(Tm), xy=(Tm, 0), xytext=(Tm-3, -0.05),arrowprops=dict(facecolor="red", shrink=0.05, width=2.5),)
+	if Tg!=-1:
+		plt.plot([Tg, Tg], [-0.2, 1.2], 'g-', lw=1.2) #Adding the line for Tg
+		plt.annotate("Tg= "+str(Tg), xy=(Tg, 0), xytext=(Tg-3, -0.15),arrowprops=dict(facecolor="green", shrink=0.05, width=2.5),)
+	if Tg_one!=-1:
+		plt.plot([Tg_one, Tg_one], [-0.2, 1.2], 'y-', lw=1.2) #Adding the line for Tg_one
+		plt.annotate("Tg_one= "+str(Tg_one), xy=(Tg_one, 0), xytext=(Tg_one-3, -0.15),arrowprops=dict(facecolor="yellow", shrink=0.05, width=2.5),)
+	if Tp!=-1:
+		plt.plot([Tp, Tp], [-0.2, 1.2], 'm-', lw=1.2) #Adding the line for Tp
+		plt.annotate("Tp= "+str(Tp), xy=(Tp, 0), xytext=(Tp+3, -0.1),arrowprops=dict(facecolor="magenta", shrink=0.05, width=2.5),)
+	plt.savefig("x_short.png",dpi=100)
+	plt.close()
+
 #*******************************************************************************
 
 #**********************Making the histogram*****************************
