@@ -53,7 +53,10 @@ void fillcell(int n, int m, double *Nc, double *Nd, double *x, Constants cons, g
 		fill1(&C,&D,x[m],cons.N0,r);
 	}
 	else{
-		fill2(&C,&D,Nc[m],Nd[m],r);
+		do{ //Just to be sure that I am not creating an empty cell!!
+			fill2(&C,&D,Nc[m],Nd[m],r);
+		}while((Nc[m]!=0)||(Nd[m]!=0))
+		
 	}
 	//Now I update the values of n
 	Nc[n]=C;
