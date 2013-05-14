@@ -10,32 +10,6 @@ using namespace std;
 /****************List of errors: ****************
     Error 1 is an error in the function upadateN
     */
-    
-double fcoop(double x, Constants cons){ //Decide which fitness to use
-	double y;
-	
-	if (cons.fitness==1){
-		y=fcoop_original(x,cons);
-	}
-	else{
-		y=fcoop_approx(x,cons);
-	}
-	return y;
-}
-
-double fdef(double x, Constants cons){ //Decide which fitness to use
-	double y;
-	
-	if (cons.fitness==1){
-		y=fdef_original(x,cons);
-	}
-	else{
-		y=fdef_approx(x,cons);
-	}
-	return y;
-}
-
-
  
 double fcoop_original(double x, Constants cons){
 	double y;
@@ -61,6 +35,30 @@ double fcoop_approx(double x, Constants cons){
 double fdef_approx(double x, Constants cons){
 	
 	return 1;
+}
+
+double fcoop(double x, Constants cons){ //Decide which fitness to use
+	double y;
+	
+	if (cons.fitness==1){
+		y=fcoop_original(x,cons);
+	}
+	else{
+		y=fcoop_approx(x,cons);
+	}
+	return y;
+}
+
+double fdef(double x, Constants cons){ //Decide which fitness to use
+	double y;
+	
+	if (cons.fitness==1){
+		y=fdef_original(x,cons);
+	}
+	else{
+		y=fdef_approx(x,cons);
+	}
+	return y;
 }
 
 double g(double x, Constants cons){
