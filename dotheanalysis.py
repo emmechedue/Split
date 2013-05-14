@@ -31,6 +31,12 @@ interval=float(dummy)
 dummy = config["s"]
 s=float(dummy)
 
+dummy = config["c"]
+c=float(dummy)
+
+dummy = config["b"]
+b=float(dummy)
+
 dummy = config["p"]
 p=float(dummy)
 
@@ -145,7 +151,7 @@ for i in range(N_loop):
 #********************************************************Now the plotting:
 
 #Preparing the strings for the box
-stringa="K= "+str(K)+"\ns= "+str(s)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM_max= "+str(M_max)+"\nN_loop= "+str(N_loop)
+stringa="K= "+str(K)+"\ns= "+str(s)+"\nc= "+str(c)+"\nb= "+str(b)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM_max= "+str(M_max)+"\nN_loop= "+str(N_loop)
 stringa2="fullc= "+str(fullc)+"\nfulld= "+str(fulld)+"\nothers= "+str(others)
 
 

@@ -12,6 +12,8 @@ public:
 	double T; //Time when the simulation stops
 	double interval; //Time step for which I print my results in fast
 	double s; //Selection's strenght
+	double c; //Cost in the original fitness
+	double b; //Benefit in the original fitness
 	double p; //Cooperators advantage
 	double K; //Carrying capacity
 	int N_max; //The number of bacteria in the cell s.t. the cell splits

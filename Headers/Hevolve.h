@@ -12,7 +12,7 @@ using namespace std;
     */
     
     
-/*double fcoop(double x, Constants cons){
+double fcoop(double x, Constants cons){
 	double y;
 	
 	y=1.+cons.s*((cons.b-cons.c)*x-cons.c*(1-x));
@@ -24,9 +24,9 @@ double fdef(double x, Constants cons){
 	
 	y=1.+cons.s*cons.b*x;
 	return y;
-}*/ //Instead of using those one, I'm using fcoop=1-s, fdef= 1
+} //Instead of using those one, I'm using fcoop=1-s, fdef= 1
 
-double fcoop(double x, Constants cons){
+/*double fcoop(double x, Constants cons){
 	double y;
 	
 	y=1.-cons.s;
@@ -37,7 +37,7 @@ double fdef(double x, Constants cons){
 	
 	return 1;
 }
-
+*/
 double g(double x, Constants cons){
 	double y;
 	
@@ -157,6 +157,12 @@ void printparamloop(ofstream& filec, Constants cons){
 	
 	filec<<"#Selection's strenght:"<<endl;
 	filec<<"s= "<<cons.s<<endl<<endl;
+	
+	filec<<"#Cost:"<<endl;
+	filec<<"c= "<<cons.c<<endl<<endl;
+	
+	filec<<"#Benefit:"<<endl;
+	filec<<"b= "<<cons.b<<endl<<endl;
 	
 	filec<<"#Cooperators advantage:"<<endl;
 	filec<<"p= "<<cons.p<<endl<<endl;
