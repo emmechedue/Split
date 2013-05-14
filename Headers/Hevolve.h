@@ -11,33 +11,58 @@ using namespace std;
     Error 1 is an error in the function upadateN
     */
     
-    
-double fcoop(double x, Constants cons){
+double fcoop(double x, Constants cons){ //Decide which fitness to use
+	double y;
+	
+	if (cons.fitness==1){
+		y=fcoop_original(x,cons);
+	}
+	else{
+		y=fcoop_approx(x,cons);
+	}
+	return y;
+}
+
+double fdef(double x, Constants cons){ //Decide which fitness to use
+	double y;
+	
+	if (cons.fitness==1){
+		y=fdef_original(x,cons);
+	}
+	else{
+		y=fdef_approx(x,cons);
+	}
+	return y;
+}
+
+
+ 
+double fcoop_original(double x, Constants cons){
 	double y;
 	
 	y=1.+cons.s*((cons.b-cons.c)*x-cons.c*(1-x));
 	return y;
 }
 
-double fdef(double x, Constants cons){
+double fdef_original(double x, Constants cons){
 	double y;
 	
 	y=1.+cons.s*cons.b*x;
 	return y;
-} //Instead of using those one, I'm using fcoop=1-s, fdef= 1
+}
 
-/*double fcoop(double x, Constants cons){
+double fcoop_approx(double x, Constants cons){
 	double y;
 	
 	y=1.-cons.s;
 	return y;
 }
 
-double fdef(double x, Constants cons){
+double fdef_approx(double x, Constants cons){
 	
 	return 1;
 }
-*/
+
 double g(double x, Constants cons){
 	double y;
 	

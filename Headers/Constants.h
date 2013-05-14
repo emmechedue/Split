@@ -20,6 +20,7 @@ public:
 	int M_max; //The maximum number of cells
 	int N_loop; //The number of times I iterate
 	int choice; //Is 1 if I want the propagule model and it is 2 if I want the random splitting model
+	int fitness; //Is 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses
 };
 
 
