@@ -203,7 +203,10 @@ void printparamloop(ofstream& filec, Constants cons){
 	filec<<"N_loop= "<<cons.N_loop<<endl<<endl;
 	
 	filec<<"#The choice of the model:"<<endl;
-	filec<<"choice= "<<cons.choice;
+	filec<<"choice= "<<cons.choice<<endl<<endl;
+	
+	filec<<"#The choice of the fitness:"<<endl;
+	filec<<"fitness= "<<cons.fitness;
 	
 	return;
 }
@@ -224,6 +227,12 @@ void printparamnoloop(ofstream& filec, Constants cons){
 	filec<<"#Selection's strenght:"<<endl;
 	filec<<"s= "<<cons.s<<endl<<endl;
 	
+	filec<<"#Cost:"<<endl;
+	filec<<"c= "<<cons.c<<endl<<endl;
+	
+	filec<<"#Benefit:"<<endl;
+	filec<<"b= "<<cons.b<<endl<<endl;
+	
 	filec<<"#Cooperators advantage:"<<endl;
 	filec<<"p= "<<cons.p<<endl<<endl;
 	
@@ -237,7 +246,10 @@ void printparamnoloop(ofstream& filec, Constants cons){
 	filec<<"M_max= "<<cons.M_max<<endl<<endl;
 	
 	filec<<"#The choice of the model:"<<endl;
-	filec<<"choice= "<<cons.choice;
+	filec<<"choice= "<<cons.choice<<endl<<endl;
+	
+	filec<<"#The choice of the fitness:"<<endl;
+	filec<<"fitness= "<<cons.fitness;
 	
 	return;
 }

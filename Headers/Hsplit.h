@@ -45,23 +45,33 @@ void fill2(int *C, int *D, double Nc, double Nd, gsl_rng *r){//This one gives C 
 }
 
 
-void fillcell(int n, int m, double *Nc, double *Nd, double *x, Constants cons, gsl_rng *r, int choice){ //n is the cell that I want to fill, m is the cell from which I take the parameters, choice can take values 1 (for the first method) and 2 for the second method
+void fillcells(int n, int m, double *Nc, double *Nd, double *x, Constants cons, gsl_rng *r){ //n is the cell that I want to fill, m is the cell from which I take the parameters, choice can take values 1 (for the first method) and 2 for the second method
 	int C,D;
 	
 	//Here I choose which splitting I want to do
-	if(choice==1){
+	if(cons.choice==1){ 
+		fill1(&C,&D,x[m],cons.N0,r); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
+		Nc[n]=C;
+		Nd[n]=D;
+		x[n]=C/(C+D);
 		fill1(&C,&D,x[m],cons.N0,r);
-	}
-	else{
-		do{ //Just to be sure that I am not creating an empty cell!!
-			fill2(&C,&D,Nc[m],Nd[m],r);
-		}while((Nc[m]!=0)||(Nd[m]!=0))
+		Nc[m]=C;
+		Nd[m]=D;
+		x[m]=C/(C+D);
 		
 	}
-	//Now I update the values of n
-	Nc[n]=C;
-	Nd[n]=D;
-	x[n]=C/(C+D);
+	else{ 
+		do{ //Just to be sure that I am not creating an empty cell!!
+			fill2(&C,&D,Nc[m],Nd[m],r);  // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
+		}while((C!=0)||(D!=0));
+		Nc[n]=C;
+		Nd[n]=D;
+		x[n]=C/(C+D);
+		Nc[m]=Nc[m]-C; //The new Nc[m] is the old Nc[m] - the cooperators in the new cell => I'm conserving the total number of bacteria
+		Nd[m]=Nd[m]-D;
+		x[m]=Nc[m]/(Nc[m]+Nd[m]);
+	}
+	
 	return;
 }
 	
@@ -84,8 +94,7 @@ int createcell(int M, int m,double *Nc, double *Nd, double *x, double *Gamma, do
 	}
 	
 	//********creates the new cells and updates the Gamma and the G*****************
-	fillcell(n,m,Nc,Nd,x,cons,r,cons.choice); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
-	fillcell(m,m,Nc,Nd,x,cons,r,cons.choice);
+	fillcells(n,m,Nc,Nd,x,cons,r); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
 	//cout<<"First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[n]+Nd[n]<<" bacteria"<<endl;
 	if (n<m){ //  in the function I always have to have n<m
 		updatebothG(G,Gamma,n,m,Nc,Nd,x,cons,4*M);
