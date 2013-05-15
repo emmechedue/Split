@@ -4,7 +4,7 @@
 #include<Constants.h>
 
 using namespace std;
-
+/*
 Constants::Constants(){
 	N0=4; //Initial number of bacteria in the cell
 	x0=0.5;//Initial fraction of cooperators in the cell
@@ -25,7 +25,7 @@ Constants::Constants(){
 Constants::~Constants(){}
 
 
-/*
+*/
 
 //This reads from a file:
 Constants::Constants(){ //Note that name must be the entire path; i.e. "./config.conf"
@@ -68,4 +68,4 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 
 Constants::~Constants(){}
 
-*/
+
