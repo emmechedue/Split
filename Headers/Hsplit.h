@@ -63,7 +63,7 @@ void fillcells(int n, int m, double *Nc, double *Nd, double *x, Constants cons, 
 	else{ 
 		do{ //Just to be sure that I am not creating an empty cell!!
 			fill2(&C,&D,Nc[m],Nd[m],r);  // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
-		}while((C!=0)||(D!=0));
+		}while((C==0)&&(D==0));
 		Nc[n]=C;
 		Nd[n]=D;
 		x[n]=C/(C+D);
