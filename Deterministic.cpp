@@ -138,13 +138,53 @@ int main(){
 				//*********End of the single cell evolution*************
 	
 			}
-		//***********End of the cell loop at fixed time****************
+			//***********End of the cell loop at fixed time****************
 		
+			//Now to check if I have to print or not
+			if(t>=cons.T){ //If I am at the end of the file I print!
+				printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
+				cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
+			}
+			else{ //If the time is a "multiple" of interval, then I print
+				tdummy=t/cons.interval;
+				dummy= (int) tdummy;
+				if(tdummy==dummy){
+					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
+					cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
+				}	
+			}	
 		
-		
+			// End of the part inside the time loop
 		}
 		
+		filex<<endl; //I print the \n in the 2 files!
+	  	fileN<<endl;
+	  	
 	}
+	
+	//********************Here ends the main loop*******************
+	
+	//********Start printing the time
+	t=(int)floor(cons.T/cons.interval); //I need it to print the time
+	
+	filet.open(filenamet,ios::out|ios::trunc); //Printing the time
+    for(i=0;i<=TI;i++){ 
+    	filet<<i*cons.interval<<endl;
+    	}
+    //If T is not a multiple of interval I need the last step:
+    tdummy=cons.T/cons.interval;
+	dummy= (int) tdummy;
+	if(tdummy!=dummy){
+		filet<<cons.T<<endl;
+	}
+    //************************************
+    
+    filet.close(); //Closing the files of output!
+    filex.close();
+    fileN.close();
+    filec.open(filenamec,ios::out|ios::trunc); //Now I just print all the parameters to a file!
+    printparamloop(filec,cons);
+    filec.close();
 	
 	return 0;
 }
