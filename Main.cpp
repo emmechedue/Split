@@ -151,7 +151,7 @@ int main(){
     //********************Here ends the loop
    
     filet.open(filenamet,ios::out|ios::trunc); 
-    for(iloop=0;iloop<=TI;iloop++){
+    for(iloop=0;iloop<=TI;iloop++){ //note that here I just use iloop because I need an integer, it has nothing to do with the former use!
     	filet<<iloop*cons.interval<<endl;
     	}
     
