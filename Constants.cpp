@@ -5,20 +5,21 @@
 
 using namespace std;
 
-/*Constants::Constants(){
+/*
+Constants::Constants(){
 	N0=4; //Initial number of bacteria in the cell
 	x0=0.5;//Initial fraction of cooperators in the cell
-	T=18.; //Time when the simulation stops
+	T=30.; //Time when the simulation stops
 	interval=0.05; //Time step for which I print my results in fast
-	s=0.15; //Selection's strenght
+	s=0.29; //Selection's strenght
 	c=1.; //Cost in the original fitness
 	b=3.; //Benefit in the original fitness
 	p=10.; //Cooperators advantage
 	K=100.; //Carrying capacity
 	N_max=80; //The number of bacteria in the cell s.t. the cell splits
-	M_max=100; //The maximum number of cells
-	N_loop=30; //The number of times I iterate
-	choice=1; //It's 1 if I want the propagule model and it is 2 if I want the random splitting model
+	M_max=1000; //The maximum number of cells
+	N_loop=300; //The number of times I iterate
+	choice=2; //It's 1 if I want the propagule model and it is 2 if I want the random splitting model
 	fitness=2; //It's 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses
 }
 
@@ -36,8 +37,8 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 	double vector[M]; //will store the M parameters
 	FILE *pfile;
 	
-	pfile = fopen ("./config.conf" , "r");
-	//pfile= fopen("/project/theorie/s/Stefano.Duca/Analysis/Prog/config.conf", "r"); //Here I have to put the folder where the config file will be!
+	//pfile = fopen ("./config.conf" , "r");
+	pfile= fopen("/project/theorie/s/Stefano.Duca/Analysis/Prog/config.conf", "r"); //Here I have to put the folder where the config file will be!
 	
 	while(fgets(line, 256, pfile) != NULL)
 	{
