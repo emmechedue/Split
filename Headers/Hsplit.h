@@ -14,7 +14,7 @@ using namespace std;
     Error 1 is an error in the function upadateN
     */
     
-void fill1(int *C, int *D, double x, int N0, gsl_rng *r){ //This one gives C (the numbers of the cooperators in the cell) according to Bin(x,N0) and D as N0-C
+void fill1(int *C, int *D, double x, int N0, gsl_rng *r){ //This one gives C (the numbers of the cooperators in the cell) according to Bin(x,N0) and D as N0-C. So this is the propagule model
 	int n;
 	
 	n=gsl_ran_binomial(r,x,N0);
@@ -23,7 +23,7 @@ void fill1(int *C, int *D, double x, int N0, gsl_rng *r){ //This one gives C (th
 	return;
 }
 
-void fill2(int *C, int *D, double Nc, double Nd, gsl_rng *r){//This one gives C (the numbers of the cooperators in the cell) according to Bin(0.5,Nc) and D according to Bin(0.5,Nd), where Nc and Nd are the # of cooperators and defectors in the cell that just splitted
+void fill2(int *C, int *D, double Nc, double Nd, gsl_rng *r){//This one gives C (the numbers of the cooperators in the cell) according to Bin(0.5,Nc) and D according to Bin(0.5,Nd), where Nc and Nd are the # of cooperators and defectors in the cell that just splitted. So this is the random splitting model
 	int nd,nc;
 	
 	if(Nc<=0){

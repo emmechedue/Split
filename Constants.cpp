@@ -21,6 +21,7 @@ Constants::Constants(){
 	N_loop=300; //The number of times I iterate
 	choice=2; //It's 1 if I want the propagule model and it is 2 if I want the random splitting model
 	fitness=2; //It's 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses
+	ts=0.001; //The timestep in the semi-deterministic model. The timestep of the "integration" over N
 }
 
 Constants::~Constants(){}
@@ -33,7 +34,7 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 	
 	char line[256];
 	int linenum=0;
-	int count=0, M=14; //M is the amount of parameters I have to give, count will range from 0 to M-1
+	int count=0, M=15; //M is the amount of parameters I have to give, count will range from 0 to M-1
 	double vector[M]; //will store the M parameters
 	FILE *pfile;
 	
@@ -64,7 +65,8 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 	M_max=vector[10]; //The maximum number of cells
 	N_loop=vector[11]; //The number of times I iterate
 	choice=vector[12]; //Is 1 if I want the propagule model and it is 2 if I want the random splitting model
-	fitness=vector[13]; ////Is 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses
+	fitness=vector[13]; //Is 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses
+	ts=vector[14]; //The timestep in the semi-deterministic model. The timestep of the "integration" over N
 }
 
 Constants::~Constants(){}

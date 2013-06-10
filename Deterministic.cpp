@@ -7,18 +7,23 @@
 #include<Hevolve.h>
 #include<Hsplit.h>
 #include<Constants.h>
+#include<Deterministic.h>
 
 using namespace std;
 
-/* In this program I evolve the intra-cell dynamics according to the mean field equations and the inter-cell dynamic with a probabilistic setting */
+/* In this program I evolve the intra-cell dynamics according to the mean field equations and the inter-cell dynamic with a probabilistic setting 
+How do i do this: The random part is the same! The deterministic part is obtained with a two step evolution using approximated functions (check notebook)
+*/
+
+//Note that error 6 means that interval is smaller than ts
 
 int main(){
     Constants cons;
     double Nc[cons.M_max], Nd[cons.M_max], x[cons.M_max]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
     double t; //The time
-    double ts=0.001; //The timestep of the "integration" over N
-    int i,iloop,j; 
+    int i,iloop,j,n; 
     int TMAX; //Is the number of timesteps I have to do to arrive at T => T/ts
+    int numprint; //Is the number of times I want to print
 	int M; //it can go from 1 to M_max and it's just to not waste time taking into account empty cells
 	ofstream filec, filet, fileN,filex;//Output files
 	const char filenameN[]="ensambleN.txt"; //While ensambleN and x  will print out each of the <N> and <x>
@@ -28,7 +33,7 @@ int main(){
     unsigned int seed; //Seed of the random number generator
     gsl_rng *r; //Pointer to the type of rng
 	FILE *pfile; //file to read from /usr/urandom
-	double dummy;
+	double dummy,tstar; //Dummy will generally be Nc+Nd
 	
 	
 	//******let's take the seed for the rng and initialize the rng******
@@ -61,12 +66,18 @@ int main(){
 		}
 	
 	//********************************Compute TMAX************
-	TMAX=cons.T/ts;
-	t=(int) TMAX; //Note that here I am just using t as dummy variable
-	if(t!=TMAX){
-		TMAX=floor(cons.T/ts)+1; //Here I am just adjusting for an extra step
+	TMAX=cons.T/cons.ts;
+	dummy=(int) TMAX; 
+	if(dummy!=TMAX){
+		TMAX=floor(cons.T/cons.ts)+1; //Here I am just adjusting for an extra step
 	}
 	//*********************************
+	
+	//Compute how many times I have to print (hopefully smaller or equal than TMAX) and check that interval>=ts
+	if(cons.interval<cons.ts){
+		cout<<"Print with bigger time intervals!!!"<<endl;
+		exit(6);
+	}
 		
 	//*************Let's start the cycle********************
     for(iloop=0;iloop<cons.N_loop;iloop++){
@@ -85,15 +96,52 @@ int main(){
 		
 		//*****Start of the time evolution***********
 		
-		for(j=1;j<=TMAX;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop before 
+		for(j=1;j<=TMAX;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
 			
-			t=t+ts; //Update the time to the new one!
+			t=t+cons.ts; //Update the time to the new one!
 			
-			for(i=0;i<M;i++){
+			for(i=0;i<M;i++){ //This is the cell loop
+				//*******Start of the cell evolution***********
 			
-			//*******Start of the cell evolution***********
-			
-			
+				dummy=Nevolve(Nc[i],Nd[i], x[i], cons.ts, cons); //Compute the approximate value of Nc+Nd after time ts
+				if(dummy>=cons.N_max){ //Check if I need to do the splitting or not
+					//********Here I perform the splitting**********
+					tstar=inverseN(Nc[i],Nd[i], x[i],cons); //Compute the time when N is roughly equal to N_max
+					x[i]=Nevolve(Nc[i],Nd[i], x[i], tstar, cons); //Compute the value of x after tstar
+					Nc[i]=cons.N_max*x[i]; //I compute the values of Nc and Nd at tstar
+					Nd[i]=cons.N_max-Nc[i];
+					n=createcelldeterministic(&M,i,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
+					//Now I have to finish the evolution for a time step ts-tstar for the i-th and n-th cell (maybe)
+					dummy=Nevolve(Nc[i],Nd[i], x[i], cons.ts-tstar, cons); //For the i-th cell
+					Nc[i]=dummy*x[i]; 
+					Nd[i]=dummy-Nc[i];
+					x[i]=Nevolve(Nc[i],Nd[i], x[i], cons.ts-tstar, cons);
+					Nc[i]=dummy*x[i]; 
+					Nd[i]=dummy-Nc[i];
+					if(i>n){ //So if i is bigger than n I finish the evolution, otherwise I will perform one entire step of evolution later
+						dummy=Nevolve(Nc[n],Nd[n], x[n], cons.ts-tstar, cons); //The same for the n-th cell
+						Nc[n]=dummy*x[n]; 
+						Nd[n]=dummy-Nc[n];
+						x[n]=Nevolve(Nc[n],Nd[n], x[n], cons.ts-tstar, cons);
+						Nc[n]=dummy*x[n]; 
+						Nd[n]=dummy-Nc[n];						
+					}
+				}
+				else{ //It means that in this timestep there is no splitting for the i-th cell
+					Nc[i]=dummy*x[i]; 
+					Nd[i]=dummy-Nc[i];
+					x[i]=Nevolve(Nc[i],Nd[i], x[i], cons.ts, cons);
+					Nc[i]=dummy*x[i]; 
+					Nd[i]=dummy-Nc[i];
+				}
+				
+				//*********End of the single cell evolution*************
+	
+			}
+		//***********End of the cell loop at fixed time****************
+		
+		
+		
 		}
 		
 	}
