@@ -20,7 +20,7 @@ double Nevolve(double Nc, double Nd, double x, double t, Constants cons){ //This
 	}
 	Nold=Nc+Nd;
 	
-	N=(a*cons.K*Nold*exp(a*ts))/(a*cons.K+Nold*(exp(a*t)-1.));
+	N=(a*cons.K*Nold*exp(a*t))/(a*cons.K+Nold*(exp(a*t)-1.));
 	
 	return N;
 }

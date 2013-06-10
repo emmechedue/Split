@@ -23,7 +23,6 @@ int main(){
     double t; //The time
     int i,iloop,j,n; 
     int TMAX; //Is the number of timesteps I have to do to arrive at T => T/ts
-    int numprint; //Is the number of times I want to print
 	int M; //it can go from 1 to M_max and it's just to not waste time taking into account empty cells
 	ofstream filec, filet, fileN,filex;//Output files
 	const char filenameN[]="ensambleN.txt"; //While ensambleN and x  will print out each of the <N> and <x>
@@ -146,9 +145,9 @@ int main(){
 				cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
 			}
 			else{ //If the time is a "multiple" of interval, then I print
-				tdummy=t/cons.interval;
-				dummy= (int) tdummy;
-				if(tdummy==dummy){
+				tstar=t/cons.interval;
+				dummy= (int) tstar;
+				if(tstar==dummy){
 					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
 					cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
 				}	
@@ -168,13 +167,13 @@ int main(){
 	t=(int)floor(cons.T/cons.interval); //I need it to print the time
 	
 	filet.open(filenamet,ios::out|ios::trunc); //Printing the time
-    for(i=0;i<=TI;i++){ 
+    for(i=0;i<=t;i++){ 
     	filet<<i*cons.interval<<endl;
     	}
     //If T is not a multiple of interval I need the last step:
-    tdummy=cons.T/cons.interval;
-	dummy= (int) tdummy;
-	if(tdummy!=dummy){
+    tstar=cons.T/cons.interval;
+	dummy= (int) tstar;
+	if(tstar!=dummy){
 		filet<<cons.T<<endl;
 	}
     //************************************
