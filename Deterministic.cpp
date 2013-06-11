@@ -87,9 +87,9 @@ int main(){
 		//*********Let's initialize all**********
 		t=0.;
 		for(i=0;i<M;i++){
-			Nc[0]=cons.N0*cons.x0;
-			x[0]=cons.x0;
-			Nd[0]=cons.N0*(1.-cons.x0);
+			Nc[i]=cons.N0*cons.x0;
+			x[i]=cons.x0;
+			Nd[i]=cons.N0*(1.-cons.x0);
 		}
 		M=1; //I start with one cell
 

@@ -7,6 +7,7 @@
 #include<Hevolve.h>
 #include<Hsplit.h>
 #include<Constants.h>
+#include<Deterministic.h>
 
 using namespace std;
 
@@ -22,10 +23,10 @@ int main(){
     int i,j,n; 
     int TMAX; //Is the number of timesteps I have to do to arrive at T => T/ts
 	int M; //it can go from 1 to M_max and it's just to not waste time taking into account empty cells
-	ofstream filec, filet, fileN,filex;//Output files
-	const char filenameN[]="ensambleN.txt"; //While ensambleN and x  will print out each of the <N> and <x>
+	ofstream filec, file, fileN,filex;//Output files
+	const char filename[]="output.txt";
+    const char filenameN[]="ensambleN.txt";
     const char filenamex[]="ensamblex.txt";
-    const char filenamet[]="time.txt";
     const char filenamec[]="parameters.txt"; //Just to print out all the parameters in the same folder at the end
     unsigned int seed; //Seed of the random number generator
     gsl_rng *r; //Pointer to the type of rng
@@ -35,10 +36,10 @@ int main(){
     
     //*********Let's initialize all**********
 	t=0.;
-	for(i=0;i<M;i++){
-		Nc[0]=cons.N0*cons.x0;
-		x[0]=cons.x0;
-		Nd[0]=cons.N0*(1.-cons.x0);
+	for(i=0;i<cons.M_max;i++){
+		Nc[i]=cons.N0*cons.x0;
+		x[i]=cons.x0;
+		Nd[i]=cons.N0*(1.-cons.x0);
 	}
 	M=1; //I start with one cell
 
@@ -174,6 +175,6 @@ int main(){
     filec.open(filenamec,ios::out|ios::trunc); //Now I just print all the parameters to a file!
     printparamnoloop(filec,cons);
     filec.close();
-    
+        
     return 0;
 }
