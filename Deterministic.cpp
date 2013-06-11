@@ -1,7 +1,7 @@
 #include<cstdio>
 #include<cstdlib>
 #include<fstream>
-#include<math.h>
+#include<cmath>
 #include<iostream>
 #include<gsl/gsl_rng.h>
 #include<Hevolve.h>
@@ -32,7 +32,8 @@ int main(){
     unsigned int seed; //Seed of the random number generator
     gsl_rng *r; //Pointer to the type of rng
 	FILE *pfile; //file to read from /usr/urandom
-	double dummy,tstar; //Dummy will generally be Nc+Nd
+	double dummy,tstar; //Dummy will generally be Nc+Nd. 
+	int tempstep; //Tempstep is for printing purposes
 	
 	
 	//******let's take the seed for the rng and initialize the rng******
@@ -70,6 +71,7 @@ int main(){
 	if(dummy!=TMAX){
 		TMAX=floor(cons.T/cons.ts)+1; //Here I am just adjusting for an extra step
 	}
+	tempstep=(int) floor(cons.interval/cons.ts); //I need this for printing purposes. Note that in this way I might end up not printing with the timestep I originally wanted. So I always need interval to be a multiple of ts!!!
 	//*********************************
 	
 	//Compute how many times I have to print (hopefully smaller or equal than TMAX) and check that interval>=ts
@@ -77,7 +79,7 @@ int main(){
 		cout<<"Print with bigger time intervals!!!"<<endl;
 		exit(6);
 	}
-		
+	 
 	//*************Let's start the cycle********************
     for(iloop=0;iloop<cons.N_loop;iloop++){
     	
@@ -106,7 +108,7 @@ int main(){
 				if(dummy>=cons.N_max){ //Check if I need to do the splitting or not
 					//********Here I perform the splitting**********
 					tstar=inverseN(Nc[i],Nd[i], x[i],cons); //Compute the time when N is roughly equal to N_max
-					x[i]=Nevolve(Nc[i],Nd[i], x[i], tstar, cons); //Compute the value of x after tstar
+					x[i]=xevolve(Nc[i],Nd[i], x[i], tstar, cons); //Compute the value of x after tstar
 					Nc[i]=cons.N_max*x[i]; //I compute the values of Nc and Nd at tstar
 					Nd[i]=cons.N_max-Nc[i];
 					n=createcelldeterministic(&M,i,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
@@ -114,14 +116,14 @@ int main(){
 					dummy=Nevolve(Nc[i],Nd[i], x[i], cons.ts-tstar, cons); //For the i-th cell
 					Nc[i]=dummy*x[i]; 
 					Nd[i]=dummy-Nc[i];
-					x[i]=Nevolve(Nc[i],Nd[i], x[i], cons.ts-tstar, cons);
+					x[i]=xevolve(Nc[i],Nd[i], x[i], cons.ts-tstar, cons);
 					Nc[i]=dummy*x[i]; 
 					Nd[i]=dummy-Nc[i];
 					if(i>n){ //So if i is bigger than n I finish the evolution, otherwise I will perform one entire step of evolution later
 						dummy=Nevolve(Nc[n],Nd[n], x[n], cons.ts-tstar, cons); //The same for the n-th cell
 						Nc[n]=dummy*x[n]; 
 						Nd[n]=dummy-Nc[n];
-						x[n]=Nevolve(Nc[n],Nd[n], x[n], cons.ts-tstar, cons);
+						x[n]=xevolve(Nc[n],Nd[n], x[n], cons.ts-tstar, cons);
 						Nc[n]=dummy*x[n]; 
 						Nd[n]=dummy-Nc[n];						
 					}
@@ -129,8 +131,8 @@ int main(){
 				else{ //It means that in this timestep there is no splitting for the i-th cell
 					Nc[i]=dummy*x[i]; 
 					Nd[i]=dummy-Nc[i];
-					x[i]=Nevolve(Nc[i],Nd[i], x[i], cons.ts, cons);
-					Nc[i]=dummy*x[i]; 
+					x[i]=xevolve(Nc[i],Nd[i], x[i], cons.ts, cons);
+					Nc[i]=dummy*x[i];
 					Nd[i]=dummy-Nc[i];
 				}
 				
@@ -140,25 +142,24 @@ int main(){
 			//***********End of the cell loop at fixed time****************
 		
 			//Now to check if I have to print or not
-			if(t>=cons.T){ //If I am at the end of the file I print!
+			if(abs(t-cons.T)<cons.ts){ //If I am at the end of the file I print!
 				printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
 				cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
 			}
 			else{ //If the time is a "multiple" of interval, then I print
-				tstar=t/cons.interval;
-				dummy= (int) tstar;
-				if(tstar==dummy){
+				/*tstar=t/cons.interval;
+				dummy=floor(tstar); */
+				if((j%tempstep)==0){
 					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
 					cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
 				}	
-			}	
-		
+			}
 			// End of the part inside the time loop
 		}
 		
 		filex<<endl; //I print the \n in the 2 files!
 	  	fileN<<endl;
-	  	
+	
 	}
 	
 	//********************Here ends the main loop*******************
