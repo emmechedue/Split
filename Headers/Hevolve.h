@@ -109,19 +109,19 @@ void myprint2(double *Nc,double *Nd,double t,int M, ofstream& file){ //Prints th
     double Av,Ntot;
     int i; 
     
-    file<<left<<setw(12)<<t; //Prints the time
+    file<<setprecision(5)<<left<<setw(12)<<t; //Prints the time
     Ntot=0;
     for(i=0;i<M;i++){ //Computes the the average of N and prints it
         Ntot=Ntot+Nc[i]+Nd[i];
     }  
     Av=Ntot/M;
-    file<<left<<setw(12)<<Av;
+    file<<setprecision(5)<<left<<setw(12)<<Av;
     Av=0;
     for(i=0;i<M;i++){ //Computes the the average of x as defined on the very first paper and prints it
         Av=Av+Nc[i];
         }
     Av=Av/Ntot;
-    file<<left<<setw(15)<<Av<<M<<endl;
+    file<<setprecision(5)<<left<<setw(15)<<Av<<M<<endl;
     return;
 }
 
@@ -132,14 +132,14 @@ void myprintensamble2(double *Nc,double *Nd,double t,int M, ofstream& fileN, ofs
 	//file<<t<<"    "; //Prints the time
 	for(i=0; i<M; i++){ //Prints Nc+Nd and x
 		y=Nc[i]+Nd[i];
-		fileN<<left<<setw(7)<<y;
+		fileN<<setprecision(5)<<left<<setw(7)<<y;
 		if(y!=0){
 			y=Nc[i]/y;
 		}
 		else {
 			y=-1;
 		}
-		filex<<left<<setw(10)<<y;
+		filex<<setprecision(5)<<left<<setw(10)<<y;
 	}
 	fileN<<endl;
 	filex<<endl;
@@ -155,13 +155,13 @@ void printiterens(double *Nc,double *Nd,int M, ofstream& fileN, ofstream& filex)
         Ntot=Ntot+Nc[i]+Nd[i];
     }  
     Av=Ntot/M;
-    fileN<<left<<setw(12)<<Av;
+    fileN<<setprecision(5)<<left<<setw(12)<<Av;
     Av=0;
     for(i=0;i<M;i++){ //Computes the the average of x as defined on the very first paper and prints it
         Av=Av+Nc[i];
         }
     Av=Av/Ntot;
-    filex<<left<<setw(17)<<Av;
+    filex<<setprecision(5)<<left<<setw(17)<<Av;
     return;
 }
 

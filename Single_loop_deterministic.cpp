@@ -36,11 +36,14 @@ int main(){
     
     //*********Let's initialize all**********
 	t=0.;
-	for(i=0;i<cons.M_max;i++){
-		Nc[i]=cons.N0*cons.x0;
-		x[i]=cons.x0;
-		Nd[i]=cons.N0*(1.-cons.x0);
+	for(i=1;i<cons.M_max;i++){
+		Nc[i]=0;
+		x[i]=-1;
+		Nd[i]=0;
 	}
+	Nc[0]=cons.N0*cons.x0;
+	x[0]=cons.x0;
+	Nd[0]=cons.N0*(1.-cons.x0);
 	M=1; //I start with one cell
 
 	//*******end of initialization*********
