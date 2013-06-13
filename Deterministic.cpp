@@ -148,15 +148,17 @@ int main(){
 		
 			//Now to check if I have to print or not
 			if(abs(t-cons.T)<cons.ts){ //If I am at the end of the file I print!
-				printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
-				cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
+				myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
+				myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
+				cout<<"The time is "<<t<<endl; //Just to check
 			}
 			else{ //If the time is a "multiple" of interval, then I print
 				/*tstar=t/cons.interval;
 				dummy=floor(tstar); */
 				if((j%tempstep)==0){
-					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
-					cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
+					myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
+					myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
+					cout<<"The time is "<<t<<endl; //Just to check
 				}	
 			}
 			// End of the part inside the time loop
