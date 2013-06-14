@@ -19,7 +19,7 @@ How do i do this: The random part is the same! The deterministic part is obtaine
 
 int main(){
     Constants cons;
-    double Nc[cons.M_max], Nd[cons.M_max], x[cons.M_max]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
+    double N[cons.M_max],Nc[cons.M_max], Nd[cons.M_max], x[cons.M_max]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
     double t; //The time
     int i,iloop,j,n; 
     int TMAX; //Is the number of timesteps I have to do to arrive at T => T/ts
@@ -90,10 +90,12 @@ int main(){
 			Nc[i]=0;
 			x[i]=-1;
 			Nd[i]=0;
+			N[i]=0;
 		}
 		Nc[0]=cons.N0*cons.x0;
 		x[0]=cons.x0;
 		Nd[0]=cons.N0*(1.-cons.x0);
+		N[0]=cons.N0;
 		M=1; //I start with one cell
 
 		//*******end of initialization*********
@@ -109,27 +111,28 @@ int main(){
 			for(i=0;i<M;i++){ //This is the cell loop
 				//*******Start of the cell evolution***********
 		
-				dummy=Nevolve(Nc[i]+Nd[i], x[i], cons.ts, cons); //Compute the approximate value of Nc+Nd after time ts
+				dummy=Nevolve(N[i], x[i], cons.ts, cons); //Compute the approximate value of Nc+Nd after time ts
 				if(dummy>=cons.N_max){ //Check if I need to do the splitting or not
 					//********Here I perform the splitting**********
-					tstar=inverseN(Nc[i]+Nd[i], x[i],cons); //Compute the time when N is roughly equal to N_max
+					tstar=inverseN(N[i], x[i],cons); //Compute the time when N is roughly equal to N_max
 					x[i]=xevolve(x[i], tstar, cons); //Compute the value of x after tstar
 					Nc[i]=cons.N_max*x[i]; //I compute the values of Nc and Nd at tstar
 					Nd[i]=cons.N_max-Nc[i];
-					n=createcelldeterministic(&M,i,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
+					n=createcelldeterministic(&M,i,N,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
 					//Now I have to finish the evolution for a time step ts-tstar for the i-th and n-th cell (maybe)
-					dummy=Nevolve(Nc[i]+Nd[i], x[i], cons.ts-tstar, cons); //For the i-th cell
+					N[i]=Nevolve(N[i], x[i], cons.ts-tstar, cons); //For the i-th cell
 					x[i]=xevolve(x[i], cons.ts-tstar, cons);
-					Nc[i]=dummy*x[i]; 
-					Nd[i]=dummy-Nc[i];
+					Nc[i]=N[i]*x[i]; 
+					Nd[i]=N[i]-Nc[i];
 					if(i>n){ //So if i is bigger than n I finish the evolution, otherwise I will perform one entire step of evolution later
-						dummy=Nevolve(Nc[n]+Nd[n], x[n], cons.ts-tstar, cons); //The same for the n-th cell
+						N[n]=Nevolve(N[n], x[n], cons.ts-tstar, cons); //The same for the n-th cell
 						x[n]=xevolve(x[n], cons.ts-tstar, cons);
-						Nc[n]=dummy*x[n]; 
-						Nd[n]=dummy-Nc[n];						
+						Nc[n]=N[n]*x[n]; 
+						Nd[n]=N[n]-Nc[n];						
 					}
 				}
 				else{ //It means that in this timestep there is no splitting for the i-th cell
+					N[i]=dummy;
 					x[i]=xevolve(x[i], cons.ts, cons);
 					Nc[i]=dummy*x[i];
 					Nd[i]=dummy-Nc[i];

@@ -8,6 +8,9 @@
 
 using namespace std;
 
+//double computeNc(double x, double N){
+	
+
 double Nevolve(double Nold, double x, double t, Constants cons){ //This function returns the approximate value of Nc+Nd after a time t. Nold is Nc+Nd of the old cell
 	double a;
 	double N;
@@ -20,7 +23,6 @@ double Nevolve(double Nold, double x, double t, Constants cons){ //This function
 	}
 	
 	N=(a*cons.K*Nold*exp(a*t))/(a*cons.K+Nold*(exp(a*t)-1.));
-	
 	return N;
 }
 
@@ -52,7 +54,7 @@ double inverseN(double N, double x, Constants cons){ //This function returns the
 	return t;
 }
 
-int createcelldeterministic(int *M, int m,double *Nc, double *Nd, double *x, Constants cons, gsl_rng *r){ //M is the number of cells in total (it needs to go to M+1 or to stay M if M==M_max), m is the cell that is splitting, Nc,Nd and x are in the cell m. This functions splits the cell and checks wether I have to kill a cell or not. It accepts Nc, Nd and x because in this way I can use the same function to split in both ways. the function returns the index of the other cell that was created
+int createcelldeterministic(int *M, int m,double *N, double *Nc, double *Nd, double *x, Constants cons, gsl_rng *r){ //M is the number of cells in total (it needs to go to M+1 or to stay M if M==M_max), m is the cell that is splitting, Nc,Nd and x are in the cell m. This functions splits the cell and checks wether I have to kill a cell or not. It accepts Nc, Nd and x because in this way I can use the same function to split in both ways. the function returns the index of the other cell that was created
 	int n; //This is the index of one of the two new cells
 	double rand;
 	
@@ -72,6 +74,14 @@ int createcelldeterministic(int *M, int m,double *Nc, double *Nd, double *x, Con
 	//********creates the new cells ************
 	fillcells(n,m,Nc,Nd,x,cons,r); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
 	//cout<<"First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[n]+Nd[n]<<" bacteria"<<endl;
+	if(cons.choice==1){ //I have to define N[m] and N[n] according to the 2 different models
+		N[m]=cons.N0;
+		N[n]=cons.N0;
+	}
+	else{
+		N[m]=Nc[m]+Nd[m];
+		N[n]=Nc[n]+Nd[n];
+	}
 	
 	return n;
 }

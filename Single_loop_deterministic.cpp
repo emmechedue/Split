@@ -18,7 +18,7 @@ using namespace std;
 
 int main(){
     Constants cons;
-    double Nc[cons.M_max], Nd[cons.M_max], x[cons.M_max]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
+    double N[cons.M_max],Nc[cons.M_max], Nd[cons.M_max], x[cons.M_max]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
     double t; //The time
     int i,j,n; 
     int TMAX; //Is the number of timesteps I have to do to arrive at T => T/ts
@@ -40,10 +40,12 @@ int main(){
 		Nc[i]=0;
 		x[i]=-1;
 		Nd[i]=0;
+		N[i]=0;
 	}
 	Nc[0]=cons.N0*cons.x0;
 	x[0]=cons.x0;
 	Nd[0]=cons.N0*(1.-cons.x0);
+	N[0]=cons.N0;
 	M=1; //I start with one cell
 
 	//*******end of initialization*********
@@ -109,34 +111,35 @@ int main(){
      
    //*****Start of the time evolution***********
 		
-	for(j=1;/*j<=TMAX*/j<=30;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
+	for(j=1;j<=6000/*j<=TMAX*/;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
 		
 		t=t+cons.ts; //Update the time to the new one!
 		
 		for(i=0;i<M;i++){ //This is the cell loop
 			//*******Start of the cell evolution***********
 		
-			dummy=Nevolve(Nc[i]+Nd[i], x[i], cons.ts, cons); //Compute the approximate value of Nc+Nd after time ts
+			dummy=Nevolve(N[i], x[i], cons.ts, cons); //Compute the approximate value of Nc+Nd after time ts
 			if(dummy>=cons.N_max){ //Check if I need to do the splitting or not
 				//********Here I perform the splitting**********
-				tstar=inverseN(Nc[i]+Nd[i], x[i],cons); //Compute the time when N is roughly equal to N_max
+				tstar=inverseN(N[i], x[i],cons); //Compute the time when N is roughly equal to N_max
 				x[i]=xevolve(x[i], tstar, cons); //Compute the value of x after tstar
 				Nc[i]=cons.N_max*x[i]; //I compute the values of Nc and Nd at tstar
 				Nd[i]=cons.N_max-Nc[i];
-				n=createcelldeterministic(&M,i,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
+				n=createcelldeterministic(&M,i,N,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
 				//Now I have to finish the evolution for a time step ts-tstar for the i-th and n-th cell (maybe)
-				dummy=Nevolve(Nc[i]+Nd[i], x[i], cons.ts-tstar, cons); //For the i-th cell
+				N[i]=Nevolve(N[i], x[i], cons.ts-tstar, cons); //For the i-th cell
 				x[i]=xevolve(x[i], cons.ts-tstar, cons);
-				Nc[i]=dummy*x[i]; 
-				Nd[i]=dummy-Nc[i];
+				Nc[i]=N[i]*x[i]; 
+				Nd[i]=N[i]-Nc[i];
 				if(i>n){ //So if i is bigger than n I finish the evolution, otherwise I will perform one entire step of evolution later
-					dummy=Nevolve(Nc[n]+Nd[n], x[n], cons.ts-tstar, cons); //The same for the n-th cell
+					N[n]=Nevolve(N[n], x[n], cons.ts-tstar, cons); //The same for the n-th cell
 					x[n]=xevolve(x[n], cons.ts-tstar, cons);
-					Nc[n]=dummy*x[n]; 
-					Nd[n]=dummy-Nc[n];						
+					Nc[n]=N[n]*x[n]; 
+					Nd[n]=N[n]-Nc[n];						
 				}
 			}
 			else{ //It means that in this timestep there is no splitting for the i-th cell
+				N[i]=dummy;
 				x[i]=xevolve(x[i], cons.ts, cons);
 				Nc[i]=dummy*x[i];
 				Nd[i]=dummy-Nc[i];
@@ -154,16 +157,15 @@ int main(){
 			cout<<"The time is "<<t<<endl; //Just to check
 		}
 		else{ //If the time is a "multiple" of interval, then I print
-			/*tstar=t/cons.interval;
-			dummy=floor(tstar); */
 			if((j%tempstep)==0){
 				myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
 				myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
 				cout<<"The time is "<<t<<endl; //Just to check
 			}	
 		}
-		myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
+		/*myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
 		myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
+		cout<<"The time is "<<t<<endl; //Just to check*/
 		// End of the part inside the time loop
        		
 	}
