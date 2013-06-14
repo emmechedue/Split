@@ -8,37 +8,8 @@
 
 using namespace std;
 
-double Nevolve(double Nc, double Nd, double x, double t, Constants cons){ //This function returns the approximate value of Nc+Nd after a time t
+double Nevolve(double Nold, double x, double t, Constants cons){ //This function returns the approximate value of Nc+Nd after a time t. Nold is Nc+Nd of the old cell
 	double a;
-	double N,Nold;
-	
-	if(cons.fitness==1){ //Computing a for the 2 different fitnesses
-		a=(1.+cons.p*x)*(1.+cons.s*x*(cons.b-cons.c));
-	}
-	else{
-		a=(1.+cons.p*x)*(1.-cons.s*x);
-	}
-	Nold=Nc+Nd;
-	
-	N=(a*cons.K*Nold*exp(a*t))/(a*cons.K+Nold*(exp(a*t)-1.));
-	
-	return N;
-}
-
-double xevolve(double Nc, double Nd, double x, double t, Constants cons){ //This function returns the approximate value of Nc+Nd after a time t
-	double c;
-	double newx;
-	
-	c=1./x+cons.p-1.;
-	
-	newx=1./(c*exp(cons.s*t)-cons.p+1.);
-	
-	return newx;
-}
-
-double inverseN(double Nc, double Nd, double x, Constants cons){ //This function returns the approximate value of t for wich N=N_max
-	double a;
-	double t;
 	double N;
 	
 	if(cons.fitness==1){ //Computing a for the 2 different fitnesses
@@ -47,7 +18,34 @@ double inverseN(double Nc, double Nd, double x, Constants cons){ //This function
 	else{
 		a=(1.+cons.p*x)*(1.-cons.s*x);
 	}
-	N=Nc+Nd;
+	
+	N=(a*cons.K*Nold*exp(a*t))/(a*cons.K+Nold*(exp(a*t)-1.));
+	
+	return N;
+}
+
+double xevolve(double x, double t, Constants cons){ //This function returns the approximate value of Nc+Nd after a time t
+	double fa;
+	double newx;
+	
+	fa=1./x+cons.p-1.;
+	
+	newx=1./(fa*exp(cons.s*t)-cons.p+1.);
+	
+	return newx;
+}
+
+double inverseN(double N, double x, Constants cons){ //This function returns the approximate value of t for wich N=N_max. N=Nc+Nd
+	double a;
+	double t;
+	
+	if(cons.fitness==1){ //Computing a for the 2 different fitnesses
+		a=(1.+cons.p*x)*(1.+cons.s*x*(cons.b-cons.c));
+	}
+	else{
+		a=(1.+cons.p*x)*(1.-cons.s*x);
+	}
+
 	
 	t=(1./a)*log((cons.N_max*(a*cons.K-N))/(N*(a*cons.K-cons.N_max)));
 	
