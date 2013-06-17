@@ -8,8 +8,25 @@
 
 using namespace std;
 
-//double computeNc(double x, double N){
+double computeNc(double x, double N){
+	int Ncint;
+	double Ncdouble;
 	
+	Ncint=floor(N*x);
+	Ncdouble=(double) Ncint;
+	
+	return Ncdouble;
+}
+
+double computeNd(double x, double N){
+	int Ndint;
+	double Nddouble;
+	
+	Ncint=ceil(N*(1-x));
+	Ncdouble=(double) Ncint;
+	
+	return Ncdouble;
+}
 
 double Nevolve(double Nold, double x, double t, Constants cons){ //This function returns the approximate value of Nc+Nd after a time t. Nold is Nc+Nd of the old cell
 	double a;
