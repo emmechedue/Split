@@ -2,30 +2,36 @@
 #include<cstdio>
 #include<cstdlib>
 #include<fstream>
-#include<math.h>
+#include<cmath>
 #include<Constants.h>
 #include<iomanip>
 
 using namespace std;
 
-double computeNc(double x, double N){
-	int Ncint;
-	double Ncdouble;
+/*Neanche questo funziona. Devi fare qualcosa del tipo: Becca il floor piu' vicino per entrambi e poi decidi a chi assegnare il rimanente!! Qualcosa del genere ma non ne sono sicuro!!!*/
+void computeNcNd(double x, double N, double *Nc, double *Nd){ 
+	int temp;
+	double Ncdouble,Nddouble,Ntemp,fract;
 	
-	Ncint=floor(N*x);
-	Ncdouble=(double) Ncint;
-	
-	return Ncdouble;
-}
-
-double computeNd(double x, double N){
-	int Ndint;
-	double Nddouble;
-	
-	Ncint=ceil(N*(1-x));
-	Ncdouble=(double) Ncint;
-	
-	return Ncdouble;
+	fract=modf(N,&Ntemp);
+	if(fract>0.5){
+		Ntemp=N+1;
+	}
+	else{
+		Ntemp=N;
+	}
+	if(x>0.5){
+		temp=ceil(Ntemp*x);
+	}
+	else{
+		temp=floor(Ntemp*x);
+	}
+	Ncdouble=(double) temp;
+	fract=(double) floor(Ntemp);
+	Nddouble=fract-Ncdouble;
+	*Nc=Ncdouble;
+	*Nd=Nddouble;
+	return ;
 }
 
 double Nevolve(double Nold, double x, double t, Constants cons){ //This function returns the approximate value of Nc+Nd after a time t. Nold is Nc+Nd of the old cell
