@@ -31,8 +31,8 @@ int main(){
 		t=t+cons.ts;
 		cout<<setprecision(5)<<left<<setw(10)<<N<<setw(10)<<x<<setw(10)<<Nc<<setw(10)<<Nd<<setw(10)<<t<<endl;
 	}*/
-	N=61.2;
-	x=0.51;
+	N=63.59;
+	x=0.6;
 	computeNcNd(x,N,&Nc,&Nd);
 	cout<<setprecision(5)<<left<<setw(10)<<N<<setw(10)<<x<<setw(10)<<Nc<<setw(10)<<Nd<<setw(10)<<t<<endl;
 	return 0;

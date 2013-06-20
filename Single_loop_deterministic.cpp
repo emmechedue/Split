@@ -62,7 +62,7 @@ int main(){
 		file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
 		file<<"#Results for the simulation with deterministic intra-cell dynamics reproducing the propagule with"<<endl;
 		file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-		file<<"#Time  N   x    M"<<endl;
+		file<<left<<setw(12)<<"#Time"<<setw(12)<<"N"<<setw(15)<<"x"<<setw(12)<<"M"<<endl;
 		myprint2(Nc,Nd,t,M,file);
 		fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
 		fileN<<"#Results for the simulation with deterministic intra-cell dynamics reproducing the propagule with"<<endl;
@@ -78,7 +78,7 @@ int main(){
 		file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
 		file<<"#Results for the simulation with deterministic intra-cell dynamics reproducing the random splitting with"<<endl;
 		file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-		file<<"#Time  N   x    M"<<endl;
+		file<<left<<setw(12)<<"#Time"<<setw(12)<<"N"<<setw(15)<<"x"<<setw(14)<<"M"<<endl;
 		myprint2(Nc,Nd,t,M,file);
 		fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
 		fileN<<"#Results for the simulation with deterministic intra-cell dynamics reproducing the random splitting with"<<endl;
@@ -111,7 +111,7 @@ int main(){
      
    //*****Start of the time evolution***********
 		
-	for(j=1;j<=20/*j<=TMAX*/;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
+	for(j=1;/*j<=1800*/j<=TMAX;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
 		
 		t=t+cons.ts; //Update the time to the new one!
 		
@@ -123,26 +123,22 @@ int main(){
 				//********Here I perform the splitting**********
 				tstar=inverseN(N[i], x[i],cons); //Compute the time when N is roughly equal to N_max
 				x[i]=xevolve(x[i], tstar, cons); //Compute the value of x after tstar
-				Nc[i]=cons.N_max*x[i]; //I compute the values of Nc and Nd at tstar
-				Nd[i]=cons.N_max-Nc[i];
+				computeNcNd(x[i], cons.N_max, &Nc[i], &Nd[i]); //I compute the values of Nc and Nd at tstar
 				n=createcelldeterministic(&M,i,N,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
 				//Now I have to finish the evolution for a time step ts-tstar for the i-th and n-th cell (maybe)
 				N[i]=Nevolve(N[i], x[i], cons.ts-tstar, cons); //For the i-th cell
 				x[i]=xevolve(x[i], cons.ts-tstar, cons);
-				Nc[i]=N[i]*x[i]; 
-				Nd[i]=N[i]-Nc[i];
+				computeNcNd(x[i], N[i], &Nc[i], &Nd[i]);
 				if(i>n){ //So if i is bigger than n I finish the evolution, otherwise I will perform one entire step of evolution later
 					N[n]=Nevolve(N[n], x[n], cons.ts-tstar, cons); //The same for the n-th cell
 					x[n]=xevolve(x[n], cons.ts-tstar, cons);
-					Nc[n]=N[n]*x[n]; 
-					Nd[n]=N[n]-Nc[n];						
+					computeNcNd(x[n], N[n], &Nc[n], &Nd[n]);	
 				}
 			}
 			else{ //It means that in this timestep there is no splitting for the i-th cell
 				N[i]=dummy;
-				x[i]=xevolve(x[i], cons.ts, cons);
-				Nc[i]=dummy*x[i];
-				Nd[i]=dummy-Nc[i];
+				x[i]=xevolve(x[i], cons.ts, cons);				
+				computeNcNd(x[i], N[i], &Nc[i], &Nd[i]);
 			}
 			
 			//*********End of the single cell evolution*************

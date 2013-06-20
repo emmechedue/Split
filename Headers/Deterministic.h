@@ -15,11 +15,9 @@ void computeNcNd(double x, double N, double *Nc, double *Nd){
 	
 	fract=modf(N,&Ntemp);
 	if(fract>0.5){
-		Ntemp=N+1;
+		Ntemp=Ntemp+1;
 	}
-	else{
-		Ntemp=N;
-	}
+	
 	if(x>0.5){
 		temp=ceil(Ntemp*x);
 	}
