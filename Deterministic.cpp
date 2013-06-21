@@ -92,10 +92,9 @@ int main(){
 			Nd[i]=0;
 			N[i]=0;
 		}
-		Nc[0]=cons.N0*cons.x0;
-		x[0]=cons.x0;
-		Nd[0]=cons.N0*(1.-cons.x0);
 		N[0]=cons.N0;
+		x[0]=cons.x0;
+		computeNcNd(x[0], N[0], &Nc[0], &Nd[0]);
 		M=1; //I start with one cell
 
 		//*******end of initialization*********

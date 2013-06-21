@@ -42,10 +42,9 @@ int main(){
 		Nd[i]=0;
 		N[i]=0;
 	}
-	Nc[0]=cons.N0*cons.x0;
-	x[0]=cons.x0;
-	Nd[0]=cons.N0*(1.-cons.x0);
 	N[0]=cons.N0;
+	x[0]=cons.x0;
+	computeNcNd(x[0], N[0], &Nc[0], &Nd[0]);
 	M=1; //I start with one cell
 
 	//*******end of initialization*********
@@ -107,11 +106,11 @@ int main(){
 	}
 	
     
-    //*****Start of the evolution***********
-     
-   //*****Start of the time evolution***********
+	//*****Start of the evolution***********
+    cout<<left<<setw(12)<<N[0]<<setw(12)<<Nc[0]<<setw(15)<<Nd[0]<<setw(12)<<x[0]<<endl; 
+	//*****Start of the time evolution***********
 		
-	for(j=1;/*j<=1800*/j<=TMAX;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
+	for(j=1;j<=TMAX;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
 		
 		t=t+cons.ts; //Update the time to the new one!
 		
@@ -147,7 +146,7 @@ int main(){
 		//***********End of the cell loop at fixed time****************
 		
 		//Now to check if I have to print or not
-		/*if(abs(t-cons.T)<cons.ts){ //If I am at the end of the file I print!
+		if(abs(t-cons.T)<cons.ts){ //If I am at the end of the file I print!
 			myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
 			myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
 			cout<<"The time is "<<t<<endl; //Just to check
@@ -158,10 +157,11 @@ int main(){
 				myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
 				cout<<"The time is "<<t<<endl; //Just to check
 			}	
-		}*/
-		myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
+		}
+		/*myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
 		myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
-		cout<<"The time is "<<t<<endl; //Just to check*/
+		cout<<"The time is "<<t<<endl; //Just to check
+		cout<<left<<setw(12)<<N[0]<<setw(12)<<Nc[0]<<setw(15)<<Nd[0]<<setw(12)<<x[0]<<endl;*/
 		// End of the part inside the time loop
        		
 	}

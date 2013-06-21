@@ -18,7 +18,7 @@ void fill1(int *C, int *D, double x, int N0, gsl_rng *r){ //This one gives C (th
 	int n;
 	
 	n=gsl_ran_binomial(r,x,N0);
-	*C=n;
+	*C=35;//n;
 	*D=N0-n;
 	return;
 }
@@ -53,11 +53,11 @@ void fillcells(int n, int m, double *Nc, double *Nd, double *x, Constants cons, 
 		fill1(&C,&D,x[m],cons.N0,r); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
 		Nc[n]=C;
 		Nd[n]=D;
-		x[n]=C/(C+D);
+		x[n]=Nc[n]/(Nc[n]+Nd[n]);
 		fill1(&C,&D,x[m],cons.N0,r);
 		Nc[m]=C;
 		Nd[m]=D;
-		x[m]=C/(C+D);
+		x[m]=Nc[m]/(Nc[m]+Nd[m]);
 		
 	}
 	else{ 
