@@ -56,7 +56,7 @@ int main(){
 		}
 	else{
 		fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
-		fileN<<"Results for the simulation with deterministic intra-cell dynamics reproducing the random splitting with"<<endl;
+		fileN<<"#Results for the simulation with deterministic intra-cell dynamics reproducing the random splitting with"<<endl;
 		fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
 		fileN<<"#In the form of E_{N[m][t]}"<<endl;
 		filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
@@ -140,15 +140,13 @@ int main(){
 		
 			//Now to check if I have to print or not
 			if(abs(t-cons.T)<cons.ts){ //If I am at the end of the file I print!
-				myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
-				myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
-				cout<<"The time is "<<t<<endl; //Just to check
+				printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
+				cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
 			}
 			else{ //If the time is a "multiple" of interval, then I print
 				if((j%tempstep)==0){
-					myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
-					myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
-					cout<<"The time is "<<t<<endl; //Just to check
+					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
+					cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
 				}	
 			}
 			// End of the part inside the time loop

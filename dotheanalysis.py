@@ -201,3 +201,14 @@ text(0, N_max-10, stringa, bbox=dict(facecolor='orange', alpha=0.8))
 plt.savefig("N.png",dpi=100)
 plt.close()
 
+
+#N plotting without errors
+figure(num=None, figsize=(16, 12), dpi=160, facecolor='w', edgecolor='k')
+plot(time,N,label="data")
+title("Ensamble average of <N> vs. t for the "+choice+" model")
+ylabel("<N>")
+xlabel("t")
+legend("data")
+text(0, N_max-10, stringa, bbox=dict(facecolor='orange', alpha=0.8))
+plt.savefig("N_noerr.png",dpi=100)
+plt.close()
