@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void computeNcNd(double x, double N, double *Nc, double *Nd){ 
+void computeNcNd(double x, double N, double *Nc, double *Nd){ //Here I first doublecheck the limit cases and then I do the rest!
 	int temp;
 	double Ncdouble,Nddouble,Ntemp,fract;
 	
@@ -17,17 +17,31 @@ void computeNcNd(double x, double N, double *Nc, double *Nd){
 		Ntemp=Ntemp+1;
 	}
 	
-	if(x>0.5){
-		temp=ceil(Ntemp*x);
+	if(x==0){
+		*Nd=Ntemp;
+		*Nc=0.;
 	}
 	else{
-		temp=floor(Ntemp*x);
+		if(x==1){
+			*Nc=Ntemp;
+			*Nd=0.;
+		}
+		else{
+			
+			if(x>0.5){
+				temp=ceil(Ntemp*x);
+			}
+			else{
+				temp=floor(Ntemp*x);
+			}
+			Ncdouble=(double) temp;
+			fract=(double) floor(Ntemp);
+			Nddouble=fract-Ncdouble;
+			*Nc=Ncdouble;
+			*Nd=Nddouble;
+			
+		}
 	}
-	Ncdouble=(double) temp;
-	fract=(double) floor(Ntemp);
-	Nddouble=fract-Ncdouble;
-	*Nc=Ncdouble;
-	*Nd=Nddouble;
 	return ;
 }
 
@@ -46,15 +60,19 @@ double Nevolve(double Nold, double x, double t, Constants cons){ //This function
 	return N;
 }
 
-double xevolve(double x, double t, Constants cons){ //This function returns the approximate value of Nc+Nd after a time t
+double xevolve(double x, double t, Constants cons){ //This function returns the approximate value of Nc+Nd after a time t. If x is bigger than 0.99, it automatically returns 1 (this is done in order to have fixation in x=1, that is not given by the approximation of the equations!
 	double fa;
 	double newx;
 	
-	fa=1./x+cons.p-1.;
-	
-	newx=1./(fa*exp(cons.s*t)-cons.p+1.);
-	
-	return newx;
+	if(x>=0.99){
+		return 1.;
+	}
+	else{
+		
+		fa=1./x+cons.p-1.;
+		newx=1./(fa*exp(cons.s*t)-cons.p+1.);
+		return newx;
+	}
 }
 
 double inverseN(double N, double x, Constants cons){ //This function returns the approximate value of t for wich N=N_max. N=Nc+Nd

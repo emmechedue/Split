@@ -18,7 +18,7 @@ void fill1(int *C, int *D, double x, int N0, gsl_rng *r){ //This one gives C (th
 	int n;
 	
 	n=gsl_ran_binomial(r,x,N0);
-	*C=35;//n;
+	*C=n;
 	*D=N0-n;
 	return;
 }
@@ -66,7 +66,7 @@ void fillcells(int n, int m, double *Nc, double *Nd, double *x, Constants cons, 
 		}while((C==0)&&(D==0));
 		Nc[n]=C;
 		Nd[n]=D;
-		x[n]=C/(C+D);
+		x[n]=Nc[n]/(Nc[n]+Nd[n]);
 		Nc[m]=Nc[m]-C; //The new Nc[m] is the old Nc[m] - the cooperators in the new cell => I'm conserving the total number of bacteria
 		Nd[m]=Nd[m]-D;
 		x[m]=Nc[m]/(Nc[m]+Nd[m]);

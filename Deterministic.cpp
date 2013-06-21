@@ -145,8 +145,6 @@ int main(){
 				cout<<"The time is "<<t<<endl; //Just to check
 			}
 			else{ //If the time is a "multiple" of interval, then I print
-				/*tstar=t/cons.interval;
-				dummy=floor(tstar); */
 				if((j%tempstep)==0){
 					myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
 					myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
