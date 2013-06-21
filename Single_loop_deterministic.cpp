@@ -110,7 +110,7 @@ int main(){
     cout<<left<<setw(12)<<N[0]<<setw(12)<<Nc[0]<<setw(15)<<Nd[0]<<setw(12)<<x[0]<<endl; 
 	//*****Start of the time evolution***********
 		
-	for(j=1;j<=TMAX;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
+	for(j=1;j=200/*j<=TMAX*/;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
 		
 		t=t+cons.ts; //Update the time to the new one!
 		
@@ -146,7 +146,7 @@ int main(){
 		//***********End of the cell loop at fixed time****************
 		
 		//Now to check if I have to print or not
-		if(abs(t-cons.T)<cons.ts){ //If I am at the end of the file I print!
+		/*if(abs(t-cons.T)<cons.ts){ //If I am at the end of the file I print!
 			myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
 			myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
 			cout<<"The time is "<<t<<endl; //Just to check
@@ -157,11 +157,11 @@ int main(){
 				myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
 				cout<<"The time is "<<t<<endl; //Just to check
 			}	
-		}
-		/*myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
+		}*/
+		myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
 		myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
 		cout<<"The time is "<<t<<endl; //Just to check
-		cout<<left<<setw(12)<<N[0]<<setw(12)<<Nc[0]<<setw(15)<<Nd[0]<<setw(12)<<x[0]<<endl;*/
+		cout<<left<<setw(12)<<N[0]<<setw(12)<<Nc[0]<<setw(15)<<Nd[0]<<setw(12)<<x[0]<<endl;
 		// End of the part inside the time loop
        		
 	}
