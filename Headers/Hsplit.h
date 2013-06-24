@@ -44,11 +44,21 @@ void fill2(int *C, int *D, double Nc, double Nd, gsl_rng *r){//This one gives C 
 	return;
 }
 
+/*void fill3(int n, int m, double *Nc, double *Nd, gsl_rng *r){//This one does the deterministic splitting, it just splits in two equal parts. It updates automatically the value of both cells. AGAIN REMEMBER THAT M IS THE OLD CELL AND N IS THE NEW CELL!!!
+	int Coop1, Def1, Coop2, Def2,temp;
+	b
+	
+	temp=(int) Nc[m];
+	if((temp%2)==0){
+		Nc[n]=temp/2;
+		Nc[m]=temp/2;
+	}
+*/
 
 void fillcells(int n, int m, double *Nc, double *Nd, double *x, Constants cons, gsl_rng *r){ //n is the cell that I want to fill, m is the cell from which I take the parameters, choice can take values 1 (for the first method) and 2 for the second method
 	int C,D;
 	
-	//Here I choose which splitting I want to do
+	/*//Here I choose which splitting I want to do
 	if(cons.choice==1){ 
 		fill1(&C,&D,x[m],cons.N0,r); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
 		Nc[n]=C;
@@ -70,6 +80,35 @@ void fillcells(int n, int m, double *Nc, double *Nd, double *x, Constants cons, 
 		Nc[m]=Nc[m]-C; //The new Nc[m] is the old Nc[m] - the cooperators in the new cell => I'm conserving the total number of bacteria
 		Nd[m]=Nd[m]-D;
 		x[m]=Nc[m]/(Nc[m]+Nd[m]);
+	}*/
+	switch(cons.choice){
+		case 1:
+			fill1(&C,&D,x[m],cons.N0,r); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
+			Nc[n]=C;
+			Nd[n]=D;
+			x[n]=Nc[n]/(Nc[n]+Nd[n]);
+			fill1(&C,&D,x[m],cons.N0,r);
+			Nc[m]=C;
+			Nd[m]=D;
+			x[m]=Nc[m]/(Nc[m]+Nd[m]);
+			break;
+		case 2:
+			do{ //Just to be sure that I am not creating an empty cell!!
+				fill2(&C,&D,Nc[m],Nd[m],r);  // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
+			}while((C==0)&&(D==0));
+			Nc[n]=C;
+			Nd[n]=D;
+			x[n]=Nc[n]/(Nc[n]+Nd[n]);
+			Nc[m]=Nc[m]-C; //The new Nc[m] is the old Nc[m] - the cooperators in the new cell => I'm conserving the total number of bacteria
+			Nd[m]=Nd[m]-D;
+			x[m]=Nc[m]/(Nc[m]+Nd[m]);
+			break;
+		case 3:
+			
+			break;
+		default:
+			cout<<"ERROR IN THE CHOICE OF THE MODEL!!"<<endl;
+			exit(101);
 	}
 	
 	return;
