@@ -44,17 +44,43 @@ void fill2(int *C, int *D, double Nc, double Nd, gsl_rng *r){//This one gives C 
 	return;
 }
 
-/*void fill3(int n, int m, double *Nc, double *Nd, gsl_rng *r){//This one does the deterministic splitting, it just splits in two equal parts. It updates automatically the value of both cells. AGAIN REMEMBER THAT M IS THE OLD CELL AND N IS THE NEW CELL!!!
-	int Coop1, Def1, Coop2, Def2,temp;
-	b
+void fill3(int n, int m, double *x, double *Nc, double *Nd, gsl_rng *r){//This one does the deterministic splitting, it just splits in two equal parts. It updates automatically the value of both cells. AGAIN REMEMBER THAT M IS THE OLD CELL AND N IS THE NEW CELL!!! If both Nc and Nd are odd, I puth the spare ones both in the same cell (to try to keep things balanced for small numbe rof agents)
+	int dice,temp1,temp2;
 	
-	temp=(int) Nc[m];
-	if((temp%2)==0){
-		Nc[n]=temp/2;
-		Nc[m]=temp/2;
+	
+	
+	temp1=(int) Nc[m];
+	temp2=(int) Nd[m];
+	if(((temp1%2)!=0)||((temp2%2)!=0)){ //I sample in which cell I want to put the spare agent/agents
+		dice=gsl_rng_uniform_int(r,2);
 	}
-*/
-
+	Nc[n]=temp1/2;
+	Nc[m]=temp1/2;
+	if((temp1%2)!=0){
+		if(dice==0){
+			Nc[m]++;
+		}
+		else{
+			Nc[n]++;
+		}
+	}
+	
+	Nd[n]=temp2/2;
+	Nd[m]=temp2/2;
+	if((temp2%2)!=0){
+		if(dice==0){
+			Nd[m]++;
+		}
+		else{
+			Nd[n]++;
+		}
+	}
+	x[n]=Nc[n]/(Nc[n]+Nd[n]);
+	x[m]=Nc[m]/(Nc[m]+Nd[m]);
+	
+	return ;		
+}
+	
 void fillcells(int n, int m, double *Nc, double *Nd, double *x, Constants cons, gsl_rng *r){ //n is the cell that I want to fill, m is the cell from which I take the parameters, choice can take values 1 (for the first method) and 2 for the second method
 	int C,D;
 	
@@ -104,7 +130,7 @@ void fillcells(int n, int m, double *Nc, double *Nd, double *x, Constants cons, 
 			x[m]=Nc[m]/(Nc[m]+Nd[m]);
 			break;
 		case 3:
-			
+			fill3(n,m,x,Nc,Nd,r); //Here I do everything in one line!
 			break;
 		default:
 			cout<<"ERROR IN THE CHOICE OF THE MODEL!!"<<endl;
