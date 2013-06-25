@@ -18,3 +18,6 @@ deterministic_single_loop: Single_loop_deterministic.cpp Constants.cpp ./Headers
 	
 prova: Prova.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Deterministic.h
 	g++ -I /usr/include/gsl -I ./Headers Prova.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
+	
+noselection: Noselection.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Deterministic.h
+	g++ -I /usr/include/gsl -I ./Headers Noselection.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2

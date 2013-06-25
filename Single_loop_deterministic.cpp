@@ -146,7 +146,7 @@ int main(){
 		//***********End of the cell loop at fixed time****************
 		
 		//Now to check if I have to print or not
-		if(abs(t-cons.T)<cons.ts){ //If I am at the end of the file I print!
+		if(abs(t-cons.T)<cons.ts){ //If I am at the end of the time I print!
 			myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
 			myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
 			cout<<"The time is "<<t<<endl; //Just to check
