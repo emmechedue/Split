@@ -48,10 +48,10 @@ dummy = config["choice"]
 cho=int(dummy)
 if cho==1:
 	choice="propagule"
-	choice2=choice
-else:
+elif cho==2:
 	choice="random splitting"
-	choice2="random_splitting"
+else:
+	choice="deterministic splitting"
 	
 #***************************************************************************************
 

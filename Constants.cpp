@@ -19,7 +19,7 @@ Constants::Constants(){
 	N_max=80; //The number of bacteria in the cell s.t. the cell splits
 	M_max=1000; //The maximum number of cells
 	N_loop=300; //The number of times I iterate
-	choice=2; //It's 1 if I want the propagule model and it is 2 if I want the random splitting model
+	choice=2; //It's 1 if I want the propagule model and it is 2 if I want the random splitting model. It is 3 if I am choosing a deterministic splitting
 	fitness=2; //It's 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses
 	ts=0.001; //The timestep in the semi-deterministic model. The timestep of the "integration" over N
 }
@@ -38,8 +38,8 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 	double vector[M]; //will store the M parameters
 	FILE *pfile;
 	
-	pfile = fopen ("./config.conf" , "r");
-	//pfile= fopen("/project/theorie/s/Stefano.Duca/Analysis/Prog/config.conf", "r"); //Here I have to put the folder where the config file will be!
+	//pfile = fopen ("./config.conf" , "r");
+	pfile= fopen("/project/theorie/s/Stefano.Duca/Analysis/Prog/config.conf", "r"); //Here I have to put the folder where the config file will be!
 	
 	while(fgets(line, 256, pfile) != NULL)
 	{
@@ -64,7 +64,7 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 	N_max=vector[9]; //The number of bacteria in the cell s.t. the cell splits
 	M_max=vector[10]; //The maximum number of cells
 	N_loop=vector[11]; //The number of times I iterate
-	choice=vector[12]; //Is 1 if I want the propagule model and it is 2 if I want the random splitting model
+	choice=vector[12]; //Is 1 if I want the propagule model and it is 2 if I want the random splitting model. It is 3 if I am choosing a deterministic splitting
 	fitness=vector[13]; //Is 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses
 	ts=vector[14]; //The timestep in the semi-deterministic model. The timestep of the "integration" over N
 }

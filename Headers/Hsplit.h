@@ -45,7 +45,8 @@ void fill2(int *C, int *D, double Nc, double Nd, gsl_rng *r){//This one gives C 
 }
 
 void fill3(int n, int m, double *x, double *Nc, double *Nd, gsl_rng *r){//This one does the deterministic splitting, it just splits in two equal parts. It updates automatically the value of both cells. AGAIN REMEMBER THAT M IS THE OLD CELL AND N IS THE NEW CELL!!! If both Nc and Nd are odd, I puth the spare ones both in the same cell (to try to keep things balanced for small numbe rof agents)
-	int dice,temp1,temp2;
+	int temp1,temp2;
+	int dice=-1; //Just to initialize it for something dummy, it will never be used unitialized
 	
 	
 	

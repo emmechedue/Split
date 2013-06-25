@@ -13,32 +13,23 @@ using namespace std;
 
 int main(){
 	Constants cons;
-	double Nc, Nd, N,x,t;
-	int i;
-	int temp;
+	double Nc[2],Nd[2],x[2];
+	gsl_rng *r; //Pointer to the type of rng
+	FILE *pfile; //file to read from /usr/urandom
+	unsigned int seed; //Seed of the random number generator
 	
-	/*N=cons.N0;
-	x=cons.x0;
-	Nc=x*N;
-	Nd=N-Nc;
-	t=0;
-	cout<<setprecision(5)<<left<<setw(10)<<"N"<<setw(10)<<"x"<<setw(10)<<"Nc"<<setw(10)<<"Nd"<<setw(10)<<"t"<<endl;
-	cout<<setprecision(5)<<left<<setw(10)<<N<<setw(10)<<x<<setw(10)<<Nc<<setw(10)<<Nd<<setw(10)<<t<<endl;
-	for(i=0;i<=3;i++){
-		N=Nevolve(N, x, cons.ts, cons);
-		x=xevolve(x,cons.ts,cons);
-		Nc=x*N;
-		Nd=N-Nc;
-		t=t+cons.ts;
-		cout<<setprecision(5)<<left<<setw(10)<<N<<setw(10)<<x<<setw(10)<<Nc<<setw(10)<<Nd<<setw(10)<<t<<endl;
-	}
-	N=63.59;
-	x=0.6;
-	computeNcNd(x,N,&Nc,&Nd);
-	cout<<setprecision(5)<<left<<setw(10)<<N<<setw(10)<<x<<setw(10)<<Nc<<setw(10)<<Nd<<setw(10)<<t<<endl;*/
-	Nc=81.;
-	temp=(int) Nc;
-	Nd=temp/2;
-	cout<<Nd<<endl;
+	pfile = fopen ("/dev/urandom", "r");
+	fread (&seed, sizeof (seed), 1, pfile);
+	fclose(pfile);
+	r = gsl_rng_alloc(gsl_rng_mt19937); //I'm using the "Mersenne Twister" generator!
+	gsl_rng_set(r,seed); // Starting the generator
+	
+	Nc[0]=41.;
+	Nd[0]=41.;
+	Nc[1]=-1.;
+	Nd[1]=-1.;
+	fill3(1,0,x,Nc,Nd,r);
+	cout<<Nc[0]<<"  "<<Nd[0]<<"  "<<Nc[1]<<"  "<<Nd[1]<<"  "<<x[0]<<"  "<<x[1]<<endl;
+	
 	return 0;
 }
