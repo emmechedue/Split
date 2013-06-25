@@ -59,7 +59,7 @@ int main(){
     
     //******let's take the seed for the rng and initialize the rng******
     pfile = fopen ("/dev/urandom", "r");
-	fread (&seed, sizeof (seed), 1, pfile);
+	i=fread (&seed, sizeof (seed), 1, pfile); //I added the i= ... just to not be bothered anymore by the warnings!
 	fclose(pfile);
 	r = gsl_rng_alloc(gsl_rng_mt19937); //I'm using the "Mersenne Twister" generator!
 	gsl_rng_set(r,seed); // Starting the generator
