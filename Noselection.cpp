@@ -111,9 +111,9 @@ int main(){
 				dummy=Nevolve(N[i], x[i], cons.ts, cons); //Compute the approximate value of Nc+Nd after time ts
 				if(dummy>=cons.N_max){ //Check if I need to do the splitting or not
 					//********Here I perform the splitting**********
-					/*tstar=inverseN(N[i], x[i],cons); //Compute the time when N is roughly equal to N_max
-					x[i]=xevolve(x[i], tstar, cons); //Compute the value of x after tstar*//
-					//No x dynamics
+					tstar=inverseN(N[i], x[i],cons); //Compute the time when N is roughly equal to N_max
+					/*x[i]=xevolve(x[i], tstar, cons); //Compute the value of x after tstar
+					No x dynamics*/
 					computeNcNd(x[i], cons.N_max, &Nc[i], &Nd[i]); //I compute the values of Nc and Nd at tstar
 					n=createcelldeterministic(&M,i,N,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
 					//Now I have to finish the evolution for a time step ts-tstar for the i-th and n-th cell (maybe)
