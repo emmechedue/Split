@@ -57,37 +57,35 @@ int main(){
 	gsl_rng_set(r,seed); // Starting the generator
 	//**********************************
     
-    if(cons.choice==1){
-		file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
-		file<<"#Results for the simulation with deterministic intra-cell dynamics reproducing the propagule with"<<endl;
-		file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-		file<<left<<setw(12)<<"#Time"<<setw(12)<<"N"<<setw(15)<<"x"<<setw(12)<<"M"<<endl;
-		myprint2(Nc,Nd,t,M,file);
+    if(cons.choice==1){ //This is just to print the right model in the title!
 		fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
 		fileN<<"#Results for the simulation with deterministic intra-cell dynamics reproducing the propagule with"<<endl;
-		fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-		fileN<<"#In the form of N[t][m]"<<endl;
+		fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
+		fileN<<"#In the form of E_{N[m][t]}"<<endl;
 		filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
 		filex<<"##Results for the simulation with deterministic intra-cell dynamics reproducing the propagule with"<<endl;
-		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-		filex<<"#In the form of x[t][m]"<<endl;
-		myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex);
-	}
-	else{
-		file.open(filename,ios::out|ios::trunc); //Open the output's file and print the results for time=0
-		file<<"#Results for the simulation with deterministic intra-cell dynamics reproducing the random splitting with"<<endl;
-		file<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-		file<<left<<setw(12)<<"#Time"<<setw(12)<<"N"<<setw(15)<<"x"<<setw(14)<<"M"<<endl;
-		myprint2(Nc,Nd,t,M,file);
+		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
+		filex<<"#In the form of E_{x[m][t]}"<<endl;
+		}
+	else if(cons.choice==2){
 		fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
 		fileN<<"#Results for the simulation with deterministic intra-cell dynamics reproducing the random splitting with"<<endl;
-		fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-		fileN<<"#In the form of N[t][m]"<<endl;
+		fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
+		fileN<<"#In the form of E_{N[m][t]}"<<endl;
 		filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
 		filex<<"##Results for the simulation with deterministic intra-cell dynamics reproducing the random splitting with"<<endl;
-		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<endl;
-		filex<<"#In the form of x[t][m]"<<endl;
-		myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex);
+		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
+		filex<<"#In the form of E_{x[m][t]}"<<endl;
+		}
+	else{
+		fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
+		fileN<<"#Results for the simulation with deterministic intra-cell dynamics with deterministic splitting with"<<endl;
+		fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
+		fileN<<"#In the form of E_{N[m][t]}"<<endl;
+		filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
+		filex<<"##Results for the simulation with deterministic intra-cell dynamics reproducing the random splitting with"<<endl;
+		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
+		filex<<"#In the form of E_{x[m][t]}"<<endl;
 	}
     
     //********************************Compute TMAX************
