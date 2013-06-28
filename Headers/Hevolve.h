@@ -211,6 +211,55 @@ void printparamloop(ofstream& filec, Constants cons){
 	return;
 }
 
+void printparamloopdeterministic(ofstream& filec, Constants cons){
+	filec<<"#Initial number of bacteria in the cell:"<<endl;
+	filec<<"N0= "<<cons.N0<<endl<<endl;
+	
+	filec<<"#Initial fraction of cooperators in the cell :"<<endl;
+	filec<<"x0= "<<cons.x0<<endl<<endl;
+	
+	filec<<"#Time when the simulation stops:"<<endl;
+	filec<<"T= "<<cons.T<<endl<<endl;
+	
+	filec<<"#Time step for which I print my results:"<<endl;
+	filec<<"interval= "<<cons.interval<<endl<<endl;
+	
+	filec<<"#Selection's strenght:"<<endl;
+	filec<<"s= "<<cons.s<<endl<<endl;
+	
+	filec<<"#Cost:"<<endl;
+	filec<<"c= "<<cons.c<<endl<<endl;
+	
+	filec<<"#Benefit:"<<endl;
+	filec<<"b= "<<cons.b<<endl<<endl;
+	
+	filec<<"#Cooperators advantage:"<<endl;
+	filec<<"p= "<<cons.p<<endl<<endl;
+	
+	filec<<"#Carrying capacity:"<<endl;
+	filec<<"K= "<<cons.K<<endl<<endl;
+	
+	filec<<"#The number of bacteria in the cell s.t. the cell splits:"<<endl;
+	filec<<"N_max= "<<cons.N_max<<endl<<endl;
+	
+	filec<<"#The maximum number of cells:"<<endl;
+	filec<<"M_max= "<<cons.M_max<<endl<<endl;
+	
+	filec<<"#The number of times I iterate:"<<endl;
+	filec<<"N_loop= "<<cons.N_loop<<endl<<endl;
+	
+	filec<<"#The choice of the model:"<<endl;
+	filec<<"choice= "<<cons.choice<<endl<<endl;
+	
+	filec<<"#The choice of the fitness:"<<endl;
+	filec<<"fitness= "<<cons.fitness;
+	
+	filec<<"#The timestep in the semi-deterministic model:"<<endl;
+	filec<<"ts= "<<cons.ts;
+	
+	return;
+}
+
 void printparamnoloop(ofstream& filec, Constants cons){
 	filec<<"#Initial number of bacteria in the cell:"<<endl;
 	filec<<"N0= "<<cons.N0<<endl<<endl;
@@ -250,6 +299,52 @@ void printparamnoloop(ofstream& filec, Constants cons){
 	
 	filec<<"#The choice of the fitness:"<<endl;
 	filec<<"fitness= "<<cons.fitness;
+	
+	return;
+}
+
+void printparamnoloopdeterministic(ofstream& filec, Constants cons){
+	filec<<"#Initial number of bacteria in the cell:"<<endl;
+	filec<<"N0= "<<cons.N0<<endl<<endl;
+	
+	filec<<"#Initial fraction of cooperators in the cell :"<<endl;
+	filec<<"x0= "<<cons.x0<<endl<<endl;
+	
+	filec<<"#Time when the simulation stops:"<<endl;
+	filec<<"T= "<<cons.T<<endl<<endl;
+	
+	filec<<"#Time step for which I print my results:"<<endl;
+	filec<<"interval= "<<cons.interval<<endl<<endl;
+	
+	filec<<"#Selection's strenght:"<<endl;
+	filec<<"s= "<<cons.s<<endl<<endl;
+	
+	filec<<"#Cost:"<<endl;
+	filec<<"c= "<<cons.c<<endl<<endl;
+	
+	filec<<"#Benefit:"<<endl;
+	filec<<"b= "<<cons.b<<endl<<endl;
+	
+	filec<<"#Cooperators advantage:"<<endl;
+	filec<<"p= "<<cons.p<<endl<<endl;
+	
+	filec<<"#Carrying capacity:"<<endl;
+	filec<<"K= "<<cons.K<<endl<<endl;
+	
+	filec<<"#The number of bacteria in the cell s.t. the cell splits:"<<endl;
+	filec<<"N_max= "<<cons.N_max<<endl<<endl;
+	
+	filec<<"#The maximum number of cells:"<<endl;
+	filec<<"M_max= "<<cons.M_max<<endl<<endl;
+	
+	filec<<"#The choice of the model:"<<endl;
+	filec<<"choice= "<<cons.choice<<endl<<endl;
+	
+	filec<<"#The choice of the fitness:"<<endl;
+	filec<<"fitness= "<<cons.fitness;
+	
+	filec<<"#The timestep in the semi-deterministic model:"<<endl;
+	filec<<"ts= "<<cons.ts;
 	
 	return;
 }
