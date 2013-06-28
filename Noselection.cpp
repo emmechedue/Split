@@ -177,7 +177,7 @@ int main(){
     filex.close();
     fileN.close();
     filec.open(filenamec,ios::out|ios::trunc); //Now I just print all the parameters to a file!
-    printparamloop(filec,cons);
+    printparamloopdeterministic(filec,cons);
     filec.close();
 	
 	return 0;
