@@ -6,9 +6,9 @@ single_loop: Single_loop.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.
 	g++ -I /usr/include/gsl -I ./Headers Single_loop.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
 
 clean: 
-	rm *.txt
 	rm *~
 	rm ./Headers/*~
+	rm *.txt
 	
 deterministic: Deterministic.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Deterministic.h
 	g++ -I /usr/include/gsl -I ./Headers Deterministic.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
