@@ -21,7 +21,7 @@ Constants::Constants(){
 	N_loop=300; //The number of times I iterate
 	choice=2; //It's 1 if I want the propagule model and it is 2 if I want the random splitting model. It is 3 if I am choosing a deterministic splitting
 	fitness=2; //It's 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses
-	ts=0.001; //The timestep in the semi-deterministic model. The timestep of the "integration" over N
+	ts=0.0001; //The timestep in the semi-deterministic model. The timestep of the "integration" over N
 }
 
 Constants::~Constants(){}

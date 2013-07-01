@@ -36,7 +36,7 @@ const int M_max=1000; //The maximum number of cells
 const int N_loop=300; //The number of times I iterate
 const int choice=2; //It's 1 if I want the propagule model and it is 2 if I want the random splitting model. It is 3 if I am choosing a deterministic splitting
 const int fitness=2; //It's 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses
-const double ts=0.001; //The timestep in the semi-deterministic model. The timestep of the "integration" over N
+const double ts=0.0001; //The timestep in the semi-deterministic model. The timestep of the "integration" over N
 
 /* The rhs of x' = f(x) 
 Here is in the form of X(1)=x and X(2)=N
@@ -79,6 +79,9 @@ int main(){
 	FILE *pfile; //file to read from /usr/urandom
 	double dummy,tstar; //Dummy will generally be Nc+Nd. 
 	int tempstep; //Tempstep is for printing purposes
+	state_type x(2);
+	state_type dxdt(2);
+	size_t steps;
 	
 	
 	//******let's take the seed for the rng and initialize the rng******
@@ -135,4 +138,108 @@ int main(){
 		cout<<"Print with bigger time intervals!!!"<<endl;
 		exit(6);
 	}
+	//*************Let's start the cycle********************
+    for(iloop=0;iloop<cons.N_loop;iloop++){
+    	
+    
+		//*********Let's initialize all**********
+		t=0.;
+		for(i=1;i<cons.M_max;i++){
+			Nc[i]=0;
+			x[i]=-1;
+			Nd[i]=0;
+			N[i]=0;
+		}
+		N[0]=cons.N0;
+		x[0]=cons.x0;
+		computeNcNd(x[0], N[0], &Nc[0], &Nd[0]);
+		M=1; //I start with one cell
 
+		//*******end of initialization*********
+		
+		printiterens(Nc,Nd,1,fileN,filex); //Here I print for time==0
+		
+		//*****Start of the time evolution***********
+		
+		for(j=1;j<=TMAX;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
+			
+			t=t+cons.ts; //Update the time to the new one!
+			
+			for(i=0;i<M;i++){ //This is the cell loop
+				//*******Start of the cell evolution***********
+		
+				
+				X[0]=x[i];
+				X[1]=N[i];
+				steps = integrate( nx_evolver , X , 0.0 , ts , ts/2 );
+				x[i]=X[0];
+				N[i]=X[1];
+				if(N[i]>=cons.N_max){ //Check if I need to do the splitting or not
+					//********Here I perform the splitting**********
+					//I don't correct the x for this tiny time difference, it should work in any case!!
+					computeNcNd(x[i], cons.N_max, &Nc[i], &Nd[i]); //I compute the values of Nc and Nd at tstar
+					n=createcelldeterministic(&M,i,N,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
+					//So there is also no evolution after the split for the i-th cell
+					if(i>n){ //So if i is bigger than n I finish the evolution, otherwise I will perform one entire step of evolution later
+						X[0]=x[n];
+						X[1]=N[n];
+						steps = integrate( nx_evolver , X , 0.0 , ts , ts/2 );
+						x[n]=X[0];
+						N[n]=X[1];
+						computeNcNd(x[n], N[n], &Nc[n], &Nd[n]);	
+					}
+				}
+				else{ //It means that in this timestep there is no splitting for the i-th cell	
+					computeNcNd(x[i], N[i], &Nc[i], &Nd[i]);
+				}
+			
+				//*********End of the single cell evolution*************
+	
+			}
+			//***********End of the cell loop at fixed time****************
+		
+			//Now to check if I have to print or not
+			if(abs(t-cons.T)<cons.ts){ //If I am at the end of the file I print!
+				printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
+				cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
+			}
+			else{ //If the time is a "multiple" of interval, then I print
+				if((j%tempstep)==0){
+					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
+					cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
+				}	
+			}
+			// End of the part inside the time loop
+		}
+		
+		filex<<endl; //I print the \n in the 2 files!
+	  	fileN<<endl;
+	
+	}
+	
+	//********************Here ends the main loop*******************
+	
+	//********Start printing the time
+	t=(int)floor(cons.T/cons.interval); //I need it to print the time
+	
+	filet.open(filenamet,ios::out|ios::trunc); //Printing the time
+    for(i=0;i<=t;i++){ 
+    	filet<<i*cons.interval<<endl;
+    	}
+    //If T is not a multiple of interval I need the last step:
+    tstar=cons.T/cons.interval;
+	dummy= (int) tstar;
+	if(tstar!=dummy){
+		filet<<cons.T<<endl;
+	}
+    //************************************
+    
+    filet.close(); //Closing the files of output!
+    filex.close();
+    fileN.close();
+    filec.open(filenamec,ios::out|ios::trunc); //Now I just print all the parameters to a file!
+    printparamloopdeterministic(filec,cons);
+    filec.close();
+	
+	return 0;
+}
