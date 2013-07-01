@@ -252,7 +252,7 @@ void printparamloopdeterministic(ofstream& filec, Constants cons){
 	filec<<"choice= "<<cons.choice<<endl<<endl;
 	
 	filec<<"#The choice of the fitness:"<<endl;
-	filec<<"fitness= "<<cons.fitness;
+	filec<<"fitness= "<<cons.fitness<<endl<<endl;
 	
 	filec<<"#The timestep in the semi-deterministic model:"<<endl;
 	filec<<"ts= "<<cons.ts;
