@@ -5,11 +5,11 @@
 
 using namespace std;
 
-
+/*
 Constants::Constants(){
 	N0=4; //Initial number of bacteria in the cell
 	x0=0.5;//Initial fraction of cooperators in the cell
-	T=30.; //Time when the simulation stops
+	T=18.; //Time when the simulation stops
 	interval=0.05; //Time step for which I print my results in fast
 	s=0.05; //Selection's strenght
 	c=1.; //Cost in the original fitness
@@ -27,7 +27,7 @@ Constants::Constants(){
 Constants::~Constants(){}
 
 
-/*
+*/
 
 //This reads from a file:
 Constants::Constants(){ //Note that name must be the entire path; i.e. "./config.conf"
@@ -71,4 +71,4 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 
 Constants::~Constants(){}
 
-*/
+

@@ -24,7 +24,7 @@ Unfortunately, to simplify I will have to put all the parameters here, besides u
 
 const int N0=4; //Initial number of bacteria in the cell
 const double x0=0.5;//Initial fraction of cooperators in the cell
-const double T=30.; //Time when the simulation stops
+const double T=18.; //Time when the simulation stops
 const double interval=0.05; //Time step for which I print my results in fast
 const double s=0.05; //Selection's strenght
 const double c=1.; //Cost in the original fitness
@@ -42,7 +42,7 @@ const double ts=0.0001; //The timestep in the semi-deterministic model. The time
 Here is in the form of X(1)=x and X(2)=N
 */
 
-faveragenumeric(double x){
+double faveragenumeric(double x){
 	double a;
 	
 	if (fitness==2){
@@ -58,7 +58,7 @@ faveragenumeric(double x){
 void nx_evolver( const state_type &X , state_type &dxdt , const double /* t */)
 {
     dxdt[0] = -s*(1+p*X[0])*X[0]*(1-X[0]);
-    dxdt[1] = ((1+p*X[0])*faveragenumeric(X[0])-X[1]/K)*N[1];
+    dxdt[1] = ((1+p*X[0])*faveragenumeric(X[0])-X[1]/K)*X[1];
 }
 
 
@@ -79,7 +79,7 @@ int main(){
 	FILE *pfile; //file to read from /usr/urandom
 	double dummy,tstar; //Dummy will generally be Nc+Nd. 
 	int tempstep; //Tempstep is for printing purposes
-	state_type x(2);
+	state_type X(2);
 	state_type dxdt(2);
 	size_t steps;
 	
