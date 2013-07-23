@@ -60,7 +60,7 @@ double Nevolve(double Nold, double x, double t, Constants cons){ //This function
 	return N;
 }
 
-double xevolve(double x, double t, Constants cons){ //This function returns the approximate value of Nc+Nd after a time t. If x is bigger than 0.99, it automatically returns 1 (this is done in order to have fixation in x=1, that is not given by the approximation of the equations!
+double xevolve(double x, double t, Constants cons){ //This function returns the approximate value of Nc+Nd after a time t. If x is bigger than 0.99, it automatically returns 1 (this is done in order to have fixation in x=1, that is not given by the approximation of the equations! If x<0.01 it automatically returns 0 (just to avoid to divide by zero when I define fa
 	double fa;
 	double newx;
 	
@@ -68,9 +68,13 @@ double xevolve(double x, double t, Constants cons){ //This function returns the 
 		return 1.;
 	}
 	else{
-		
-		fa=1./x+cons.p-1.;
-		newx=1./(fa*exp(cons.s*t)-cons.p+1.);
+		if(x<=0.01){
+			return 0.;
+		}
+		else{
+			fa=1./x+cons.p-1.;
+			newx=1./(fa*exp(cons.s*t)-cons.p+1.);
+		}
 		return newx;
 	}
 }
