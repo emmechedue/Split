@@ -14,6 +14,8 @@ using namespace std;
 /* In this program I evolve the intra-cell dynamics according to the mean field equations and the inter-cell dynamic with a probabilistic setting 
 How do i do this: The random part is the same! The deterministic part is obtained with a two step evolution using approximated functions (check notebook)
 */
+/* This is a very dummy version of Deterministic.cpp where what i am doing is to stop the evolution of the dynamics as soon as I hit M_max for any realization, since the times when I reach M_max is different for every realization, what I am doing is to stop the evolution after I reach M_max and then I just print out always the same numbers, so that for t big enough everybody is going to be in the "M=M_max for the first time" phase */
+
 
 //Note that error 6 means that interval is smaller than ts
 
@@ -115,39 +117,42 @@ int main(){
 		//*****Start of the time evolution***********
 		
 		for(j=1;j<=TMAX;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
-			
+		
 			t=t+cons.ts; //Update the time to the new one!
 			
-			for(i=0;i<M;i++){ //This is the cell loop
-				//*******Start of the cell evolution***********
-		
-				dummy=Nevolve(N[i], x[i], cons.ts, cons); //Compute the approximate value of Nc+Nd after time ts
-				if(dummy>=cons.N_max){ //Check if I need to do the splitting or not
-					//********Here I perform the splitting**********
-					tstar=inverseN(N[i], x[i],cons); //Compute the time when N is roughly equal to N_max
-					x[i]=xevolve(x[i], tstar, cons); //Compute the value of x after tstar
-					computeNcNd(x[i], cons.N_max, &Nc[i], &Nd[i]); //I compute the values of Nc and Nd at tstar
-					n=createcelldeterministic(&M,i,N,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
-					//Now I have to finish the evolution for a time step ts-tstar for the i-th and n-th cell (maybe)
-					N[i]=Nevolve(N[i], x[i], cons.ts-tstar, cons); //For the i-th cell
-					x[i]=xevolve(x[i], cons.ts-tstar, cons);
-					computeNcNd(x[i], N[i], &Nc[i], &Nd[i]);
-					if(i>n){ //So if i is bigger than n I finish the evolution, otherwise I will perform one entire step of evolution later
-						N[n]=Nevolve(N[n], x[n], cons.ts-tstar, cons); //The same for the n-th cell
-						x[n]=xevolve(x[n], cons.ts-tstar, cons);
-						computeNcNd(x[n], N[n], &Nc[n], &Nd[n]);	
-					}
-				}
-				else{ //It means that in this timestep there is no splitting for the i-th cell
-					N[i]=dummy;
-					x[i]=xevolve(x[i], cons.ts, cons);				
-					computeNcNd(x[i], N[i], &Nc[i], &Nd[i]);
-				}
+			if(M<cons.M_max){
 			
-				//*********End of the single cell evolution*************
+				for(i=0;i<M;i++){ //This is the cell loop
+					//*******Start of the cell evolution***********
+		
+					dummy=Nevolve(N[i], x[i], cons.ts, cons); //Compute the approximate value of Nc+Nd after time ts
+					if(dummy>=cons.N_max){ //Check if I need to do the splitting or not
+						//********Here I perform the splitting**********
+						tstar=inverseN(N[i], x[i],cons); //Compute the time when N is roughly equal to N_max
+						x[i]=xevolve(x[i], tstar, cons); //Compute the value of x after tstar
+						computeNcNd(x[i], cons.N_max, &Nc[i], &Nd[i]); //I compute the values of Nc and Nd at tstar
+						n=createcelldeterministic(&M,i,N,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
+						//Now I have to finish the evolution for a time step ts-tstar for the i-th and n-th cell (maybe)
+						N[i]=Nevolve(N[i], x[i], cons.ts-tstar, cons); //For the i-th cell
+						x[i]=xevolve(x[i], cons.ts-tstar, cons);
+						computeNcNd(x[i], N[i], &Nc[i], &Nd[i]);
+						if(i>n){ //So if i is bigger than n I finish the evolution, otherwise I will perform one entire step of evolution later
+							N[n]=Nevolve(N[n], x[n], cons.ts-tstar, cons); //The same for the n-th cell
+							x[n]=xevolve(x[n], cons.ts-tstar, cons);
+							computeNcNd(x[n], N[n], &Nc[n], &Nd[n]);	
+						}
+					}
+					else{ //It means that in this timestep there is no splitting for the i-th cell
+						N[i]=dummy;
+						x[i]=xevolve(x[i], cons.ts, cons);				
+						computeNcNd(x[i], N[i], &Nc[i], &Nd[i]);
+					}
+			
+					//*********End of the single cell evolution*************
 	
+				}
+				//***********End of the cell loop at fixed time****************
 			}
-			//***********End of the cell loop at fixed time****************
 		
 			//Now to check if I have to print or not
 			if(abs(t-cons.T)<cons.ts){ //If I am at the end of the file I print!
