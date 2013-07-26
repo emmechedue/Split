@@ -24,7 +24,7 @@ int main(){
     double N[cons.M_max],Nc[cons.M_max], Nd[cons.M_max], x[cons.M_max]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
     double t; //The time
     int i,iloop,j,n; 
-    int TMAX; //Is the number of timesteps I have to do to arrive at T => T/ts
+    int TMAX; //Is the number of time steps I have to do to arrive at T => T/ts
 	int M; //it can go from 1 to M_max and it's just to not waste time taking into account empty cells
 	ofstream filec, filet, fileN,filex;//Output files
 	const char filenameN[]="ensambleN.txt"; //While ensambleN and x  will print out each of the <N> and <x>
