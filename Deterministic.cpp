@@ -114,7 +114,8 @@ int main(){
 		
 		//*****Start of the time evolution***********
 		
-		for(j=1;j<=TMAX;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
+		//for(j=1;j<=TMAX;j++){ //This is the time loop! It is the equivalent of the do-while in the Main file! I stop for TMAX such that t=T
+		for(j=1;M<cons.M_max;j++){ //This is a M loop! Basically I am stopping the loop as soon as I reach the maximum M! I just want to check if cooperators have an advantage in the killing process even for p=0
 			
 			t=t+cons.ts; //Update the time to the new one!
 			
