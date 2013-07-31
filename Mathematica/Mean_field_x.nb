@@ -1,0 +1,287 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     10682,        278]
+NotebookOptionsPosition[     10223,        257]
+NotebookOutlinePosition[     10560,        272]
+CellTagsIndexPosition[     10517,        269]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"p", "=", "10"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"s", "=", "0.05"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"x0", "=", "0.5"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"N0", "=", "4"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"k", "=", "100"}], ";"}]}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"original", "=", 
+  RowBox[{"NDSolve", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"D", "[", 
+        RowBox[{
+         RowBox[{"x", "[", "t", "]"}], ",", "t"}], "]"}], "\[Equal]", 
+       RowBox[{
+        RowBox[{"-", "s"}], "*", 
+        RowBox[{"(", 
+         RowBox[{"1", "+", 
+          RowBox[{"p", "*", 
+           RowBox[{"x", "[", "t", "]"}]}]}], ")"}], "*", 
+        RowBox[{"x", "[", "t", "]"}], "*", 
+        RowBox[{"(", 
+         RowBox[{"1", "-", 
+          RowBox[{"x", "[", "t", "]"}]}], ")"}]}]}], ",", 
+      RowBox[{
+       RowBox[{"x", "[", "0", "]"}], "\[Equal]", "x0"}]}], "}"}], ",", 
+    RowBox[{"x", "[", "t", "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"t", ",", "0", ",", "50"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.581159327562957*^9, 3.58115934361091*^9}, {
+  3.581159485816533*^9, 3.581159485917293*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"x", "[", "t", "]"}], "\[Rule]", 
+    RowBox[{
+     TagBox[
+      RowBox[{"InterpolatingFunction", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"{", 
+          RowBox[{"0.`", ",", "50.`"}], "}"}], "}"}], ",", "\<\"<>\"\>"}], 
+       "]"}],
+      False,
+      Editable->False], "[", "t", "]"}]}], "}"}], "}"}]], "Output",
+ CellChangeTimes->{3.581159348911644*^9, 3.581159487563774*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Plot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{"x", "[", "t", "]"}], "/.", "original"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"t", ",", "0", ",", "45"}], "}"}], ",", 
+   RowBox[{"PlotLegends", "\[Rule]", 
+    RowBox[{"Placed", "[", 
+     RowBox[{
+      RowBox[{"{", "\"\<Numeric exact solution for x\>\"", "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0.65", ",", "0.8"}], "}"}]}], "]"}]}], ",", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", "\"\<t\>\"", "}"}]}], ",", 
+   RowBox[{"PlotLabel", "\[Rule]", "\"\<Numeric simulation for x[t]\>\""}], 
+   ",", 
+   RowBox[{"ImageSize", "\[Rule]", "600"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.581159370490556*^9, 3.581159491785307*^9}, {
+  3.581159560591893*^9, 3.581159569868145*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  GraphicsBox[{{{}, {}, 
+     {Hue[0.67, 0.6, 0.6], LineBox[CompressedData["
+1:eJwVjHk41Hkcx0Wy7VANSaiWkIwr9xH7+czgSxKtaGezyvkwCItaIUcl+xtM
+RpQzYWeolSPMomPLFdI2q+TpWkeOSqRttaRY/fF+Xn+8ntdb3S/CPVBSQkLC
+YXlfuMlajdIVSaGEi16yt/4j8Aii6TsPS+NDYV4ijfSD6tYzSemjsih/OIvd
+1d0HeoIY2QWQR0OdMbXCE2IojdLc29iriJtqWsY6wu6B+ChYnBIo44xs/rTc
+lh5QP9jv6h22GUcm3co/e92BwCVR9eZjaphkveYZS6sDlCabZJT8tmLUV9/3
+RtLbIMbE5lk2QxP1Ut/rlfreBr+pT10Kr7XQbzLsJuPJH3CFFS1Tcl8bC97u
+iy+l34Bf/w25XZWjgz/JXypjdLTAHHPjvfYkXZwekOmm85rguYTUu2FffVzi
+vSnLvyCC8E0RWSkahthd+7N/7lIDVHO6buWm7sDOlJeNLzn1EPde+T9djhE2
+8my1qhWuwqwz2X/nkDGGBOuZnmyrBSsvPnPsOxPUnyxTOLGjBvqUi0PaTUxx
+XcNiaIXxFVARnrxeud0Mc8wKtK9Z/gZNQwwXVzlztOGc7spPuwRbHs4EHZ0y
+xxLe1MvhpQowyeVXlQ9Z4A+Cx65SsUIoXvneILvNEvMdCoVu2wQgYho+SW22
+QgNPGrv3QTnkWXDpny5b40flysSii2Vw/6ngtEnGTlxZUyOMOlcKjXuKNCOT
+bTBfnJmzSF2Ed4f3SYQH2OLbji6nYGYJzBKd4Gm7b1HvQoNVfW4xVE49nos2
+ByxPSBxWGS0EdqnA31sW8fibq3aDnAKov7r7kFQa4nrTV2rmr/PASrVvnppH
+LKpYnO8pOA8aQ0FP/uIwcW5817Qo8ByM0kLdil4wsfJ8mGCakQtinqu/oycL
+j4wVRHzYkAM5sSW0I2IWGjU5zo18zobrN5fm/XfZoe3OHJb4Ix/W/ohpJi12
+yK9Nt9imxAcrn+nKVFN7HD37iJtskAW8awmcJqE9mu1/euZUGw8co1UiqzY4
+4EC72dm/HTNhgK9F08hyQI0Io31/tqZDtgzdIW4Fwd5xf8/7oVy4/s9zrxgp
+gr6tdwc/B3Jh4vnlqHBpgmWq5Q/0fbhg02B/0W81wZkYqQ98Dy6M+8QuONMJ
+dkoyVUJtubCzZbBOVZ2gXYbvaZ+1XBgNq95yAwlyvbtUPBsoWMOON/udRTBV
+kUGrrabAys7Jpc6eoGTzerbsJQp4yiPHBE4E98xMSHcXU2DZqdifuZegsY+N
+0D2Ngsxvjqcf9CGoRNxKhAcoaPrauYztR9BDflBbyZOCkdkNze4BBFelnFpF
+uS33vbXjJJhgVHR0e6T9so8dZRpGEgwvv2a514AC2YA6tk4UwdXN/KC72ymw
+cEuM0Igh2PBLyStHDQoytDYWK8USvNW6Ytx+IwWidWP19DiCB14IDnXIUzC8
+UNdDSyAYz1DXdZRb/ptIHJZOJMiKVnXqkaHAvG/33FISQXGejchVkoL/AVSv
+8mM=
+       "]]}}, InsetBox[
+     TemplateBox[{"\"Numeric exact solution for x\""},
+      "LineLegend",
+      DisplayFunction->(StyleBox[
+        StyleBox[
+         PaneBox[
+          TagBox[
+           GridBox[{{
+              TagBox[
+               GridBox[{{
+                  GraphicsBox[{{
+                    Directive[
+                    EdgeForm[{
+                    Opacity[0.3], 
+                    GrayLevel[0]}], 
+                    Hue[0.67, 0.6, 0.6]], {
+                    LineBox[{{0, 10}, {20, 10}}]}}, {
+                    Directive[
+                    EdgeForm[{
+                    Opacity[0.3], 
+                    GrayLevel[0]}], 
+                    Hue[0.67, 0.6, 0.6]], {}}}, AspectRatio -> Full, 
+                   ImageSize -> {20, 10}, PlotRangePadding -> None, 
+                   ImagePadding -> 1, 
+                   BaselinePosition -> (Scaled[0.1] -> Baseline)], #}}, 
+                GridBoxAlignment -> {
+                 "Columns" -> {Center, Left}, "Rows" -> {{Baseline}}}, 
+                AutoDelete -> False, 
+                GridBoxDividers -> {
+                 "Columns" -> {{False}}, "Rows" -> {{False}}}, 
+                GridBoxItemSize -> {"Columns" -> {{All}}, "Rows" -> {{All}}}, 
+                GridBoxSpacings -> {"Columns" -> {{0.5}}, "Rows" -> {{0.8}}}],
+                "Grid"]}}, 
+            GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+            AutoDelete -> False, 
+            GridBoxItemSize -> {
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+            GridBoxSpacings -> {"Columns" -> {{1}}, "Rows" -> {{0}}}], 
+           "Grid"], Alignment -> Left, AppearanceElements -> None, 
+          ImageMargins -> {{5, 5}, {5, 5}}, ImageSizeAction -> "ResizeToFit"],
+          LineIndent -> 0, StripOnInput -> False], {FontFamily -> "Times"}, 
+        Background -> Automatic, StripOnInput -> False]& ),
+      Editable->True,
+      InterpretationFunction:>(RowBox[{"LineLegend", "[", 
+         RowBox[{
+           RowBox[{"{", 
+             RowBox[{"Directive", "[", 
+               RowBox[{"Hue", "[", 
+                 RowBox[{"0.67`", ",", "0.6`", ",", "0.6`"}], "]"}], "]"}], 
+             "}"}], ",", 
+           RowBox[{"{", #, "}"}], ",", 
+           RowBox[{"LegendLayout", "\[Rule]", "\"Column\""}]}], "]"}]& )], 
+     Scaled[{0.65, 0.8}], ImageScaled[{0.5, 0.5}],
+     BaseStyle->{FontSize -> Larger},
+     FormatType->StandardForm]},
+   AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+   Axes->True,
+   AxesLabel->{None, 
+     FormBox["\"t\"", TraditionalForm]},
+   AxesOrigin->{0, 0},
+   ImageSize->600,
+   Method->{},
+   PlotLabel->FormBox["\"Numeric simulation for x[t]\"", TraditionalForm],
+   PlotRange->{{0, 45}, {0., 0.3465188743295471}},
+   PlotRangeClipping->True,
+   PlotRangePadding->{
+     Scaled[0.02], 
+     Scaled[0.02]}],
+  InterpretTemplate[Legended[
+    Graphics[{{{}, {}, {
+        Hue[0.67, 0.6, 0.6], 
+        Line[CompressedData["
+1:eJwVjHk41Hkcx0Wy7VANSaiWkIwr9xH7+czgSxKtaGezyvkwCItaIUcl+xtM
+RpQzYWeolSPMomPLFdI2q+TpWkeOSqRttaRY/fF+Xn+8ntdb3S/CPVBSQkLC
+YXlfuMlajdIVSaGEi16yt/4j8Aii6TsPS+NDYV4ijfSD6tYzSemjsih/OIvd
+1d0HeoIY2QWQR0OdMbXCE2IojdLc29iriJtqWsY6wu6B+ChYnBIo44xs/rTc
+lh5QP9jv6h22GUcm3co/e92BwCVR9eZjaphkveYZS6sDlCabZJT8tmLUV9/3
+RtLbIMbE5lk2QxP1Ut/rlfreBr+pT10Kr7XQbzLsJuPJH3CFFS1Tcl8bC97u
+iy+l34Bf/w25XZWjgz/JXypjdLTAHHPjvfYkXZwekOmm85rguYTUu2FffVzi
+vSnLvyCC8E0RWSkahthd+7N/7lIDVHO6buWm7sDOlJeNLzn1EPde+T9djhE2
+8my1qhWuwqwz2X/nkDGGBOuZnmyrBSsvPnPsOxPUnyxTOLGjBvqUi0PaTUxx
+XcNiaIXxFVARnrxeud0Mc8wKtK9Z/gZNQwwXVzlztOGc7spPuwRbHs4EHZ0y
+xxLe1MvhpQowyeVXlQ9Z4A+Cx65SsUIoXvneILvNEvMdCoVu2wQgYho+SW22
+QgNPGrv3QTnkWXDpny5b40flysSii2Vw/6ngtEnGTlxZUyOMOlcKjXuKNCOT
+bTBfnJmzSF2Ed4f3SYQH2OLbji6nYGYJzBKd4Gm7b1HvQoNVfW4xVE49nos2
+ByxPSBxWGS0EdqnA31sW8fibq3aDnAKov7r7kFQa4nrTV2rmr/PASrVvnppH
+LKpYnO8pOA8aQ0FP/uIwcW5817Qo8ByM0kLdil4wsfJ8mGCakQtinqu/oycL
+j4wVRHzYkAM5sSW0I2IWGjU5zo18zobrN5fm/XfZoe3OHJb4Ix/W/ohpJi12
+yK9Nt9imxAcrn+nKVFN7HD37iJtskAW8awmcJqE9mu1/euZUGw8co1UiqzY4
+4EC72dm/HTNhgK9F08hyQI0Io31/tqZDtgzdIW4Fwd5xf8/7oVy4/s9zrxgp
+gr6tdwc/B3Jh4vnlqHBpgmWq5Q/0fbhg02B/0W81wZkYqQ98Dy6M+8QuONMJ
+dkoyVUJtubCzZbBOVZ2gXYbvaZ+1XBgNq95yAwlyvbtUPBsoWMOON/udRTBV
+kUGrrabAys7Jpc6eoGTzerbsJQp4yiPHBE4E98xMSHcXU2DZqdifuZegsY+N
+0D2Ngsxvjqcf9CGoRNxKhAcoaPrauYztR9BDflBbyZOCkdkNze4BBFelnFpF
+uS33vbXjJJhgVHR0e6T9so8dZRpGEgwvv2a514AC2YA6tk4UwdXN/KC72ymw
+cEuM0Igh2PBLyStHDQoytDYWK8USvNW6Ytx+IwWidWP19DiCB14IDnXIUzC8
+UNdDSyAYz1DXdZRb/ptIHJZOJMiKVnXqkaHAvG/33FISQXGejchVkoL/AVSv
+8mM=
+         "]]}}}, {
+     AspectRatio -> GoldenRatio^(-1), Axes -> True, AxesLabel -> {None, "t"}, 
+      AxesOrigin -> {0, 0}, ImageSize -> 600, Method -> {}, PlotLabel -> 
+      "Numeric simulation for x[t]", 
+      PlotRange -> {{0, 45}, {0., 0.3465188743295471}}, PlotRangeClipping -> 
+      True, PlotRangePadding -> {
+        Scaled[0.02], 
+        Scaled[0.02]}}], {
+     Placed[
+      LineLegend[{
+        Directive[
+         Hue[0.67, 0.6, 0.6]]}, {"Numeric exact solution for x"}, 
+       LegendLayout -> "Column"], {0.65, 0.8}, Identity]}]& ],
+  AutoDelete->True,
+  Editable->True,
+  SelectWithContents->False,
+  Selectable->True]], "Output",
+ CellChangeTimes->{{3.581159438271062*^9, 3.581159494003499*^9}, {
+  3.5811595646307907`*^9, 3.581159571508011*^9}}]
+}, Open  ]]
+},
+WindowSize->{1855, 1176},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (November 20, 2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 487, 14, 165, "Input"],
+Cell[CellGroupData[{
+Cell[1069, 38, 908, 26, 32, "Input"],
+Cell[1980, 66, 469, 15, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2486, 86, 805, 20, 55, "Input"],
+Cell[3294, 108, 6913, 146, 456, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
