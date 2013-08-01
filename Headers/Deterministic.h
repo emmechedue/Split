@@ -52,8 +52,11 @@ double Nevolve(double Nold, double x, double t, Constants cons){ //This function
 	if(cons.fitness==1){ //Computing a for the 2 different fitnesses
 		a=(1.+cons.p*x)*(1.+cons.s*x*(cons.b-cons.c));
 	}
-	else{
+	else if(cons.fitness==2){
 		a=(1.+cons.p*x)*(1.-cons.s*x);
+	}
+	else{
+		a=1.+cons.p*x;
 	}
 	
 	N=(a*cons.K*Nold*exp(a*t))/(a*cons.K+Nold*(exp(a*t)-1.));
@@ -86,10 +89,12 @@ double inverseN(double N, double x, Constants cons){ //This function returns the
 	if(cons.fitness==1){ //Computing a for the 2 different fitnesses
 		a=(1.+cons.p*x)*(1.+cons.s*x*(cons.b-cons.c));
 	}
-	else{
+	else if(cons.fitness==2){
 		a=(1.+cons.p*x)*(1.-cons.s*x);
 	}
-
+	else{
+		a=1.+cons.p*x;
+	}
 	
 	t=(1./a)*log((cons.N_max*(a*cons.K-N))/(N*(a*cons.K-cons.N_max)));
 	

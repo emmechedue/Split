@@ -20,7 +20,7 @@ public:
 	int M_max; //The maximum number of cells
 	int N_loop; //The number of times I iterate
 	int choice; //Is 1 if I want the propagule model and it is 2 if I want the random splitting model. It is 3 if I am choosing a deterministic splitting
-	int fitness; //Is 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses
+	int fitness; //Is 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses. Is 3 if I am imposing <f>=1, use ONLY when I have deterministic inner dynamics.
 	double ts; //The timestep in the semi-deterministic model. The timestep of the "integration" over N
 };
 

@@ -65,7 +65,7 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 	M_max=vector[10]; //The maximum number of cells
 	N_loop=vector[11]; //The number of times I iterate
 	choice=vector[12]; //Is 1 if I want the propagule model and it is 2 if I want the random splitting model. It is 3 if I am choosing a deterministic splitting
-	fitness=vector[13]; //Is 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses
+	fitness=vector[13]; //Is 1 if I am using the original fitnesses (the one from the paper), is 2 if I am using the approximated fitnesses. Is 3 if I am imposing <f>=1, use ONLY when I have deterministic inner dynamics.
 	ts=vector[14]; //The timestep in the semi-deterministic model. The timestep of the "integration" over N
 }
 
