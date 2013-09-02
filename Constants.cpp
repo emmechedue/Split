@@ -11,7 +11,7 @@ Constants::Constants(){
 	x0=0.5;//Initial fraction of cooperators in the cell
 	T=2800.; //Time when the simulation stops
 	interval=0.5; //Time step for which I print my results in fast
-	s=0.39; //Selection's strenght
+	s=0.38; //Selection's strenght
 	c=1.; //Cost in the original fitness
 	b=3.; //Benefit in the original fitness
 	p=10.; //Cooperators advantage
