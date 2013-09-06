@@ -3,7 +3,7 @@
 #$ -S /bin/sh                          #specify the shell, most use "bash" bit it treis to read $HOME/.bashrc
 #$ -M Stefano.Duca@physik.uni-muenchen.de      #provide your Mailadress, should be @physik.
 #$ -m a                              #set Notifications: (b)egin, (e)nd, (a)bort -> when your job is aborted its a bad sign
-#$ -t 1-11
+#$ -t 1-5
    
 ## here ends the SGE part, the rest ist just a shell script
    
@@ -59,14 +59,13 @@ fi
 # Here I compute the value of s and I substitute it in the config.conf file!
 J=$(( $SGE_TASK_ID -1))
 esse=`echo $J \\* 0.05 | bc`
-sed "s|s= 0.05|s= $esse|" ./dummy.conf >./config.conf
+sed "s|s= 0.05|s= $esse|" ./dummy.conf >$JOBDIR/config.conf
 
   
    
   # create a local copy of the program and start the job
   PROG=`basename $PROGRAM`
   cp $PROGRAM $JOBDIR/$PROG
-  cp /project/theorie/s/Stefano.Duca/Analysis/Prog/config.conf $JOBDIR
   cd $JOBDIR
    
   ./$PROG $PARAMETERS 	# start job with respective PARAMETERS
