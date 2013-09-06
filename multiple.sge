@@ -1,0 +1,74 @@
+#$ -cwd                                #write SGE-Logs to direcotory where job is started
+#$ -l h_vmem=60M,s_rt=70:00:00          #specify Memory and Time-Requirements
+#$ -S /bin/sh                          #specify the shell, most use "bash" bit it treis to read $HOME/.bashrc
+#$ -M Stefano.Duca@physik.uni-muenchen.de      #provide your Mailadress, should be @physik.
+#$ -m a                              #set Notifications: (b)egin, (e)nd, (a)bort -> when your job is aborted its a bad sign
+#$ -t 1-11
+   
+## here ends the SGE part, the rest ist just a shell script
+   
+JOBNAME="job"
+   
+#### PATHES : Adjust the next lines ###
+DATADIR="/data/Stefano.Duca/"                                                     #Lokal Data-Directory (per User)
+JOBDIR="$DATADIR/job$JOB_ID.$SGE_TASK_ID"                                         #Jobdirectory, with taskID
+SAVEDIR="/project/theorie/s/Stefano.Duca/Analysis/Prog/Results/$JOBNAME/"   #PATH where to store results
+   
+PROGRAM="/project/theorie/s/Stefano.Duca/Analysis/Prog/a.out"                     #PROGRAM-FILE
+   
+saveData()
+    {
+    # compress and copy all output files back
+    # and clean up
+    rm $PROG
+    mkdir $SAVEDIR -p           # use Option p, much shorter than if else, because it gives no error if dir already exists, and it creates parent directories too, if needed
+   
+    #compress outputData and Delete direcoty
+    tar -czf $JOBDIR.tgz $JOBDIR && rm -R $JOBDIR            #by using z, filter archiv thru gzip
+    mv $JOBDIR.tgz $SAVEDIR/
+   
+   
+    #now all data should be away
+    #so we can delete jobdirectoy ;)
+    rmdir $JOBDIR  # || echo "$JOBDIR not clean in the end on $HOSTNAME" | mail -s "SGE-unclean JOBDIR" $USER@physik.uni-muenchen.de
+    rmdir $DATADIR #if possible
+    }
+ 
+handleTrap()
+    {
+    ##you receved a trap, most probably USR1, when your job limit is reached
+    #inform by mail (change text as you like)
+    echo "Trapnhandler invoked on $HOSTNAME" | mail -s "SGE-Trap" $USER
+ 
+    #save data and clean up
+    saveData
+    }
+
+trap handleTrap USR1  #catch USR1 signal (most likely for joblimits)
+   
+# create local directories for each single task of this job
+if [ ! -e $JOBDIR ]; then
+   mkdir $JOBDIR -p
+else
+   # this should never happen
+   echo "Clean up $DATADIR directory on $HOSTNAME" | mail -s "SGE-error" $USER
+   exit 1
+fi
+   
+  
+# Here I compute the value of s and I substitute it in the config.conf file!
+J=$(( $SGE_TASK_ID -1))
+esse=`echo $J \\* 0.05 | bc`
+sed "s|s= 0.05|s= $esse|" ./dummy.conf >./config.conf
+
+  
+   
+  # create a local copy of the program and start the job
+  PROG=`basename $PROGRAM`
+  cp $PROGRAM $JOBDIR/$PROG
+  cd $JOBDIR
+   
+  ./$PROG $PARAMETERS 	# start job with respective PARAMETERS
+   
+saveData
+
