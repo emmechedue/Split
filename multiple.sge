@@ -66,6 +66,7 @@ sed "s|s= 0.05|s= $esse|" ./dummy.conf >./config.conf
   # create a local copy of the program and start the job
   PROG=`basename $PROGRAM`
   cp $PROGRAM $JOBDIR/$PROG
+  cp /project/theorie/s/Stefano.Duca/Analysis/Prog/config.conf $JOBDIR
   cd $JOBDIR
    
   ./$PROG $PARAMETERS 	# start job with respective PARAMETERS
