@@ -9,7 +9,7 @@ do
 	dummy0=$(echo "$esse == 0" | bc)
 	dummy=$(echo "$esse < 1" | bc)		#Here I create the folder named s+... or s+0....
 	if [ $dummy0 -eq 1 ]; then
-		DIR=s+0.0
+		DIR=s+0.00
 	elif [ $dummy -eq 1 ]; then
 		DIR=s+0$esse
 	else
