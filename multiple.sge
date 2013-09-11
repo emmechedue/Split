@@ -3,7 +3,7 @@
 #$ -S /bin/sh                          #specify the shell, most use "bash" bit it treis to read $HOME/.bashrc
 #$ -M Stefano.Duca@physik.uni-muenchen.de      #provide your Mailadress, should be @physik.
 #$ -m a                              #set Notifications: (b)egin, (e)nd, (a)bort -> when your job is aborted its a bad sign
-#$ -t 1-5
+#$ -t 1-121
    
 ## here ends the SGE part, the rest ist just a shell script
    
@@ -14,7 +14,7 @@ DATADIR="/data/Stefano.Duca/"                                                   
 JOBDIR="$DATADIR/job$JOB_ID.$SGE_TASK_ID"                                         #Jobdirectory, with taskID
 SAVEDIR="/project/theorie/s/Stefano.Duca/Analysis/Prog/Results/$JOBNAME/"   #PATH where to store results
    
-PROGRAM="/project/theorie/s/Stefano.Duca/Analysis/Prog/a.out"                     #PROGRAM-FILE
+PROGRAM="./a.out"                     #PROGRAM-FILE
    
 saveData()
     {

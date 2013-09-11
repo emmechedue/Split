@@ -27,7 +27,7 @@ intervalofs=0.05
 
 nameoftheglobalfile="p+%s" % P
 filefordiagram=open(nameoftheglobalfile, "w+")
-filefordiagram.write("# Data to create the phase diagram for the "+MODEL+" modeol with p= %s \n# Data are printed in the form s <x> <Tstable> \n" % P)
+filefordiagram.write("# Data to create the phase diagram for the "+MODEL+" model with p= %s \n# Data are printed in the form s <x> <Tstable> \n" % P)
 
 #***********************************************************************************************************************************
 # Now I start the loop where basically I do what I was doing in dotheanalysis but for NJOBS times. Furthermore, inside each loop, I also compute what is the average time to reach a "stable state for each realization in the ensamble.
