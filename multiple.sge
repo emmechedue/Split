@@ -1,9 +1,10 @@
 #$ -cwd                                #write SGE-Logs to direcotory where job is started
-#$ -l h_vmem=60M,s_rt=70:00:00          #specify Memory and Time-Requirements
-#$ -S /bin/sh                          #specify the shell, most use "bash" bit it treis to read $HOME/.bashrc
+#$ -l h_vmem=80M,s_rt=70:00:00          #specify Memory and Time-Requirements
+#$ -S /bin/bash                          #specify the shell, most use "bash" bit it treis to read $HOME/.bashrc
 #$ -M Stefano.Duca@physik.uni-muenchen.de      #provide your Mailadress, should be @physik.
 #$ -m a                              #set Notifications: (b)egin, (e)nd, (a)bort -> when your job is aborted its a bad sign
 #$ -t 1-121
+#$ -q TH-CL-DOLLY,TH-CL-I7,TH-CL-I7S,TH-WS-E5,TH-WS-GRAIL,TH-WS-nacht
    
 ## here ends the SGE part, the rest ist just a shell script
    
