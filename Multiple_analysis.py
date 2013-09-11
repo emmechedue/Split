@@ -18,7 +18,7 @@ import os
 #Here I manually have to write the parameter p, the model I am using, the interval for s that I used in the simulations and how many jobs I have to analyze
 P=10
 MODEL="Random Splitting"
-NJOBS=2
+NJOBS=121
 intervalofs=0.05
 
 #*******************************************************************************************************************************

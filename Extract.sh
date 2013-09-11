@@ -2,7 +2,7 @@
 
 NUMJOB=36278   # Here I have to give the script the number of the job!
 
-for i in $(seq 1 1 2)
+for i in $(seq 1 1 121)
 do
 	j=`echo $i-1 | bc`
 	esse=`echo $j \\* 0.05 | bc`		#Computing the value of s
@@ -19,10 +19,10 @@ do
 	tar -xf job$NUMJOB.$i.tgz -C ./$DIR		#Unzipping the file
 	mv ./$DIR/data/Stefano.Duca/job$NUMJOB.$i/ensambleN.txt ./$DIR/data/Stefano.Duca/job$NUMJOB.$i/ensamblex.txt ./$DIR/data/Stefano.Duca/job$NUMJOB.$i/parameters.txt ./$DIR/data/Stefano.Duca/job$NUMJOB.$i/time.txt ./$DIR		#Putting the files in the proper folder and deleting everything that I don't need
 	rm -rf ./$DIR/data	
+	rm ./job$NUMJOB.$i.tgz -f
 done
 
-
-
+python Multiple_analysis.py
 
 
 
