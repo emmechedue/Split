@@ -53,29 +53,31 @@ data=A.transpose()
 #************************** NOW THE PLOTTING ***************************
 
 # First let's plot the plot for <x>
-figure(num=None, dpi=160, facecolor='w', edgecolor='k')
+figure(num=None, dpi=260, facecolor='w', edgecolor='k')
 title("Scatter plot of <x> as a function of s and p \n for the "+MODELUSED+" model",fontsize=14)
 xlabel("s",fontsize=12)
 ylabel("p",fontsize=12)
 x = data[0]
 y = data[1]
 z = data[2]
+axis([-0.1, 6.1, -0.5, PMAX+0.5])
 scatter(x,y,s=20,c=z, marker = 's', cmap = cm.jet, lw = 0 );
 plt.colorbar()
-plt.savefig("x_phase_diagram_"+MODELUSED1+".png",dpi=100)
+plt.savefig("x_phase_diagram_"+MODELUSED1+".png",dpi=200)
 plt.show()
 
 #Second let's plot the one for <T>
-figure(num=None, dpi=160, facecolor='w', edgecolor='k')
-title("Scatter plot of <x> as a function of s and p \n for the "+MODELUSED+" model",fontsize=14)
+figure(num=None, dpi=260, facecolor='w', edgecolor='k')
+title("Scatter plot of <T> as a function of s and p \n for the "+MODELUSED+" model",fontsize=14)
 xlabel("s",fontsize=12)
 ylabel("p",fontsize=12)
 x = data[0]
 y = data[1]
 z = data[3]
+axis([-0.1, 6.1, -0.5, PMAX+0.5])
 scatter(x,y,s=20,c=z, marker = 's', cmap = cm.jet , lw = 0);
 plt.colorbar()
-plt.savefig("T_phase_diagram_"+MODELUSED1+".png",dpi=100)
+plt.savefig("T_phase_diagram_"+MODELUSED1+".png",dpi=200)
 
 
 """
