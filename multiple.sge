@@ -57,10 +57,13 @@ else
 fi
    
   
-# Here I compute the value of s and I substitute it in the config.conf file!
-J=$(( $SGE_TASK_ID -1))
-esse=`echo $J \\* 0.05 | bc`
-sed "s|s= 0.05|s= $esse|" ./dummy.conf >$JOBDIR/config.conf
+### Here I compute the value of s and I substitute it in the config.conf file!
+###J=$(( $SGE_TASK_ID -1))
+###esse=`echo $J \\* 0.05 | bc`
+###sed "s|s= 0.05|s= $esse|" ./dummy.conf >$JOBDIR/config.conf
+
+# Here I tell the bash to copy the corrispondent config file in the jobdirectory
+cp ./configs/$i.conf $JOBDIR/config.conf
 
   
    
