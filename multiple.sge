@@ -4,7 +4,6 @@
 #$ -M Stefano.Duca@physik.uni-muenchen.de      #provide your Mailadress, should be @physik.
 #$ -m a                              #set Notifications: (b)egin, (e)nd, (a)bort -> when your job is aborted its a bad sign
 #$ -t 1-121
-#$ -q TH-CL-DOLLY,TH-CL-I7,TH-CL-I7S,TH-WS-E5,TH-WS-GRAIL,TH-WS-nacht
    
 ## here ends the SGE part, the rest ist just a shell script
    
@@ -63,7 +62,8 @@ fi
 ###sed "s|s= 0.05|s= $esse|" ./dummy.conf >$JOBDIR/config.conf
 
 # Here I tell the bash to copy the corrispondent config file in the jobdirectory
-cp ./configs/$i.conf $JOBDIR/config.conf
+cp ./configs/$SGE_TASK_ID.conf $JOBDIR/config.conf -f
+
 
   
    
