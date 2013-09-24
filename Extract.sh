@@ -24,6 +24,6 @@ done
 
 python Multiple_analysis.py
 
-find -name *ensambleN.txt* -delete
-find -name *ensamblex.txt* -delete
+#find -name *ensambleN.txt* -delete
+#find -name *ensamblex.txt* -delete
 
