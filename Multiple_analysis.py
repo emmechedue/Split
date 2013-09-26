@@ -176,11 +176,11 @@ for njobs in range(NJOBS):
 				fulld=fulld+1
 			else:
 				others=others+1
-
+	
 	#***************************************************************************
 	
 	# Now I start to compute the things I need to compute the average time of stabilization, remember that here I have to use a instead of ensx because it's better to have the things organized as x[m][t]
-	
+	"""	
 	for i in range(N_loop):
 		Tstablearr[i]= -1.0 #Here I am setting the value to -1, if the stability is not changed, the value is not going to be changed
 		for j in range(TMAX):
@@ -199,7 +199,27 @@ for njobs in range(NJOBS):
 			Tstableaverage += Tstablearr[i]
 		
 	Tstableaverage=Tstableaverage/N_loop
+	"""
+	checkforreachedstability = 1 #Here I am going to modify the value of this variable in 0 if at least one of the iterations hasn't reached a stable configuration
+	for i in range(N_loop):
+		Tstablearr[i]= -1.0 #Here I am setting the value to -1, if the stability is not changed, the value is going to be TMAX and checkforreachedstability is going to be set to 1 
+		for j in range(TMAX):
+			if a[i,j] > 0.98 or a[i,j] < 0.02: #2% is roughly 6 groups, since I am basically always using N_loop=300
+				Tstablearr[i]=j*interval
+				break
+				
+		if Tstablearr[i] < 0 : # Here I just check if I have to set Tstablearr[i] to the default value (the maximum) or not
+			Tstablearr[i] = TMAX
+			checkforreachedstability = 0
+			
 	
+	# Now I have to compute the average, I decided to do that if not all realization reached a stable state then the average will be still computed but I am going to print this information
+	Tstableaverage = 0
+	for i in range(N_loop):
+		Tstableaverage += Tstablearr[i]
+		
+	Tstableaverage=Tstableaverage/N_loop
+		
 	#*************************************************************************
 	#********************* NOW I PLOT **************************************
 
@@ -274,6 +294,8 @@ for njobs in range(NJOBS):
 	filefordiagram.write("%.2f" % s)
 	filefordiagram.write("%8.3f" % x[TMAX-1])
 	filefordiagram.write("%8.3f" % Tstableaverage)
+	filefordiagram.write("%8.3f" % checkforreachedstability)
+	
 	filefordiagram.write("\n")
 	
 	#********************************* END OF THE SINGLE ITERATION OF THE LOOP
