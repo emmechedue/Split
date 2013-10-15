@@ -581,7 +581,7 @@ bool tochekciffixated(double *x, int M, int M_max){
 			return true; //If all groups are 1 the functions returns true
 		}
 		else{
-			chekfirst=true;
+			checkfirst=true;
 			for(i=0; i<M_max; i++){ //Here  I check if all groups are 0
 				if(x[i]>=0.01){ //I choose 0.01 just to give some error! 
 					checkfirst=false;
