@@ -26,3 +26,6 @@ numeric_check: Numeric_check.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevo
 	
 stops_at_m: Stops_at_M.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Deterministic.h
 	g++ -I /usr/include/gsl -I ./Headers -I /project/theorie/s/Stefano.Duca/Libraries Stops_at_M.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
+	
+cutted: Main_cutted.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h
+	g++ -I /usr/include/gsl -I ./Headers Main_cutted.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
