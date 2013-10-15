@@ -49,7 +49,7 @@ int main(){
 	fclose(pfile);
 	r = gsl_rng_alloc(gsl_rng_mt19937); //I'm using the "Mersenne Twister" generator!
 	gsl_rng_set(r,seed); // Starting the generator
-	//**********************************
+	//************************************ THIS IS JUST PRINTING *******************************
 	
 	if(cons.choice==1){ //This is just to print the right model in the title!
 		fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
@@ -81,7 +81,7 @@ int main(){
 		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
 		filex<<"#In the form of E_{x[m][t]}"<<endl;
 	}
-    //*****************************
+    //***********************************************************************************************************
     
     TI=(int)floor(cons.T/cons.interval);
     
