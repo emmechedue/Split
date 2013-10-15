@@ -563,4 +563,42 @@ void newupdatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *N
 	return;
 }
      		
-    
+bool tochekciffixated(double *x, int M, int M_max){
+	bool checkfirst, checksecond;
+	
+	int i;
+	checkfirst=true;
+	checksecond=false;
+	
+	if(M==M_max){ //First of all, check that M is equal to M_max, otherwise just return false and exit
+		for(i=0; i<M_max; i++){ //If so, let'start by checking if all groups are 1
+			if(x[i]<=0.99){ //I choose 0.99 just to give some error! 
+				checkfirst=false;
+				break; //In case I find that one of the groups is not fixated, I just break the for and I go checking if all groups fixated to 0
+			}
+		}
+		if(checkfirst==true){
+			return true; //If all groups are 1 the functions returns true
+		}
+		else{
+			chekfirst=true;
+			for(i=0; i<M_max; i++){ //Here  I check if all groups are 0
+				if(x[i]>=0.01){ //I choose 0.01 just to give some error! 
+					checkfirst=false;
+					break; //In case I find that one of the groups is not fixated, I just return false
+				}
+			}
+			if(checkfirst==true){
+				return true; //If all groups are zero the function returns true
+			}
+			else{
+				return false; //The population hasn't fixated yet, hence return false
+			}
+		}
+	}
+	else{ // If M != M_max I just return false
+		return false;
+	}
+}	
+	
+

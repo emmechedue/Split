@@ -13,6 +13,7 @@ using namespace std;
 //In this program I print the averages over the ensambles and the values of <N> and <x> for every single iteration
 //Convention: average inside the iteration: < > ; ensamble average E_{ }
 //Note that in this program the w_s is set to 1!!!
+/********************* NOTE: This program does the same thing that main does but instead of going on until T, it stops simulating when the population fixates (at 0 or at 1). When that happens I just print always the same result and move on to the next iteration! */
 
 //*****************************
 
@@ -38,6 +39,7 @@ int main(){
 	FILE *pfile; //file to read from /usr/urandom
 	double TI; //i need it to print the time!
 	int dummy, enne; //Dummy is a dummy index needed for small loops, enne is taking care (in case) of  how many times is rand bigger than interval
+	bool checkiffixated; //This variable will check if a population fixated or not
       
       
      
