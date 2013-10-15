@@ -564,11 +564,10 @@ void newupdatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *N
 }
      		
 bool tochekciffixated(double *x, int M, int M_max){
-	bool checkfirst, checksecond;
+	bool checkfirst;
 	
 	int i;
 	checkfirst=true;
-	checksecond=false;
 	
 	if(M==M_max){ //First of all, check that M is equal to M_max, otherwise just return false and exit
 		for(i=0; i<M_max; i++){ //If so, let'start by checking if all groups are 1

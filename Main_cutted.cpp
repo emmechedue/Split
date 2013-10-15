@@ -24,8 +24,8 @@ int main(){
     int i,l,m,emme=4*cons.M_max,iloop;
     double Gamma[emme]; //The array with all the partial sums
     double **G; //Matrix with all the gammas for all the cells in form of G[cell][reaction]
-    double rand; 
-    int M; //it can go from 1 to M_max and it's just to not waste time taking into account empty cells
+	double rand; 
+	int M; //it can go from 1 to M_max and it's just to not waste time taking into account empty cells
     ofstream filec, filet, fileN,filex;//Output files
     //const char filename[]="output.txt"; //Here output.txt will output for each time step the ensamble average of <N> and <x>  and also the ensamble average of M
     const char filenameN[]="ensambleN.txt"; //While ensambleN and x  will print out each of the <N> and <x>
@@ -38,9 +38,9 @@ int main(){
 	gsl_rng *r; //Pointer to the type of rng
 	FILE *pfile; //file to read from /usr/urandom
 	double TI; //i need it to print the time!
-	int dummy, enne; //Dummy is a dummy index needed for small loops, enne is taking care (in case) of  how many times is rand bigger than interval
-	bool checkiffixated; //This variable will check if a population fixated or not
-      
+	int dummy, enne; //Dummy is a dummy index needed for small loops, enne is taking care (in case) of  how many times is rand bigger than interval. 
+	bool checkiffixated=true; //This variable will check if a population fixated or not. It is set to true in the beginning just to get rid of the annoying warning.
+	int remainingsteps,anotherdummyindex; //I am going to use this to compute how many time steps I have left!  
       
      
 
@@ -110,53 +110,62 @@ int main(){
 		
 		//*****Start of the evolution***********
 		 
-	   do{ 
-		   rand=randlog(Gamma[4*M-1],r);//Samples the time at wich the next reaction happens;
-		   if(t+rand>cons.T){ //If the new time would be bigger than T, I simply print out everything I have to print and then break the loop
-		   		oldt=cons.T-t; //Note that here oldt has a different use, I'm simply using this variable since I don't need it anymore
+		do{ 
+			rand=randlog(Gamma[4*M-1],r);//Samples the time at wich the next reaction happens;
+			if(t+rand>cons.T){ //If the new time would be bigger than T, I simply print out everything I have to print and then break the loop
+				oldt=cons.T-t; //Note that here oldt has a different use, I'm simply using this variable since I don't need it anymore
 		   		enne=floor(oldt/cons.interval);
 		   		for(dummy=1;dummy<=(enne+1);dummy ++){ //Note that here I have <= of enne and not <, since again I don't need the time explicitely and thus I'm simply printing out the same data. The enne + 1 is because I need to start from 1
 		   			printiterens(Nc,Nd,M,fileN,filex);
 		   			}
 		   		break; //Exit from the do loop
 		   }
-		   t=t+rand; //Update the time. Here I can update it before because I am never using the time explicitely in the if later!
-		   if(rand>cons.interval){ //Here is to check if I have to reprint the old situation before update the system!
+			t=t+rand; //Update the time. Here I can update it before because I am never using the time explicitely in the if later!
+			if(rand>cons.interval){ //Here is to check if I have to reprint the old situation before update the system!
 		   		enne=floor(rand/cons.interval);
 		   		for(dummy=1;dummy<=enne;dummy ++){ //Here there is from 1 to <= enne because I need to multiply, hence I start from 1
-		   			printiterens(Nc,Nd,M,fileN,filex);
-		   			}
-		   		rand=rand-cons.interval*enne;
-		   }
-		   oldt=oldt+rand; //Update oldt
-		   //oldtensamble=oldtensamble+rand; //Update oldtensamble
-		   rand=gsl_rng_uniform(r)*Gamma[4*M-1]; //Generates the random number to choose the reaction!
-		   l=search(Gamma,4*M,rand); //Finds the reaction
-		   m=updateN(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
-		   if(check(Nc, Nd, cons, m)==true){ //Of course I need to check if I have to split the cell or not
+					printiterens(Nc,Nd,M,fileN,filex);
+		   		}
+				rand=rand-cons.interval*enne;
+			}
+			oldt=oldt+rand; //Update oldt
+			//oldtensamble=oldtensamble+rand; //Update oldtensamble
+			rand=gsl_rng_uniform(r)*Gamma[4*M-1]; //Generates the random number to choose the reaction!
+			l=search(Gamma,4*M,rand); //Finds the reaction
+			m=updateN(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
+			if(check(Nc, Nd, cons, m)==true){ //Of course I need to check if I have to split the cell or not
 		   		M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); 
 				//cout<<endl<<endl<<"Now in the main: First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[1]+Nd[1]<<" bacteria"<<endl<<endl;
 				//Here I do everything, I create the cell, I update the cells and then update the Gamma and G
-				}
-		   else{ //Of course if no cell splits, I just update the G and the Gamma, print and then sample for another reaction
+			}
+			else{ //Of course if no cell splits, I just update the G and the Gamma, print and then sample for another reaction
 				updateG(G,Gamma,m,Nc,Nd,x,cons,4*M); //Updates the G and the Gamma
-				}
+			}
 				
 				
-		  if(oldt>=cons.interval){ //Checks whether I have to print or not
-					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
-					oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again 
-					//count++;
-					cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
-				}
+			if(oldt>=cons.interval){ //Checks whether I have to print or not
+				printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
+				oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again 
+				//count++;
+				cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
+			}
+			
+			checkiffixated=tochekciffixated(x,M,cons.M_max); //Here I check if I have to interrupt the do-while cycle or not!			
 				
-	  }while(t<=cons.T);
-	  //cout<<endl<<endl<<"gamma= "<<Gamma[4*M-1]<<endl<<endl;
+		}while((t<=cons.T)&&(checkiffixated==false)); //I break the do while if t becomes bigger than T or all the groups in one population fixated!
+		if(checkiffixated==true){ //If I stopped because the population fixated I have to print for the rest of time steps the values of N and x
+			remainingsteps=ceil((cons.T-t)/cons.interval);
+			for(anotherdummyindex=0;anotherdummyindex<remainingsteps;anotherdummyindex++){
+				printiterens(Nc,Nd,M,fileN,filex);
+			}
+		}
+					
+		//cout<<endl<<endl<<"gamma= "<<Gamma[4*M-1]<<endl<<endl;
 		
-	  filex<<endl; //I print the \n in the 2 files!
-	  fileN<<endl;
+		filex<<endl; //I print the \n in the 2 files!
+		fileN<<endl;
 
-    }
+	}
     
     
     //********************Here ends the loop
