@@ -33,8 +33,9 @@ void initializeNandx(double *x, double *Nc, double *Nd, Constants cons){ //Here 
 
 void initializeallgammas(double **G, double *Gamma,double *Nc, double *Nd, double *x, Constants cons){
 	int i,j; // i is going to be the group index and j the reaction index 
+	double average;
 	
-	initializeGamma(G,Gamma,Nc, Nd, x, Constants cons); //I initialize the first gamma filling it up for i=0
+	initializeGamma(G,Gamma,Nc, Nd, x, cons); //I initialize the first gamma filling it up for i=0
 	j=4; // j starts from 4 becauase Gamma[4] (i.e. the 5th reaction) is the first one I want to save!
 	for(i=1;i<cons.M_max;i++){
 		average=faverage(x[i],cons);
@@ -51,7 +52,7 @@ void initializeallgammas(double **G, double *Gamma,double *Nc, double *Nd, doubl
 		Gamma[j]=Gamma[j-1]+G[i][3];
 		j++;
 	}	
-	cout<<j<<endl;
+	
 	return ;
 }
 

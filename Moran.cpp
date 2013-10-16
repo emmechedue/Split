@@ -7,6 +7,7 @@
 #include<Hevolve.h>
 #include<Hsplit.h>
 #include<Constants.h>
+#include<Moran.h>
 
 using namespace std;
 
@@ -93,18 +94,18 @@ int main(){
 		t=0.;
 		oldt=0.;
 		M=cons.M_max; //I start with all the cells
-		initializeNandx(x, Nc, Nd, cons);
+		initializeNandx(x, Nc, Nd, cons); //Let's initialize x and N
 
 		
 		G=new double* [cons.M_max]; //Create the Mx4 gamma matrix
 		for(i=0; i<cons.M_max; i++){
 		    G[i]=new double[4];
 		}
-		initializeallgammas(G,Gamma,Nc,Nd,x,cons);
+		initializeallgammas(G,Gamma,Nc,Nd,x,cons); //Let's Initialize G and Gamma
 		//*******end of initialization*********
 		
 		printiterens(Nc,Nd,1,fileN,filex); //Here I print for time==0
-		/*
+		
 		//*****Start of the evolution***********
 		 
 		do{ 
@@ -160,7 +161,7 @@ int main(){
 		//cout<<endl<<endl<<"gamma= "<<Gamma[4*M-1]<<endl<<endl;
 		
 		filex<<endl; //I print the \n in the 2 files!
-		fileN<<endl;*/
+		fileN<<endl;
 
 	}
     
