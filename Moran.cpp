@@ -53,31 +53,31 @@ int main(){
 	
 	if(cons.choice==1){ //This is just to print the right model in the title!
 		fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
-		fileN<<"#Results for the simulation reproducing the propagule with"<<endl;
+		fileN<<"#Results for the simulation reproducing the Moran process propagule with"<<endl;
 		fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
 		fileN<<"#In the form of E_{N[m][t]}"<<endl;
 		filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
-		filex<<"##Results for the simulation reproducing the propagule with"<<endl;
+		filex<<"#Results for the simulation reproducing the Moran process propagule with"<<endl;
 		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
 		filex<<"#In the form of E_{x[m][t]}"<<endl;
 		}
 	else if(cons.choice==2){
 		fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
-		fileN<<"#Results for the simulation reproducing the random splitting with"<<endl;
+		fileN<<"#Results for the simulation reproducing the Moran process random splitting with"<<endl;
 		fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
 		fileN<<"#In the form of E_{N[m][t]}"<<endl;
 		filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
-		filex<<"##Results for the simulation reproducing the random splitting with"<<endl;
+		filex<<"#Results for the simulation reproducing the Moran process random splitting with"<<endl;
 		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
 		filex<<"#In the form of E_{x[m][t]}"<<endl;
 		}
     else{
     	fileN.open(filenameN,ios::out|ios::trunc); //Open the N's file 
-		fileN<<"#Results for the simulation reproducing deterministic splitting with"<<endl;
+		fileN<<"#Results for the simulation reproducing the Moran process deterministic splitting with"<<endl;
 		fileN<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
 		fileN<<"#In the form of E_{N[m][t]}"<<endl;
 		filex.open(filenamex,ios::out|ios::trunc); //Open the x's file and print the results for time=0
-		filex<<"##Results for the simulation reproducing deterministic splitting with"<<endl;
+		filex<<"#Results for the simulation reproducing the Moran process deterministic splitting with"<<endl;
 		filex<<"# M_max="<<cons.M_max<<"  T="<<cons.T<<"  K="<<cons.K<<"  s="<<cons.s<<"  p="<<cons.p<<"  N0="<<cons.N0<<"  x0="<<cons.x0<<"  N_max="<<cons.N_max<<"  seed="<<seed<<"  N_loop="<<cons.N_loop<<endl;
 		filex<<"#In the form of E_{x[m][t]}"<<endl;
 	}
@@ -92,21 +92,19 @@ int main(){
 		//*********Let's initialize all**********
 		t=0.;
 		oldt=0.;
-		Nc[0]=cons.N0*cons.x0;
-		x[0]=cons.x0;
-		Nd[0]=cons.N0*(1.-cons.x0);
-		M=1; //I start with one cell
+		M=cons.M_max; //I start with all the cells
+		initializeNandx(x, Nc, Nd, cons);
 
 		
 		G=new double* [cons.M_max]; //Create the Mx4 gamma matrix
 		for(i=0; i<cons.M_max; i++){
 		    G[i]=new double[4];
 		}
-		initializeGamma(G,Gamma,Nc,Nd,x,cons);
+		initializeallgammas(G,Gamma,Nc,Nd,x,cons);
 		//*******end of initialization*********
 		
 		printiterens(Nc,Nd,1,fileN,filex); //Here I print for time==0
-		
+		/*
 		//*****Start of the evolution***********
 		 
 		do{ 
@@ -162,7 +160,7 @@ int main(){
 		//cout<<endl<<endl<<"gamma= "<<Gamma[4*M-1]<<endl<<endl;
 		
 		filex<<endl; //I print the \n in the 2 files!
-		fileN<<endl;
+		fileN<<endl;*/
 
 	}
     

@@ -29,3 +29,6 @@ stops_at_m: Stops_at_M.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h 
 	
 cutted: Main_cutted.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h
 	g++ -I /usr/include/gsl -I ./Headers Main_cutted.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
+	
+moran: Moran.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Moran.h
+	g++ -I /usr/include/gsl -I ./Headers Moran.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
