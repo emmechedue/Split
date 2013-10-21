@@ -32,3 +32,6 @@ cutted: Main_cutted.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./H
 	
 moran: Moran.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Moran.h
 	g++ -I /usr/include/gsl -I ./Headers Moran.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
+	
+moran_deterministic: Moran_deterministic.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Moran.h
+	g++ -I /usr/include/gsl -I ./Headers Moran_deterministic.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
