@@ -38,8 +38,9 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 	double vector[M]; //will store the M parameters
 	FILE *pfile;
 	
-	pfile = fopen ("./config.conf" , "r");
+	//pfile = fopen ("./config.conf" , "r");
 	//pfile= fopen("/project/theorie/s/Stefano.Duca/Analysis/Prog/config.conf", "r"); //Here I have to put the folder where the config file will be!
+	pfile= fopen("/project/theorie/s/Stefano.Duca/Analysis/I_need_this/config.conf", "r"); //Here I have to put the folder where the config file will be!
 	
 	while(fgets(line, 256, pfile) != NULL)
 	{

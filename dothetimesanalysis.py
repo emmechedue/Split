@@ -50,7 +50,7 @@ if cho==1:
 elif cho==2:
 	choice="random splitting"
 else:
-	choice="deterministic splitting""
+	choice="deterministic splitting"
 	
 #***************************************************************************************
 

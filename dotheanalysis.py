@@ -140,10 +140,10 @@ fulld=0
 others=0
 
 for i in range(N_loop):
-	if ensx[TMAX-1,i]==1:
+	if ensx[TMAX-1,i]>=0.99:
 		fullc=fullc+1
 	else:
-		if ensx[TMAX-1,i]<=0:
+		if ensx[TMAX-1,i]<=0.01:
 			fulld=fulld+1
 		else:
 			others=others+1

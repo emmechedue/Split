@@ -104,7 +104,7 @@ int main(){
 		initializeallgammas(G,Gamma,Nc,Nd,x,cons); //Let's Initialize G and Gamma
 		//*******end of initialization*********
 		
-		printiterens(Nc,Nd,1,fileN,filex); //Here I print for time==0
+		printiterens(Nc,Nd,M,fileN,filex); //Here I print for time==0
 		
 		//*****Start of the evolution***********
 		 

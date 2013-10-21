@@ -2,10 +2,10 @@
 
 NUMJOB=36278   # Here I have to give the script the number of the job!
 
-for i in $(seq 1 1 121)
+for i in $(seq 1 1 151)
 do
 	j=`echo $i-1 | bc`
-	esse=`echo $j \\* 0.05 | bc`		#Computing the value of s
+	esse=`echo $j \\* 0.01 | bc`		#Computing the value of s
 	dummy0=$(echo "$esse == 0" | bc)
 	dummy=$(echo "$esse < 1" | bc)		#Here I create the folder named s+... or s+0....
 	if [ $dummy0 -eq 1 ]; then
