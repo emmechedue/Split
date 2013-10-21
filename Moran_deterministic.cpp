@@ -12,9 +12,8 @@
 
 using namespace std;
 
-/* In this program I evolve the intra-cell dynamics according to the mean field equations and the inter-cell dynamic with a probabilistic setting 
-How do i do this: The random part is the same! The deterministic part is obtained with a two step evolution using approximated functions (check notebook)
-*/
+/********************* NOTE: This program does the same thing that Deterministic.cpp does but since I want to check that the Moran process predictions are correct, I am starting from a situation where I already have fixated groups and I choose which percentage of groups is cooperative and which is defective. */
+//**********This is a deterministic version of Moran's processes!!!!************************
 
 //Note that error 6 means that interval is smaller than ts
 
