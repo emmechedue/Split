@@ -37,6 +37,20 @@ double fdef_approx(double x, Constants cons){
 	return 1;
 }
 
+/*double fcoop_approx(double x, Constants cons){ //This is to check a theory
+	double y;
+	
+	y=1.-cons.s+cons.s*x;
+	return y;
+}
+
+double fdef_approx(double x, Constants cons){ //Idem here
+	double y;
+	
+	y=1.+cons.s*x;
+	return y;
+}*/
+
 double fcoop(double x, Constants cons){ //Decide which fitness to use
 	double y;
 	
