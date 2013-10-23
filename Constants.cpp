@@ -40,7 +40,7 @@ Constants::Constants(){ //Note that name must be the entire path; i.e. "./config
 	
 	pfile = fopen ("./config.conf" , "r");
 	//pfile= fopen("/project/theorie/s/Stefano.Duca/Analysis/Prog/config.conf", "r"); //Here I have to put the folder where the config file will be!
-	//pfile= fopen("/project/theorie/s/Stefano.Duca/Analysis/I_need_this/Phase_transition/config.conf", "r"); //Here I have to put the folder where the config file will be!
+	//pfile= fopen("/project/theorie/s/Stefano.Duca/Analysis/I_need_this/Super_carrying_capacity/config.conf", "r"); //Here I have to put the folder where the config file will be!
 	
 	while(fgets(line, 256, pfile) != NULL)
 	{
