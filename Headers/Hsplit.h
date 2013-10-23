@@ -171,4 +171,46 @@ int createcell(int M, int m,double *Nc, double *Nd, double *x, double *Gamma, do
 	return M;
 }
 	
-		
+int createcellmoran(int M, int m,double *Nc, double *Nd, double *x, double *Gamma, double **G, Constants cons, gsl_rng *r){ /*Here I just do what I do in createcell but I also allow for the possibility to kill the cell that I just sampled.
+I achieve this by cheating: when m comes up, in "createcell" I choose m+1 instead (it makes sense, due to the use of ceil), here if m comes up, I just procede normally but before I store the content of m+1 in an array. After fillcells and before updatebothG, I copy those values in the m-th place and then I am done! This relies on the fact that the cells are indistinguishable! 
+At the end of the day I will end up with n and m switched! Basically the new cell should end up at the place of the old one but instead I switch m+1 and m (hence n)*/
+
+	int n; //This is the index of one of the two new cells
+	double rand;
+	bool copycheck=false; //I am going to use this to check if I have to do the copy thing or not!
+	double xcopy,Nccopy,Ndcopy;
+	
+	//********************Determine n**********
+	if(M>=cons.M_max){
+		rand= gsl_rng_uniform_int(cons.M_max); //Generate a uniform random number between 0 and M_max-1 !! Here I generate all integers with equal probabilties
+		if(n==m){ //If n==m, I copy the values and then I proceed with n
+			copycheck=true;
+			xcopy=x[m];
+			Nccopy=Nc[m];
+			Ndcopy=Nd[m];			
+			n=n+1; //Now I take the next one!
+		} 
+	}
+	else{
+		n=M; //not M+1 because of the index problem (it would be M+1-1)
+		M=M+1;
+	}
+	
+	//********creates the new cells and updates the Gamma and the G*****************
+	fillcells(n,m,Nc,Nd,x,cons,r); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
+	//cout<<"First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[n]+Nd[n]<<" bacteria"<<endl;
+	if(copycheck==true){ //If nedeed I recopy the values of the (m+1)th cell in the mth cell!
+		x[m]=xcopy; 
+		Nc[m]=Nccopy;
+		Nd[m]=Ndcopy;
+	}
+	
+	if (n<m){ //  in the function I always have to have n<m
+		updatebothG(G,Gamma,n,m,Nc,Nd,x,cons,4*M);
+	}
+	else{
+		updatebothG(G,Gamma,m,n,Nc,Nd,x,cons,4*M);
+	}
+	return M;
+}
+	
