@@ -176,13 +176,12 @@ I achieve this by cheating: when m comes up, in "createcell" I choose m+1 instea
 At the end of the day I will end up with n and m switched! Basically the new cell should end up at the place of the old one but instead I switch m+1 and m (hence n)*/
 
 	int n; //This is the index of one of the two new cells
-	double rand;
 	bool copycheck=false; //I am going to use this to check if I have to do the copy thing or not!
 	double xcopy,Nccopy,Ndcopy;
 	
 	//********************Determine n**********
 	if(M>=cons.M_max){
-		rand= gsl_rng_uniform_int(cons.M_max); //Generate a uniform random number between 0 and M_max-1 !! Here I generate all integers with equal probabilties
+		n= gsl_rng_uniform_int(r,cons.M_max); //Generate a uniform random number between 0 and M_max-1 !! Here I generate all integers with equal probabilties
 		if(n==m){ //If n==m, I copy the values and then I proceed with n
 			copycheck=true;
 			xcopy=x[m];
