@@ -44,6 +44,7 @@ int main(){
 	FILE *pfile; //file to read from /usr/urandom
 	double TI; //i need it to print the time!
 	int dummy, enne; //Dummy is a dummy index needed for small loops, enne is taking care (in case) of  how many times is rand bigger than interval. 
+	bool checkiffixated=true; //This variable will check if a population fixated or not. It is set to true in the beginning just to get rid of the annoying warning.
 	bool checkifMmax=false; //This variable will check if M is M_max or not. It is set to false in the beginning just to get rid of the annoying warning.
 	int remainingsteps,anotherdummyindex; //I am going to use this to compute how many time steps I have left!  
       
@@ -155,24 +156,27 @@ int main(){
 				cout<<"The time is "<<t<<" and iloop is "<<iloop<<endl; //Just to check
 			}
 			
+			checkiffixated=tochekciffixated(x,M,cons.M_max); //Here I check if I have to interrupt the do-while cycle or not!	
 			
-			if(M<cons.M_max){
+			if(M<cons.M_max){ //Here I check for the other condition of the do-while, cycle
 				checkifMmax=false;
 			}
 			else{
 				checkifMmax=true;
-			}
+			}		
 				
-		}while(checkifMmax==false); //I break the do while when I reach M_max!
-		if(checkifMmax==true){ //After I stopped, I have to print for the rest of time steps the values of N and x
+		}while((checkifMmax==false)&&(checkiffixated==false)); //I break the do while if M becomes M_max or all the groups in one population fixated!
+		if((checkiffixated==true)||(checkifMmax==true)){ //If I stopped before TMAX I have to print for the rest of time steps the values of N and x
 			remainingsteps=ceil((cons.T-t)/cons.interval);
 			for(anotherdummyindex=0;anotherdummyindex<remainingsteps;anotherdummyindex++){
 				printiterens(Nc,Nd,M,fileN,filex);
 			}
 		}
-		else{
+		else{ //Otherwise I have to start again with a bigger T
 			filex<<"Abort everything and start again with a bigger time!!!!!!!!!!!!!!!!";
-			fileN<<"Abort everything and start again with a bigger time!!!!!!!!!!!!!!!!";						
+			fileN<<"Abort everything and start again with a bigger time!!!!!!!!!!!!!!!!";
+		}	
+		
 		//cout<<endl<<endl<<"gamma= "<<Gamma[4*M-1]<<endl<<endl;
 		
 		filex<<endl; //I print the \n in the 2 files!
