@@ -12,7 +12,7 @@ using namespace std;
 
 //In this header I can decide how many groups have to be cooperative!
 
-const double num_coop=1; //This is the number of groups that start as cooperative! All the M_max - num_coop will start as defectors!
+const double num_coop=5; //This is the number of groups that start as cooperative! All the M_max - num_coop will start as defectors!
 
 void initializeNandx(double *x, double *Nc, double *Nd, Constants cons){ //Here I initialize all the cells to start with 40 agents. Ther first num_coop groups will be cooperative, the others defectors!
 	int i;
