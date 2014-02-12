@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[    124103,       2547]
-NotebookOptionsPosition[    121808,       2471]
-NotebookOutlinePosition[    122146,       2486]
-CellTagsIndexPosition[    122103,       2483]
+NotebookDataLength[    125098,       2582]
+NotebookOptionsPosition[    122645,       2501]
+NotebookOutlinePosition[    122983,       2516]
+CellTagsIndexPosition[    122940,       2513]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -2466,7 +2466,37 @@ Cell[BoxData[
  CellChangeTimes->{{3.601198817064763*^9, 3.601198842927415*^9}}],
 
 Cell[BoxData["0.25925925925925924`"], "Output",
- CellChangeTimes->{3.601198844207582*^9}]
+ CellChangeTimes->{3.601198844207582*^9, 3.601209627134696*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"emme2", "=", "10"}], ";"}]], "Input",
+ CellChangeTimes->{{3.6012096291444693`*^9, 3.6012096502964993`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"partiale", "=", 
+  RowBox[{
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{"po", "*", 
+      RowBox[{"(", 
+       RowBox[{"p1", "^", "i"}], ")"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "0", ",", 
+       RowBox[{"emme2", "-", "2"}]}], "}"}]}], "]"}], "+", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"po", "+", "p1"}], ")"}], "*", 
+    RowBox[{"p1", "^", 
+     RowBox[{"(", 
+      RowBox[{"emme2", "-", "2"}], ")"}]}]}]}]}]], "Input",
+ CellChangeTimes->{{3.601209651932164*^9, 3.6012096884270353`*^9}}],
+
+Cell[BoxData["0.26022302965470573`"], "Output",
+ CellChangeTimes->{3.601209689265787*^9}]
 }, Open  ]]
 },
 WindowSize->{1855, 1176},
@@ -2547,7 +2577,12 @@ Cell[121079, 2444, 137, 3, 32, "Input"],
 Cell[121219, 2449, 136, 3, 32, "Input"],
 Cell[CellGroupData[{
 Cell[121380, 2456, 320, 9, 32, "Input"],
-Cell[121703, 2467, 89, 1, 65, "Output"]
+Cell[121703, 2467, 111, 1, 32, "Output"]
+}, Open  ]],
+Cell[121829, 2471, 142, 3, 32, "Input"],
+Cell[CellGroupData[{
+Cell[121996, 2478, 541, 17, 32, "Input"],
+Cell[122540, 2497, 89, 1, 65, "Output"]
 }, Open  ]]
 }
 ]
