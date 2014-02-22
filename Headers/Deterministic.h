@@ -67,11 +67,11 @@ double xevolve(double x, double t, Constants cons){ //This function returns the 
 	double fa;
 	double newx;
 	
-	if(x>=0.99){
+	if(x>=0.999){
 		return 1.;
 	}
 	else{
-		if(x<=0.01){
+		if(x<=0.001){
 			return 0.;
 		}
 		else{
@@ -159,7 +159,7 @@ int createcellfullydeterministic(int *M, int m,double *N, double *x, Constants c
 		N[n]=cons.N0;
 	}
 	else{ //Since everything is deterministic, I simply define the values as being half N_max
-		rand=double(cons.N_max)
+		rand=double(cons.N_max);
 		N[m]=rand/2;
 		N[n]=rand/2;
 	}
@@ -194,7 +194,7 @@ void myprintensamblefullydeterministic(double *N,double *x,double t,int M, ofstr
 //**********	THIS IS THE EQUIVALENT OF MYPRINTENSAMBLE2 FOR THE FULLY DETERMINISTIC SIMULATION ********************
 	//file<<t<<"    "; //Prints the time
 	for(i=0; i<M; i++){ //Prints Nc+Nd and x
-		//y=N[i];
+		y=N[i];
 		fileN<<setprecision(5)<<left<<setw(7)<<N[i];
 		if(y!=0){
 			y=x[i];
