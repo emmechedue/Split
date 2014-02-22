@@ -14,10 +14,10 @@ using namespace std;
 //In this program I perform only a single loop but I save everything (meaning the behavior of any single cell)
 //Note that in this program the w_s is set to 1!!!
 
-//******************************************************************************************************************************************************************
-//***************	NOTE THAT THIS PROGRAM IS DIFFERENT FROM Single_loop_deterministic BECAUSE HERE EVERYTHING IS DETERMINISTIC, EVEN THE SPLITTING PART
-//***************	NOT EVEN ONCE WE USE Nc OR Nd    
-//******************************************************************************************************************************************************************
+//********************************************************************************************************************************************************************************************
+//***************	NOTE THAT THIS PROGRAM IS DIFFERENT FROM Single_loop_deterministic BECAUSE HERE EVERYTHING IS DETERMINISTIC, EVEN THE SPLITTING PART DOESN'T USE EVEN ONCE Nc OR Nd    
+//***************	NOTE THAT THIS CAN PERFORM ONLY DETERMINISTIC/DETERMINISTIC EVOLUTIONS
+//********************************************************************************************************************************************************************************************
 
 //*****************************
 
@@ -143,22 +143,22 @@ int main(){
 				//********Here I perform the splitting**********
 				tstar=inverseN(N[i], x[i],cons); //Compute the time when N is roughly equal to N_max
 				x[i]=xevolve(x[i], tstar, cons); //Compute the value of x after tstar
-				computeNcNd(x[i], cons.N_max, &Nc[i], &Nd[i]); //I compute the values of Nc and Nd at tstar
-				n=createcelldeterministic(&M,i,N,Nc, Nd, x,cons, r); //Here I do the splitting and all the related things
+				//computeNcNd(x[i], cons.N_max, &Nc[i], &Nd[i]); //I compute the values of Nc and Nd at tstar
+				n=createcellfullydeterministic(&M,i,N,x,cons, r); //Here I do the splitting and all the related things
 				//Now I have to finish the evolution for a time step ts-tstar for the i-th and n-th cell (maybe)
 				N[i]=Nevolve(N[i], x[i], cons.ts-tstar, cons); //For the i-th cell
 				x[i]=xevolve(x[i], cons.ts-tstar, cons);
-				computeNcNd(x[i], N[i], &Nc[i], &Nd[i]);
+				//computeNcNd(x[i], N[i], &Nc[i], &Nd[i]);
 				if(i>n){ //So if i is bigger than n I finish the evolution, otherwise I will perform one entire step of evolution later
 					N[n]=Nevolve(N[n], x[n], cons.ts-tstar, cons); //The same for the n-th cell
 					x[n]=xevolve(x[n], cons.ts-tstar, cons);
-					computeNcNd(x[n], N[n], &Nc[n], &Nd[n]);	
+					//computeNcNd(x[n], N[n], &Nc[n], &Nd[n]);	
 				}
 			}
 			else{ //It means that in this timestep there is no splitting for the i-th cell
 				N[i]=dummy;
 				x[i]=xevolve(x[i], cons.ts, cons);				
-				computeNcNd(x[i], N[i], &Nc[i], &Nd[i]);
+				//computeNcNd(x[i], N[i], &Nc[i], &Nd[i]);
 			}
 			
 			//*********End of the single cell evolution*************
@@ -168,14 +168,14 @@ int main(){
 		
 		//Now to check if I have to print or not
 		if(abs(t-cons.T)<cons.ts){ //If I am at the end of the time I print!
-			myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
-			myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
+			myprintfullydeterministic(N,x,t,M,file); //Printing the results on file fast. To create a picture
+			myprintensamblefullydeterministic(N,x,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
 			cout<<"The time is "<<t<<endl; //Just to check
 		}
 		else{ //If the time is a "multiple" of interval, then I print
 			if((j%tempstep)==0){
-				myprint2(Nc,Nd,t,M,file); //Printing the results on file fast. To create a picture
-				myprintensamble2(Nc,Nd,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
+				myprintfullydeterministic(N,x,t,M,file); //Printing the results on file fast. To create a picture
+				myprintensamblefullydeterministic(N,x,t,cons.M_max,fileN,filex); //Printing the results on file ensamble; to create the movie
 				cout<<"The time is "<<t<<endl; //Just to check
 			}	
 		}
