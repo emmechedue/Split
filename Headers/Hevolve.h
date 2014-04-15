@@ -10,6 +10,8 @@ using namespace std;
 /****************List of errors: ****************
     Error 1 is an error in the function upadateN
     */
+
+// Note the function with the 2 at the end of the name are the ones without killing events, for the paper
  
 double fcoop_original(double x, Constants cons){
 	double y;
@@ -116,7 +118,20 @@ void initializeGamma(double **G, double *Gamma,double *Nc, double *Nd, double *x
     return;
 }
 
-
+void initializeGamma2(double **G, double *Gamma,double *Nc, double *Nd, double *x, Constants cons){
+    int j;
+    double average;
+    
+    average=faverage(x[0],cons);
+    j=0; //I have to create the first gamma by hand due to Gamma[0]
+    G[0][0]=Nc[0]*g(x[0],cons)*fcoop(x[0],cons)/average;
+    Gamma[0]=G[0][0];
+    j++;
+    G[0][1]=g(x[0],cons)*Nd[0]*fdef(x[0],cons)/average;
+    Gamma[j]=Gamma[j-1]+G[0][2];
+    
+    return;
+}
 	
 
 void myprint2(double *Nc,double *Nd,double t,int M, ofstream& file){ //Prints the time, N average and x average as defined in the very first paper (i.e. <x>=Sum(Nc)/Sum(N)) and also the number of cells M
@@ -426,6 +441,27 @@ int updateN(double *Nc, double *Nd,double *x, int l){  //Updates the N; l is the
     return m;
 }
 
+int updateN2(double *Nc, double *Nd,double *x, int l){  //Updates the N; l is the chosen reation from G (the one given by search), t is the time step (the new one, is just the index of the for!)
+    int m,k; //k is the occured reation, m is the cell where the change occurred and is returned by the function
+    
+    m=l/2;
+    k=l%2;
+    switch(k){ //Update the appropriate number of bacteria
+        case 0:
+            Nc[m]=Nc[m]+1;
+            break;
+        case 1:
+            Nd[m]=Nd[m]+1;
+            break;
+        default:
+            cout<<"Error in updateN"<<endl;
+            exit(1);
+            break;
+    }
+    x[m]=Nc[m]/(Nc[m]+Nd[m]); //Update the x array
+    return m;
+}
+
 bool check(double *Nc, double *Nd, Constants cons, int m){ //Check if the cell m (where the reaction occurred) has to split or not
 	double N;
 	bool asd=false;
@@ -466,6 +502,39 @@ void updateG(double **G,double *Gamma, int m, double *Nc, double *Nd, double *x,
         Gamma[i+a]=Gamma[i+a-1]+G[m][i];
     }
     for(i=a+4;i<emme;i++){ //I think this way is better because I have to make less calls (instead of Nd, Nc, x I just call sum)
+        Gamma[i]=Gamma[i]+sum;
+    }
+    
+    return;
+}
+
+void updateG2(double **G,double *Gamma, int m, double *Nc, double *Nd, double *x, Constants cons, int emme){ //Update the array G[m][] with the new Nc, Nd and x and the array Gamma
+    double old[2];
+    double average,sum;//Sum saves the difference of the old G[m][] with the new one;
+    int i,a;
+    
+    for( i=0; i<2;i++){ //Save the changes of G[][]
+        old[i]=G[m][i];
+    }
+    average=faverage(x[m],cons);
+    G[m][0]=Nc[m]*g(x[m],cons)*fcoop(x[m],cons)/average; //Updates the G[][] 
+    G[m][1]=g(x[m],cons)*Nd[m]*fdef(x[m],cons)/average;
+    sum=0;
+    for(i=0;i<2;i++){ //Compute the change
+        sum=sum+G[m][i]-old[i];
+    }
+    a=2*m;
+    if(m==0){ //Update Gamma[4*m]; I need to do in this way due to m=0
+        Gamma[0]=G[0][0];
+    }
+    else{
+        Gamma[a]=Gamma[a-1]+G[m][0];
+    }
+    for(i=1;i<2;i++) //Update the part of the Gamma[i] due to m
+    {
+        Gamma[i+a]=Gamma[i+a-1]+G[m][i];
+    }
+    for(i=a+2;i<emme;i++){ //I think this way is better because I have to make less calls (instead of Nd, Nc, x I just call sum)
         Gamma[i]=Gamma[i]+sum;
     }
     
@@ -529,6 +598,64 @@ void updatebothG(double **G,double *Gamma, int n,int m, double *Nc, double *Nd, 
         Gamma[i]=Gamma[i]+sum1+sum2;
     }
     //cout<<"The gammas are: "<<G[0][0]<<"  "<<G[0][1]<<"  "<<G[0][2]<<"  "<<G[0][3]<<"and gamma j is "<<Gamma[emme-1]<<endl;
+    /*that's just a check!!!*/
+  
+    return;
+}
+
+void updatebothG2(double **G,double *Gamma, int n,int m, double *Nc, double *Nd, double *x, Constants cons, int emme){ //Update the arrays G[m][] and G[n][] with the new Nc, Nd and x and the array Gamma. Note that it requires that n<m!!!
+    double old; 
+    double average, sum1,sum2;//Sum1 saves the difference of the old G[n][] with the new one, sum2 does the same with G[m][]
+    int i,a;
+    
+    old=0;
+	for( i=0; i<2;i++){ //Save the changes of G[][]
+        old=old+G[n][i];
+    }
+    average=faverage(x[n],cons);
+    G[n][0]=Nc[n]*g(x[n],cons)*fcoop(x[n],cons)/average; //Updates the G[][]
+    G[n][1]=g(x[n],cons)*Nd[n]*fdef(x[n],cons)/average;
+    sum1=0;
+    for(i=0;i<2;i++){ //Compute the change
+        sum1=sum1+G[n][i];
+    }
+    sum1=sum1-old;
+    a=2*n;
+    if(n==0){ //Update Gamma[2*n]; I need to do in this way due to n=0
+        Gamma[0]=G[0][0];
+    }
+    else{
+        Gamma[a]=Gamma[a-1]+G[n][0];
+    }
+    for(i=1;i<2;i++) //Update the part of the Gamma[i] due to n
+    {
+        Gamma[i+a]=Gamma[i+a-1]+G[n][i];
+    }
+    for(i=a+2;i<2*m;i++){ //Here I basically update all the Gamma from 4*n to 4*m (the one that is basically unchanged)
+        Gamma[i]=Gamma[i]+sum1;
+    }
+    //Now i do the same for m
+    old=0;
+    for( i=0; i<2;i++){ //Save the changes of G[][]
+        old=old+G[m][i];
+    }
+    average=faverage(x[m],cons);
+    G[m][0]=Nc[m]*g(x[m],cons)*fcoop(x[m],cons)/average; //Updates the G[][]
+    G[m][1]=g(x[m],cons)*Nd[m]*fdef(x[m],cons)/average;
+    sum2=0;
+    for(i=0;i<2;i++){ //Compute the change
+        sum2=sum2+G[m][i];
+    }
+    sum2=sum2-old;
+    a=2*m;
+    for(i=0;i<2;i++) //Update the part of the Gamma[i] due to m. NOTE THAT Here I don't do the check for m==0 because I'm sure that m!=0
+    {
+        Gamma[i+a]=Gamma[i+a-1]+G[m][i];
+    }
+    for(i=(a+2);i<emme;i++){ //Here I update the rest, from 4*m to emme, NOTE THAT I have to ake care of both changes now
+        Gamma[i]=Gamma[i]+sum1+sum2;
+    }
+    //cout<<"The gammas are: "<<G[0][0]<<"  "<<G[0][1]<<"  and gamma j is "<<Gamma[emme-1]<<endl;
     /*that's just a check!!!*/
   
     return;

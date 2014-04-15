@@ -26,7 +26,7 @@ int main(){
     Constants cons;
     double Nc[cons.M_max], Nd[cons.M_max], x[cons.M_max]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
     double t ,oldt; //t is the time and oldt will be used to check whether or not print
-    int i,l,m,emme=4*cons.M_max,iloop;
+    int i,l,m,emme=2*cons.M_max,iloop;
     double Gamma[emme]; //The array with all the partial sums
     double **G; //Matrix with all the gammas for all the cells in form of G[cell][reaction]
 	double rand; 
@@ -105,11 +105,11 @@ int main(){
 		M=1; //I start with one cell
 
 		
-		G=new double* [cons.M_max]; //Create the Mx4 gamma matrix
+		G=new double* [cons.M_max]; //Create the Mx2 gamma matrix
 		for(i=0; i<cons.M_max; i++){
-		    G[i]=new double[4];
+		    G[i]=new double[2];
 		}
-		initializeGamma(G,Gamma,Nc,Nd,x,cons);
+		initializeGamma2(G,Gamma,Nc,Nd,x,cons);
 		//*******end of initialization*********
 		
 		printiterens(Nc,Nd,1,fileN,filex); //Here I print for time==0
@@ -117,7 +117,7 @@ int main(){
 		//*****Start of the evolution***********
 		 
 		do{ 
-			rand=randlog(Gamma[4*M-1],r);//Samples the time at wich the next reaction happens;
+			rand=randlog(Gamma[2*M-1],r);//Samples the time at wich the next reaction happens;
 			if(t+rand>cons.T){ //If the new time would be bigger than T, I simply print out everything I have to print and then break the loop
 				oldt=cons.T-t; //Note that here oldt has a different use, I'm simply using this variable since I don't need it anymore
 		   		enne=floor(oldt/cons.interval);
@@ -136,16 +136,16 @@ int main(){
 			}
 			oldt=oldt+rand; //Update oldt
 			//oldtensamble=oldtensamble+rand; //Update oldtensamble
-			rand=gsl_rng_uniform(r)*Gamma[4*M-1]; //Generates the random number to choose the reaction!
-			l=search(Gamma,4*M,rand); //Finds the reaction
-			m=updateN(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
+			rand=gsl_rng_uniform(r)*Gamma[2*M-1]; //Generates the random number to choose the reaction!
+			l=search(Gamma,2*M,rand); //Finds the reaction
+			m=updateN2(Nc, Nd,x,l); //Updates the variables at time i and returns the cell where the reaction happened
 			if(check(Nc, Nd, cons, m)==true){ //Of course I need to check if I have to split the cell or not
-		   		M=createcell(M, m, Nc, Nd, x, Gamma, G, cons, r); 
+		   		M=createcell2(M, m, Nc, Nd, x, Gamma, G, cons, r); 
 				//cout<<endl<<endl<<"Now in the main: First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[1]+Nd[1]<<" bacteria"<<endl<<endl;
 				//Here I do everything, I create the cell, I update the cells and then update the Gamma and G
 			}
 			else{ //Of course if no cell splits, I just update the G and the Gamma, print and then sample for another reaction
-				updateG(G,Gamma,m,Nc,Nd,x,cons,4*M); //Updates the G and the Gamma
+				updateG2(G,Gamma,m,Nc,Nd,x,cons,2*M); //Updates the G and the Gamma
 			}
 				
 				
@@ -177,7 +177,7 @@ int main(){
 			fileN<<"Abort everything and start again with a bigger time!!!!!!!!!!!!!!!!";
 		}	
 		
-		//cout<<endl<<endl<<"gamma= "<<Gamma[4*M-1]<<endl<<endl;
+		//cout<<endl<<endl<<"gamma= "<<Gamma[2*M-1]<<endl<<endl;
 		
 		filex<<endl; //I print the \n in the 2 files!
 		fileN<<endl;
