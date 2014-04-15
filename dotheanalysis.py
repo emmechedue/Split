@@ -153,7 +153,7 @@ for i in range(N_loop):
 #********************************************************Now the plotting:
 
 #Preparing the strings for the box
-stringa="K= "+str(K)+"\ns= "+str(s)+"\nc= "+str(c)+"\nb= "+str(b)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM_max= "+str(M_max)+"\nN_loop= "+str(N_loop)
+stringa="K= "+str(K)+"\ns= "+str(s)+"\nc= "+str(c)+"\nb= "+str(b)+"\np= "+str(p)+"\nN_max= "+str(N_max)+"\nM_max= "+str(M_max)+"\nL= "+str(N_loop)
 stringa2="fullc= "+str(fullc)+"\nfulld= "+str(fulld)+"\nothers= "+str(others)
 
 
@@ -177,11 +177,11 @@ plt.close()
 
 #x plotting with no absolute error
 figure(num=None, figsize=(16, 12), dpi=160, facecolor='w', edgecolor='k')
-plot(time,x,label="data")
+plot(time,x,label="data",linewidth=2)
 plot(time,xerrorstdplus,'k--', label="confidence interval +")
 plot(time,xerrorstdminus,'k--', label="confidence interval -")
 axis([0, T, 0, 1])
-title("Ensemble average of <x> vs. t for the "+choice+" model",fontsize=20)
+title("Ensemble average <x> vs. t for the "+choice+" model",fontsize=20)
 ylabel("<x>",fontsize=20)
 xlabel("t",fontsize=20)
 legend(("data","confidence interval +","confidence interval -"))
