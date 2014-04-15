@@ -652,7 +652,7 @@ void updatebothG2(double **G,double *Gamma, int n,int m, double *Nc, double *Nd,
     {
         Gamma[i+a]=Gamma[i+a-1]+G[m][i];
     }
-    for(i=(a+2);i<emme;i++){ //Here I update the rest, from 4*m to emme, NOTE THAT I have to ake care of both changes now
+    for(i=(a+2);i<emme;i++){ //Here I update the rest, from 2*m to emme, NOTE THAT I have to take care of both changes now
         Gamma[i]=Gamma[i]+sum1+sum2;
     }
     //cout<<"The gammas are: "<<G[0][0]<<"  "<<G[0][1]<<"  and gamma j is "<<Gamma[emme-1]<<endl;

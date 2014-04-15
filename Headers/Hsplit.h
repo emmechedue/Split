@@ -195,10 +195,10 @@ int createcell2(int M, int m,double *Nc, double *Nd, double *x, double *Gamma, d
 	fillcells(n,m,Nc,Nd,x,cons,r); // It's important that I first create the n-cell and then the m one, because to create the cell I need the parameters of the m-th cell
 	//cout<<"First cell now has "<<Nc[m]+Nd[m]<<" bacteria and second cell now has "<<Nc[n]+Nd[n]<<" bacteria"<<endl;
 	if (n<m){ //  in the function I always have to have n<m
-		updatebothG2(G,Gamma,n,m,Nc,Nd,x,cons,4*M);
+		updatebothG2(G,Gamma,n,m,Nc,Nd,x,cons,2*M);
 	}
 	else{
-		updatebothG2(G,Gamma,m,n,Nc,Nd,x,cons,4*M);
+		updatebothG2(G,Gamma,m,n,Nc,Nd,x,cons,2*M);
 	}
 	return M;
 }
