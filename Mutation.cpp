@@ -14,10 +14,13 @@ using namespace std;
 //Convention: average inside the iteration: < > ; ensamble average E_{ }
 //Note that in this program the w_s is set to 1!!!
 
+//IMPORTANT: in this program I study what happens if mutations are added to the model. As a preliminary study, I just add a small probability that, after each time step, a cooperator mutates into a defector. Just to get a rough idea.
+
 //*****************************
 
 int main(){
     Constants cons;
+    double eps=0.05; //Mutation rate
     double Nc[cons.M_max], Nd[cons.M_max], x[cons.M_max]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
     double t ,oldt; //t is the time and oldt will be used to check whether or not print
     int i,l,m,emme=4*cons.M_max,iloop;
@@ -140,7 +143,13 @@ int main(){
 				updateG(G,Gamma,m,Nc,Nd,x,cons,4*M); //Updates the G and the Gamma
 				}
 				
-				
+		  if(Nc[m]>0){ //Here I check if in the cell where the reaction just happened there still is a defector
+				rand=gsl_rng_uniform (r);
+				if(rand<eps){
+				Nc[m]--;
+				Nd[m]++;
+				}
+		  }
 		  if(oldt>=cons.interval){ //Checks whether I have to print or not
 					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
 					oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again 

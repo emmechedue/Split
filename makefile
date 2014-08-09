@@ -47,3 +47,6 @@ single_loop_fully_deterministic: Single_loop_fully_deterministic.cpp Constants.c
 	
 no_death: No_death.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Deterministic.h
 	g++ -I /usr/include/gsl -I ./Headers -I /project/theorie/s/Stefano.Duca/Libraries No_death.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
+
+mutation: Mutation.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Deterministic.h
+	g++ -I /usr/include/gsl -I ./Headers -I /project/theorie/s/Stefano.Duca/Libraries Mutation.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
