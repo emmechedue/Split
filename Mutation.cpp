@@ -20,7 +20,7 @@ using namespace std;
 
 int main(){
     Constants cons;
-    double eps=0.05; //Mutation rate
+    double eps=0.01; //Mutation rate
     double Nc[cons.M_max], Nd[cons.M_max], x[cons.M_max]; //Coop. #, Def. # and fraction of coop. ****In form of N[cell]
     double t ,oldt; //t is the time and oldt will be used to check whether or not print
     int i,l,m,emme=4*cons.M_max,iloop;
@@ -150,7 +150,7 @@ int main(){
 				Nd[m]++;
 				}
 		  }
-		  if(oldt>=cons.interval){ //Checks whether I have to print or not
+          (oldt>=cons.interval){ //Checks whether I have to print or not
 					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
 					oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again 
 					//count++;
