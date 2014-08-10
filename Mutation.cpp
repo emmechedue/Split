@@ -150,7 +150,7 @@ int main(){
 				Nd[m]++;
 				}
 		  }
-          (oldt>=cons.interval){ //Checks whether I have to print or not
+          if(oldt>=cons.interval){ //Checks whether I have to print or not
 					printiterens(Nc,Nd,M,fileN,filex); //printing of the values in the row
 					oldt=oldt -cons.interval; //Subract by oldt the value of interval to start counting again 
 					//count++;
