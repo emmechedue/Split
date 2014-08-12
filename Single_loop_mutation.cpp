@@ -23,6 +23,7 @@ int main(){
     double Gamma[emme]; //The array with all the partial sums
     double **G; //Matrix with all the gammas for all the cells in form of G[cell][reaction]
     double rand;
+    double eps=0.03;
     int M; //it can go from 1 to M_max and it's just to not waste time taking into account empty cells
     ofstream filec, file, fileN,filex;//Output files
     const char filename[]="output.txt";
