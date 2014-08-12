@@ -50,3 +50,7 @@ no_death: No_death.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./He
 
 mutation: Mutation.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Deterministic.h
 	g++ -I /usr/include/gsl -I ./Headers -I /project/theorie/s/Stefano.Duca/Libraries Mutation.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
+
+mutation_nokill: Main_stop_at_M_max_mutation.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Deterministic.h
+	g++ -I /usr/include/gsl -I ./Headers -I /project/theorie/s/Stefano.Duca/Libraries Main_stop_at_M_max_mutation.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
+
