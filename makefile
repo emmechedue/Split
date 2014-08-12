@@ -54,3 +54,5 @@ mutation: Mutation.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./He
 mutation_nokill: Main_stop_at_M_max_mutation.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Deterministic.h
 	g++ -I /usr/include/gsl -I ./Headers -I /project/theorie/s/Stefano.Duca/Libraries Main_stop_at_M_max_mutation.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
 
+mutation_singleloop: Single_loop_mutation.cpp Constants.cpp ./Headers/Hsplit.h ./Headers/Hevolve.h ./Headers/Constants.h ./Headers/Deterministic.h
+	g++ -I /usr/include/gsl -I ./Headers -I /project/theorie/s/Stefano.Duca/Libraries Single_loop_mutation.cpp Constants.cpp -lgsl -lgslcblas -lm -Wall -O2
